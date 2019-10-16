@@ -1,58 +1,66 @@
-#include <SFML/Graphics.hpp>
+#include <iron.h>
 
-void Init(sf::CircleShape& shape)
-{
-    shape.setFillColor(sf::Color::Green);
-}
+#include <ecs/world.h>
+#include <ecs/entity.h>
+#include <graphics/sfmlcirclecomponent.h>
+#include <graphics/window.h>
+#include <movement/positioncomponent.h>
 
-void ProcessEvents(sf::RenderWindow& window)
+void ProcessEvents(iron::Window& window)
 {
+	sf::RenderWindow& renderWindow = window.GetSFMLWindow();
+
     sf::Event event;
-    while (window.pollEvent(event))
+    while (renderWindow.pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
         {
-            window.close();
+			renderWindow.close();
         }
     }
 }
 
-void Update(sf::CircleShape& shape, float deltaTime)
+void Update(float deltaTime, iron::World& world)
 {
-    sf::Vector2f speed(50.f, 10.f);
-    shape.setPosition(shape.getPosition() + speed * deltaTime);
+	world.Update(deltaTime);
 }
 
-void Render(sf::CircleShape& shape, sf::RenderWindow& window)
+void Render(iron::Window& window, iron::World& world)
 {
-    window.clear();
-    window.draw(shape);
-    window.display();
+    window.Clear();
+
+	world.Render(&window);
+
+    window.Display();
 }
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Test");
-    sf::CircleShape shape(100.f);
+	iron::Window window;
+	iron::World world;
+	world.CreateSystems();
 
-    Init(shape);
+	iron::Entity* circleEntity = world.CreateEntity();
+	circleEntity->AddComponent(new iron::SFMLCircleComponent(100.f));
+	circleEntity->AddComponent(new iron::PositionComponent(0, 0));
+	world.RegisterEntity(circleEntity);
 
     sf::Clock clock;
     sf::Time accumulator = sf::Time::Zero;
     sf::Time ups = sf::seconds(1.f / 60.f);
     float deltaTime = ups.asSeconds();
 
-    while (window.isOpen())
+    while (window.IsOpen())
     {
         ProcessEvents(window);
 
         while (accumulator > ups)
         {
             accumulator -= ups;
-            Update(shape, deltaTime);
+            Update(deltaTime, world);
         }
 
-        Render(shape, window);
+        Render(window, world);
 
         accumulator += clock.restart();
     }
