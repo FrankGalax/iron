@@ -9,7 +9,7 @@ ironBEGIN_NAMESPACE
 class MoveRightSystem : public System
 {
 public:
-	IRON_SYSTEM_1(MoveRightSystemTuple, PositionComponent);
+	IRON_SYSTEM_DECLARE_1(MoveRightSystemTuple, PositionComponent);
 
 	virtual void Update(float deltaTime) override;
 };

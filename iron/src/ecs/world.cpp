@@ -42,18 +42,12 @@ void World::RegisterEntity(Entity* entity)
 {
 	for (System* system : m_UpdateSystems)
 	{
-		if (system->CanRegister(entity))
-		{
-			system->RegisterEntity(entity);
-		}
+		system->RegisterEntity(entity);
 	}
 
 	for (System* system : m_RenderSystems)
 	{
-		if (system->CanRegister(entity))
-		{
-			system->RegisterEntity(entity);
-		}
+		system->RegisterEntity(entity);
 	}
 }
 

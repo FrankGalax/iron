@@ -3,6 +3,8 @@
 
 ironBEGIN_NAMESPACE
 
+IRON_SYSTEM_IMPLEMENT_2(SFMLCircleRenderSystem, SFMLCircleRenderSystemTuple, SFMLCircleComponent, PositionComponent)
+
 void SFMLCircleRenderSystem::Render(Window* window)
 {
 	for (SFMLCircleRenderSystemTuple& tuple : m_Tuples)

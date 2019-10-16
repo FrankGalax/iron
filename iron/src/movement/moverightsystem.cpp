@@ -2,6 +2,8 @@
 
 ironBEGIN_NAMESPACE
 
+IRON_SYSTEM_IMPLEMENT_1(MoveRightSystem, MoveRightSystemTuple, PositionComponent)
+
 void MoveRightSystem::Update(float deltaTime)
 {
 	for (MoveRightSystemTuple& tuple : m_Tuples) 

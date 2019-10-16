@@ -2,7 +2,8 @@
 
 #include <ecs/world.h>
 #include <ecs/entity.h>
-#include <graphics/sfmlcirclecomponent.h>
+#include <graphics/spritecomponent.h>
+#include <graphics/spritesheetmanager.h>
 #include <graphics/window.h>
 #include <movement/positioncomponent.h>
 
@@ -36,14 +37,16 @@ void Render(iron::Window& window, iron::World& world)
 
 int main()
 {
+    iron::SpriteSheetManager::GetInstance().LoadSpriteSheet();
+
 	iron::Window window;
 	iron::World world;
 	world.CreateSystems();
 
-	iron::Entity* circleEntity = world.CreateEntity();
-	circleEntity->AddComponent(new iron::SFMLCircleComponent(100.f));
-	circleEntity->AddComponent(new iron::PositionComponent(0, 0));
-	world.RegisterEntity(circleEntity);
+	iron::Entity* entity = world.CreateEntity();
+    entity->AddComponent(new iron::SpriteComponent());
+    entity->AddComponent(new iron::PositionComponent(0, 0));
+	world.RegisterEntity(entity);
 
     sf::Clock clock;
     sf::Time accumulator = sf::Time::Zero;
