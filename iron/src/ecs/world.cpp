@@ -1,7 +1,7 @@
 #include <ecs/world.h>
 #include <ecs/entity.h>
 #include <ecs/system.h>
-#include <graphics/sfmlcirclerendersystem.h>
+#include <graphics/spriterendersystem.h>
 #include <graphics/window.h>
 #include <movement/moverightsystem.h>
 
@@ -27,13 +27,12 @@ World::~World()
 
 void World::CreateSystems()
 {
-	m_UpdateSystems.push_back(new MoveRightSystem());
-	m_RenderSystems.push_back(new SFMLCircleRenderSystem());
+	m_RenderSystems.push_back(new SpriteRenderSystem());
 }
 
 Entity* World::CreateEntity()
 {
-	Entity* entity = new Entity(m_NextEntityId++);
+	Entity* entity = new Entity(m_NextEntityId++, this);
 	m_Entities.push_back(entity);
 	return entity;
 }

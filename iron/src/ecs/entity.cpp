@@ -3,8 +3,8 @@
 
 ironBEGIN_NAMESPACE
 
-Entity::Entity(int id) :
-	m_Id(id)
+Entity::Entity(int id, World* world) :
+	m_Id(id), m_World(world)
 {
 }
 

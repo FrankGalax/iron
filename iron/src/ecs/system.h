@@ -14,6 +14,7 @@ class Window;
     private: \
 	    struct tupleClass \
 	    { \
+			Entity* m_Entity; \
 		    component1Class* m_##component1Class; \
 	    }; \
         std::vector<tupleClass> m_Tuples; \
@@ -24,6 +25,7 @@ class Window;
     private: \
 	    struct tupleClass \
 	    { \
+			Entity* m_Entity; \
 		    component1Class* m_##component1Class = nullptr; \
             component2Class* m_##component2Class = nullptr; \
 	    }; \
@@ -36,6 +38,7 @@ class Window;
         component1Class* component1 = entity->GetComponent<component1Class>(); \
         if (component1 == nullptr) return; \
         tupleClass tuple; \
+		tuple.m_Entity = entity; \
         tuple.m_##component1Class = component1; \
         m_Tuples.push_back(tuple); \
     } \
@@ -48,6 +51,7 @@ class Window;
         component2Class* component2 = entity->GetComponent<component2Class>(); \
         if (component2 == nullptr) return; \
         tupleClass tuple; \
+		tuple.m_Entity = entity; \
         tuple.m_##component1Class = component1; \
         tuple.m_##component2Class = component2; \
         m_Tuples.push_back(tuple); \

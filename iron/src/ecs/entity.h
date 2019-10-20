@@ -6,11 +6,12 @@
 ironBEGIN_NAMESPACE
 
 class Component;
+class World;
 
 class Entity
 {
 public:
-	Entity(int id);
+	Entity(int id, World* world);
 	~Entity();
 
 	int GetId() const { return m_Id; }
@@ -42,8 +43,11 @@ public:
 		return nullptr;
 	}
 
+	const World* GetWorld() const { return m_World; }
+
 private:
 	int m_Id;
+	World* m_World;
 	std::vector<Component*> m_Components;
 };
 

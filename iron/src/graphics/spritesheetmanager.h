@@ -8,20 +8,13 @@ ironBEGIN_NAMESPACE
 class SpriteSheetManager
 {
 public:
-    static SpriteSheetManager& GetInstance()
-    {
-        static SpriteSheetManager instance;
-        return instance;
-    }
+	SpriteSheetManager() {}
+	~SpriteSheetManager() {}
+	SpriteSheetManager(const SpriteSheetManager& other) = delete;
+	SpriteSheetManager& operator=(const SpriteSheetManager& other) = delete;
 
-    SpriteSheetManager(const SpriteSheetManager& other) = delete;
-    void operator=(const SpriteSheetManager& other) = delete;
-private:
-    SpriteSheetManager() {}
-
-public:
     void LoadSpriteSheet();
-
+	const sf::Texture& GetSpriteSheet() const { return m_SpriteSheet; }
 
 private:
     sf::Texture m_SpriteSheet;

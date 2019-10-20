@@ -37,14 +37,14 @@ void Render(iron::Window& window, iron::World& world)
 
 int main()
 {
-    iron::SpriteSheetManager::GetInstance().LoadSpriteSheet();
-
 	iron::Window window;
 	iron::World world;
+	world.GetSpriteSheetManager().LoadSpriteSheet();
+
 	world.CreateSystems();
 
 	iron::Entity* entity = world.CreateEntity();
-    entity->AddComponent(new iron::SpriteComponent());
+    entity->AddComponent(new iron::SpriteComponent(12, 2));
     entity->AddComponent(new iron::PositionComponent(0, 0));
 	world.RegisterEntity(entity);
 
