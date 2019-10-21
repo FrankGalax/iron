@@ -41,39 +41,39 @@ void InitEntities(iron::World& world)
 
 void ProcessEvents(iron::Window& window)
 {
-	sf::RenderWindow& renderWindow = window.GetSFMLWindow();
+    sf::RenderWindow& renderWindow = window.GetSFMLWindow();
 
     sf::Event event;
     while (renderWindow.pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
         {
-			renderWindow.close();
+            renderWindow.close();
         }
     }
 }
 
 void Update(float deltaTime, iron::World& world)
 {
-	world.Update(deltaTime);
+    world.Update(deltaTime);
 }
 
 void Render(iron::Window& window, iron::World& world)
 {
     window.Clear();
 
-	world.Render(&window);
+    world.Render(&window);
 
     window.Display();
 }
 
 int main()
 {
-	iron::Window window;
-	iron::World world;
-	world.GetSpriteSheetManager().LoadSpriteSheet();
+    iron::Window window;
+    iron::World world;
+    world.GetSpriteSheetManager().LoadSpriteSheet();
 
-	world.CreateSystems();
+    world.CreateSystems();
 
     InitEntities(world);
 

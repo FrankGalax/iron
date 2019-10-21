@@ -10,25 +10,25 @@ class Entity;
 class Window;
 
 #define IRON_SYSTEM_DECLARE_1(tupleClass, component1Class) \
-        virtual void RegisterEntity(Entity* entity) override; \
+    virtual void RegisterEntity(Entity* entity) override; \
     private: \
-	    struct tupleClass \
-	    { \
-			Entity* m_Entity; \
-		    component1Class* m_##component1Class; \
-	    }; \
+        struct tupleClass \
+        { \
+            Entity* m_Entity; \
+            component1Class* m_##component1Class; \
+        }; \
         std::vector<tupleClass> m_Tuples; \
     public:
 
 #define IRON_SYSTEM_DECLARE_2(tupleClass, component1Class, component2Class) \
-        virtual void RegisterEntity(Entity* entity) override; \
+    virtual void RegisterEntity(Entity* entity) override; \
     private: \
-	    struct tupleClass \
-	    { \
-			Entity* m_Entity; \
-		    component1Class* m_##component1Class = nullptr; \
+        struct tupleClass \
+        { \
+            Entity* m_Entity; \
+            component1Class* m_##component1Class = nullptr; \
             component2Class* m_##component2Class = nullptr; \
-	    }; \
+        }; \
         std::vector<tupleClass> m_Tuples; \
     public:
 
@@ -38,7 +38,7 @@ class Window;
         component1Class* component1 = entity->GetComponent<component1Class>(); \
         if (component1 == nullptr) return; \
         tupleClass tuple; \
-		tuple.m_Entity = entity; \
+        tuple.m_Entity = entity; \
         tuple.m_##component1Class = component1; \
         m_Tuples.push_back(tuple); \
     } \
@@ -51,7 +51,7 @@ class Window;
         component2Class* component2 = entity->GetComponent<component2Class>(); \
         if (component2 == nullptr) return; \
         tupleClass tuple; \
-		tuple.m_Entity = entity; \
+        tuple.m_Entity = entity; \
         tuple.m_##component1Class = component1; \
         tuple.m_##component2Class = component2; \
         m_Tuples.push_back(tuple); \
@@ -62,8 +62,8 @@ class System
 public:
     virtual void RegisterEntity(Entity* entity) = 0;
 
-	virtual void Update(float deltaTime) {}
-	virtual void Render(Window* window) {}
+    virtual void Update(float deltaTime) {}
+    virtual void Render(Window* window) {}
 };
 
 ironEND_NAMESPACE

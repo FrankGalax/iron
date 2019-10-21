@@ -11,9 +11,9 @@ class PositionComponent;
 class SpriteRenderSystem : public System
 {
 public:
-	IRON_SYSTEM_DECLARE_2(SpriteRenderSystemTuple, SpriteComponent, PositionComponent)
+    IRON_SYSTEM_DECLARE_2(SpriteRenderSystemTuple, SpriteComponent, PositionComponent)
 
-	virtual void Render(Window* window) override;
+    virtual void Render(Window* window) override;
 };
 
 ironEND_NAMESPACE

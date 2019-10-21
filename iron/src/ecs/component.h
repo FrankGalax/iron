@@ -7,7 +7,7 @@ ironBEGIN_NAMESPACE
 class Component
 {
 public:
-	virtual ~Component() {}
+    virtual ~Component() {}
 };
 
 ironEND_NAMESPACE
