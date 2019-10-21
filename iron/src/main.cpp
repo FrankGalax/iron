@@ -6,6 +6,38 @@
 #include <graphics/spritesheetmanager.h>
 #include <graphics/window.h>
 #include <movement/positioncomponent.h>
+#include <movement/positionnotifycomponent.h>
+
+void InitEntities(iron::World& world)
+{
+    iron::Entity* ironOre = world.CreateEntity();
+    ironOre->SetName("ironOre");
+    ironOre->AddComponent(new iron::SpriteComponent(0, 58, 1.f, 1.f));
+    ironOre->AddComponent(new iron::PositionComponent(0.f, 0.f));
+    ironOre->AddComponent(new iron::PositionNotifyComponent(iron::PositionNotifyComponent::NotifyType::Notifier));
+    world.RegisterEntity(ironOre);
+
+    iron::Entity* inserterIn = world.CreateEntity();
+    inserterIn->SetName("inserterIn");
+    inserterIn->AddComponent(new iron::SpriteComponent(18, 11, 1.f, 1.f));
+    inserterIn->AddComponent(new iron::PositionComponent(0.f, 1.f));
+    inserterIn->AddComponent(new iron::PositionNotifyComponent(iron::PositionNotifyComponent::NotifyType::Listener, iron::Vector2f(0.f, -1.f), iron::Vector2f(0.f, 1.f)));
+    world.RegisterEntity(inserterIn);
+
+    iron::Entity* furnace = world.CreateEntity();
+    furnace->SetName("furnace");
+    furnace->AddComponent(new iron::SpriteComponent(12, 2, 2.f, 2.f));
+    furnace->AddComponent(new iron::PositionComponent(0.f, 2.f));
+    furnace->AddComponent(new iron::PositionNotifyComponent(iron::PositionNotifyComponent::NotifyType::Notifier));
+    world.RegisterEntity(furnace);
+
+    iron::Entity* inserterOut = world.CreateEntity();
+    inserterOut->SetName("inserterOut");
+    inserterOut->AddComponent(new iron::SpriteComponent(18, 11, 1.f, 1.f));
+    inserterOut->AddComponent(new iron::PositionComponent(0.f, 4.f));
+    inserterOut->AddComponent(new iron::PositionNotifyComponent(iron::PositionNotifyComponent::NotifyType::Listener, iron::Vector2f(0.f, -1.f), iron::Vector2f(0.f, 1.f)));
+    world.RegisterEntity(inserterOut);
+}
 
 void ProcessEvents(iron::Window& window)
 {
@@ -43,10 +75,7 @@ int main()
 
 	world.CreateSystems();
 
-	iron::Entity* entity = world.CreateEntity();
-    entity->AddComponent(new iron::SpriteComponent(12, 2));
-    entity->AddComponent(new iron::PositionComponent(0, 0));
-	world.RegisterEntity(entity);
+    InitEntities(world);
 
     sf::Clock clock;
     sf::Time accumulator = sf::Time::Zero;

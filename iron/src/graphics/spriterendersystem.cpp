@@ -18,11 +18,12 @@ void SpriteRenderSystem::Render(Window* window)
 			sprite.setTexture(tuple.m_Entity->GetWorld()->GetSpriteSheetManager().GetSpriteSheet());
 			const int x = tuple.m_SpriteComponent->GetSpriteSheetX();
 			const int y = tuple.m_SpriteComponent->GetSpriteSheetY();
-			sprite.setTextureRect(sf::IntRect(x * SPRITESHEET_SIZE, y * SPRITESHEET_SIZE, SPRITESHEET_SIZE, SPRITESHEET_SIZE));
-			sprite.setScale(2.f, 2.f);
+			sprite.setTextureRect(sf::IntRect(x * GRID_SIZE, y * GRID_SIZE, GRID_SIZE, GRID_SIZE));
+			sprite.setScale(tuple.m_SpriteComponent->GetScaleX(), tuple.m_SpriteComponent->GetScaleY());
 		}
 
-		sprite.setPosition(tuple.m_PositionComponent->GetX(), tuple.m_PositionComponent->GetY());
+        const Vector2f& position = tuple.m_PositionComponent->GetPosition();
+		sprite.setPosition(position.GetX() * GRID_SIZE, position.GetY() * GRID_SIZE);
 		window->Draw(&sprite);
 	}
 }

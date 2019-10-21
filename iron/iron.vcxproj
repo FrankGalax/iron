@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{0362B16E-BC5B-4623-A15F-E844595D8352}</ProjectGuid>
     <RootNamespace>iron</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -128,28 +128,28 @@
     <ClCompile Include="src\ecs\entity.cpp" />
     <ClCompile Include="src\ecs\system.cpp" />
     <ClCompile Include="src\ecs\world.cpp" />
-    <ClCompile Include="src\graphics\sfmlcirclerendersystem.cpp" />
     <ClCompile Include="src\graphics\spriterendersystem.cpp" />
     <ClCompile Include="src\graphics\spritesheetmanager.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\movement\moverightsystem.cpp" />
+    <ClCompile Include="src\math\vector.cpp" />
+    <ClCompile Include="src\movement\positionnotifysystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ecs\component.h" />
     <ClInclude Include="src\ecs\entity.h" />
     <ClInclude Include="src\ecs\system.h" />
     <ClInclude Include="src\ecs\world.h" />
-    <ClInclude Include="src\graphics\sfmlcirclecomponent.h" />
-    <ClInclude Include="src\graphics\sfmlcirclerendersystem.h" />
     <ClInclude Include="src\graphics\sfmlspritecomponent.h" />
     <ClInclude Include="src\graphics\spritecomponent.h" />
     <ClInclude Include="src\graphics\spriterendersystem.h" />
     <ClInclude Include="src\graphics\spritesheetmanager.h" />
     <ClInclude Include="src\graphics\window.h" />
     <ClInclude Include="src\iron.h" />
-    <ClInclude Include="src\movement\moverightsystem.h" />
+    <ClInclude Include="src\math\vector.h" />
     <ClInclude Include="src\movement\positioncomponent.h" />
+    <ClInclude Include="src\movement\positionnotifycomponent.h" />
+    <ClInclude Include="src\movement\positionnotifysystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,4 +3,6 @@
 #define ironBEGIN_NAMESPACE namespace iron {
 #define ironEND_NAMESPACE }
 
-#define SPRITESHEET_SIZE 16
+#define GRID_SIZE 16
+
+#define ironTolerance 0.000001f

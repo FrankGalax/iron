@@ -14,7 +14,10 @@ public:
 	Entity(int id, World* world);
 	~Entity();
 
-	int GetId() const { return m_Id; }
+    int GetId() const { return m_Id; }
+    const World* GetWorld() const { return m_World; }
+    void SetName(const std::string& name) { m_Name = name; }
+
 	void AddComponent(Component* component);
 
 	template <class T>
@@ -43,11 +46,10 @@ public:
 		return nullptr;
 	}
 
-	const World* GetWorld() const { return m_World; }
-
 private:
 	int m_Id;
 	World* m_World;
+    std::string m_Name = "";
 	std::vector<Component*> m_Components;
 };
 
