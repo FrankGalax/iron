@@ -5,41 +5,60 @@
 #include <graphics/spritecomponent.h>
 #include <graphics/spritesheetmanager.h>
 #include <graphics/window.h>
+#include <item/craftercomponent.h>
+#include <item/resourcecomponent.h>
 #include <movement/positioncomponent.h>
-#include <movement/positionnotifycomponent.h>
+#include <movement/insertercomponent.h>
+
+using namespace iron;
 
 void InitEntities(iron::World& world)
 {
-    iron::Entity* ironOre = world.CreateEntity();
+    Entity* ironOre = world.CreateEntity();
     ironOre->SetName("ironOre");
-    ironOre->AddComponent(new iron::SpriteComponent(0, 58, 1.f, 1.f));
-    ironOre->AddComponent(new iron::PositionComponent(0.f, 0.f));
-    ironOre->AddComponent(new iron::PositionNotifyComponent(iron::PositionNotifyComponent::NotifyType::Notifier));
+    ironOre->AddComponent(new SpriteComponent(0, 58, 1.f, 1.f));
+    ironOre->AddComponent(new PositionComponent(0.f, 0.f));
+    ironOre->AddComponent(new InserterComponent(InserterComponent::InserterType::Insertable));
+	ironOre->AddComponent(new ResourceComponent(ResourceType::IronOre));
     world.RegisterEntity(ironOre);
 
-    iron::Entity* inserterIn = world.CreateEntity();
+    Entity* inserterIn = world.CreateEntity();
     inserterIn->SetName("inserterIn");
-    inserterIn->AddComponent(new iron::SpriteComponent(18, 11, 1.f, 1.f));
-    inserterIn->AddComponent(new iron::PositionComponent(0.f, 1.f));
-    inserterIn->AddComponent(new iron::PositionNotifyComponent(iron::PositionNotifyComponent::NotifyType::Listener, iron::Vector2f(0.f, -1.f), iron::Vector2f(0.f, 1.f)));
+    inserterIn->AddComponent(new SpriteComponent(18, 11, 1.f, 1.f));
+    inserterIn->AddComponent(new PositionComponent(0.f, 1.f));
+    inserterIn->AddComponent(new InserterComponent(InserterComponent::InserterType::Inserter, Vector2f(0.f, -1.f), Vector2f(0.f, 1.f)));
     world.RegisterEntity(inserterIn);
 
-    iron::Entity* furnace = world.CreateEntity();
+    Entity* furnace = world.CreateEntity();
     furnace->SetName("furnace");
-    furnace->AddComponent(new iron::SpriteComponent(12, 2, 2.f, 2.f));
-    furnace->AddComponent(new iron::PositionComponent(0.f, 2.f));
-    furnace->AddComponent(new iron::PositionNotifyComponent(iron::PositionNotifyComponent::NotifyType::Notifier));
+    furnace->AddComponent(new SpriteComponent(12, 2, 2.f, 2.f));
+    furnace->AddComponent(new PositionComponent(0.f, 2.f, 2, 2));
+    furnace->AddComponent(new InserterComponent(InserterComponent::InserterType::Insertable));
+	CrafterComponent* furnaceCrafterComponent = new CrafterComponent();
+	std::vector<Recipe>& recipes = furnaceCrafterComponent->GetRecipes();
+	{
+		Recipe recipe;
+		recipe.m_Time = 2.f;
+		recipe.m_Product.m_Quantity = 1;
+		recipe.m_Product.m_ResourceType = ResourceType::IronIngot;
+		RecipeIngredient recipeIngredient;
+		recipeIngredient.m_Quantity = 1;
+		recipeIngredient.m_ResourceType = ResourceType::IronOre;
+		recipe.m_RecipeIngredients.push_back(recipeIngredient);
+		recipes.push_back(recipe);
+	}
+	furnace->AddComponent(furnaceCrafterComponent);
     world.RegisterEntity(furnace);
 
-    iron::Entity* inserterOut = world.CreateEntity();
+    Entity* inserterOut = world.CreateEntity();
     inserterOut->SetName("inserterOut");
-    inserterOut->AddComponent(new iron::SpriteComponent(18, 11, 1.f, 1.f));
-    inserterOut->AddComponent(new iron::PositionComponent(0.f, 4.f));
-    inserterOut->AddComponent(new iron::PositionNotifyComponent(iron::PositionNotifyComponent::NotifyType::Listener, iron::Vector2f(0.f, -1.f), iron::Vector2f(0.f, 1.f)));
+    inserterOut->AddComponent(new SpriteComponent(18, 11, 1.f, 1.f));
+    inserterOut->AddComponent(new PositionComponent(0.f, 4.f));
+    inserterOut->AddComponent(new InserterComponent(InserterComponent::InserterType::Inserter, Vector2f(0.f, -1.f), Vector2f(0.f, 1.f)));
     world.RegisterEntity(inserterOut);
 }
 
-void ProcessEvents(iron::Window& window)
+void ProcessEvents(Window& window)
 {
     sf::RenderWindow& renderWindow = window.GetSFMLWindow();
 
@@ -53,12 +72,12 @@ void ProcessEvents(iron::Window& window)
     }
 }
 
-void Update(float deltaTime, iron::World& world)
+void Update(float deltaTime, World& world)
 {
     world.Update(deltaTime);
 }
 
-void Render(iron::Window& window, iron::World& world)
+void Render(Window& window, World& world)
 {
     window.Clear();
 
@@ -69,8 +88,8 @@ void Render(iron::Window& window, iron::World& world)
 
 int main()
 {
-    iron::Window window;
-    iron::World world;
+    Window window;
+    World world;
     world.GetSpriteSheetManager().LoadSpriteSheet();
 
     world.CreateSystems();

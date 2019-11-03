@@ -18,6 +18,16 @@ bool Vector2f::IsNull() const
     return fabs(m_X) <= ironTolerance && fabs(m_Y) <= ironTolerance;
 }
 
+float Vector2f::GetSquareLength() const
+{
+	return m_X * m_X + m_Y * m_Y;
+}
+
+Vector2f Vector2f::operator+(const Vector2f& other) const
+{
+	return Vector2f(m_X + other.m_X, m_Y + other.m_Y);
+}
+
 Vector2f Vector2f::operator-(const Vector2f& other) const
 {
     return Vector2f(m_X - other.m_X, m_Y - other.m_Y);

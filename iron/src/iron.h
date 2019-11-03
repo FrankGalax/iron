@@ -6,3 +6,5 @@
 #define GRID_SIZE 16
 
 #define ironTolerance 0.000001f
+
+#define ironNullWithEpsilon(f) (abs(f) <= ironTolerance)

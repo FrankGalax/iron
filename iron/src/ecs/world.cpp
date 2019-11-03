@@ -3,7 +3,7 @@
 #include <ecs/system.h>
 #include <graphics/spriterendersystem.h>
 #include <graphics/window.h>
-#include <movement/positionnotifysystem.h>
+#include <movement/insertersystem.h>
 
 ironBEGIN_NAMESPACE
 
@@ -27,7 +27,7 @@ World::~World()
 
 void World::CreateSystems()
 {
-    m_UpdateSystems.push_back(new PositionNotifySystem());
+    m_UpdateSystems.push_back(new InserterSystem());
     m_RenderSystems.push_back(new SpriteRenderSystem());
 }
 

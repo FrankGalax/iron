@@ -18,7 +18,9 @@ public:
     float GetY() const { return m_Y; }
     
     bool IsNull() const;
+	float GetSquareLength() const;
 
+	Vector2f operator+(const Vector2f& other) const;
     Vector2f operator-(const Vector2f& other) const;
 private:
     float m_X = 0.f;

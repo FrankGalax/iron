@@ -5,12 +5,12 @@
 
 ironBEGIN_NAMESPACE
 
-class PositionNotifyComponent;
+class InserterComponent;
 class PositionComponent;
 
-class PositionNotifySystem : public System
+class InserterSystem : public System
 {
-    IRON_SYSTEM_DECLARE_2(PositionNotifySystemTuple, PositionNotifyComponent, PositionComponent)
+    IRON_SYSTEM_DECLARE_2(InserterSystemTuple, InserterComponent, PositionComponent)
 
     virtual void Update(float deltaTime) override;
 };

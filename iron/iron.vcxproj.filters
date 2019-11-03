@@ -39,7 +39,10 @@
     <ClCompile Include="src\math\vector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\movement\positionnotifysystem.cpp">
+    <ClCompile Include="src\movement\insertersystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,10 +83,25 @@
     <ClInclude Include="src\math\vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\movement\positionnotifycomponent.h">
+    <ClInclude Include="src\movement\insertercomponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\movement\positionnotifysystem.h">
+    <ClInclude Include="src\movement\insertersystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\item\itemenum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\item\resourcecomponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\item\craftercomponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\item\recipe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
