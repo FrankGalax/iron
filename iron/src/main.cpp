@@ -6,6 +6,7 @@
 #include <graphics/spritesheetmanager.h>
 #include <graphics/window.h>
 #include <item/craftercomponent.h>
+#include <item/inventorycomponent.h>
 #include <item/resourcecomponent.h>
 #include <movement/positioncomponent.h>
 #include <movement/insertercomponent.h>
@@ -48,6 +49,7 @@ void InitEntities(iron::World& world)
 		recipes.push_back(recipe);
 	}
 	furnace->AddComponent(furnaceCrafterComponent);
+    furnace->AddComponent(new InventoryComponent());
     world.RegisterEntity(furnace);
 
     Entity* inserterOut = world.CreateEntity();

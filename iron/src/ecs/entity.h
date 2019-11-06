@@ -19,6 +19,7 @@ public:
     void SetName(const std::string& name) { m_Name = name; }
 
     void AddComponent(Component* component);
+    void RemoveFromWorld();
 
     template <class T>
     T* GetComponent()

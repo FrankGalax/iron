@@ -3,6 +3,8 @@
 #include <ecs/system.h>
 #include <graphics/spriterendersystem.h>
 #include <graphics/window.h>
+#include <item/craftingsystem.h>
+#include <item/inventorysystem.h>
 #include <movement/insertersystem.h>
 
 ironBEGIN_NAMESPACE
@@ -28,6 +30,8 @@ World::~World()
 void World::CreateSystems()
 {
     m_UpdateSystems.push_back(new InserterSystem());
+    m_UpdateSystems.push_back(new CraftingSystem());
+    m_UpdateSystems.push_back(new InventorySystem());
     m_RenderSystems.push_back(new SpriteRenderSystem());
 }
 
@@ -51,8 +55,34 @@ void World::RegisterEntity(Entity* entity)
     }
 }
 
+void World::UnregisterEntity(Entity* entity)
+{
+    for (System* system : m_UpdateSystems)
+    {
+        system->UnregisterEntity(entity);
+    }
+
+    for (System* system : m_RenderSystems)
+    {
+        system->UnregisterEntity(entity);
+    }
+}
+
 void World::Update(float deltaTime)
 {
+    for (int i = 0 ; i < m_Entities.size() ; ++i)
+    {
+        Entity* entity = m_Entities[i];
+        if (entity->GetWorld() == nullptr)
+        {
+            m_Entities[i] = m_Entities[m_Entities.size() - 1];
+            m_Entities[m_Entities.size() - 1] = entity;
+            m_Entities.pop_back();
+            UnregisterEntity(entity);
+            delete entity;
+        }
+    }
+
     for (System* system : m_UpdateSystems)
     {
         system->Update(deltaTime);

@@ -131,6 +131,8 @@
     <ClCompile Include="src\graphics\spriterendersystem.cpp" />
     <ClCompile Include="src\graphics\spritesheetmanager.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
+    <ClCompile Include="src\item\craftingsystem.cpp" />
+    <ClCompile Include="src\item\inventorysystem.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\math\vector.cpp" />
     <ClCompile Include="src\movement\insertersystem.cpp" />
@@ -147,6 +149,9 @@
     <ClInclude Include="src\graphics\spritesheetmanager.h" />
     <ClInclude Include="src\graphics\window.h" />
     <ClInclude Include="src\item\craftercomponent.h" />
+    <ClInclude Include="src\item\craftingsystem.h" />
+    <ClInclude Include="src\item\inventorycomponent.h" />
+    <ClInclude Include="src\item\inventorysystem.h" />
     <ClInclude Include="src\item\itemenum.h" />
     <ClInclude Include="src\item\recipe.h" />
     <ClInclude Include="src\item\resourcecomponent.h" />

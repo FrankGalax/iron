@@ -2,6 +2,7 @@
 
 #include <iron.h>
 #include <math/vector.h>
+#include <vector>
 
 ironBEGIN_NAMESPACE
 class PositionComponent;

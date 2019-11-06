@@ -18,6 +18,7 @@ public:
     void CreateSystems();
     Entity* CreateEntity();
     void RegisterEntity(Entity* entity);
+    void UnregisterEntity(Entity* entity);
 
     void Update(float deltaTime);
     void Render(Window* window);
