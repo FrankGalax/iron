@@ -9,8 +9,8 @@ ironBEGIN_NAMESPACE
 class PositionComponent : public Component
 {
 public:
-    PositionComponent(float x, float y) : m_Position(x, y), m_SizeX(1), m_SizeY(1) {}
-	PositionComponent(float x, float y, int sizeX, int sizeY) : m_Position(x, y), m_SizeX(sizeX), m_SizeY(sizeY) {}
+    PositionComponent(const Vector2f& position) : m_Position(position), m_SizeX(1), m_SizeY(1) {}
+	PositionComponent(const Vector2f& position, int sizeX, int sizeY) : m_Position(position), m_SizeX(sizeX), m_SizeY(sizeY) {}
 
     Vector2f& GetPosition() { return m_Position; }
     const Vector2f& GetPosition() const { return m_Position; }
