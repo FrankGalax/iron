@@ -22,9 +22,7 @@ void EntityBuilder::BuildFurnace(Entity* entity, const Vector2f& position)
         recipe.m_Time = 2.f;
         recipe.m_Product.m_Quantity = 1;
         recipe.m_Product.m_ResourceType = ResourceType::IronIngot;
-        RecipeIngredient recipeIngredient;
-        recipeIngredient.m_Quantity = 1;
-        recipeIngredient.m_ResourceType = ResourceType::IronOre;
+        InventoryItem recipeIngredient(ResourceType::IronOre, 1);
         recipe.m_RecipeIngredients.push_back(recipeIngredient);
         recipes.push_back(recipe);
     }

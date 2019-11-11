@@ -80,7 +80,8 @@ void InserterSystem::Update(float deltaTime)
                 outInsertable->m_InventoryComponent != nullptr &&
                 inInsertable->m_ResourceComponent != nullptr)
             {
-                outInsertable->m_InventoryComponent->SetPendingAddItem(inInsertable->m_ResourceComponent->GetResourceType());
+                std::vector<InventoryItem>& pendingAddItems = outInsertable->m_InventoryComponent->GetPendingAddItems();
+                pendingAddItems.push_back(InventoryItem(inInsertable->m_ResourceComponent->GetResourceType()));
                 outInsertable->m_CrafterComponent->SetPendingAddItem(ResourceType::None);
                 outInsertable->m_CrafterComponent->SetPendingAddItemAccepted(false);
                 inserter->m_InserterComponent->SetIn(nullptr);

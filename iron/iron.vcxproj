@@ -153,6 +153,7 @@
     <ClInclude Include="src\item\craftercomponent.h" />
     <ClInclude Include="src\item\craftingsystem.h" />
     <ClInclude Include="src\item\inventorycomponent.h" />
+    <ClInclude Include="src\item\inventoryitem.h" />
     <ClInclude Include="src\item\inventorysystem.h" />
     <ClInclude Include="src\item\itemenum.h" />
     <ClInclude Include="src\item\recipe.h" />

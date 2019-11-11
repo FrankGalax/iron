@@ -125,5 +125,8 @@
     <ClInclude Include="src\data\entitybuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\item\inventoryitem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

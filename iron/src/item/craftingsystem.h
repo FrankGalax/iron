@@ -16,6 +16,8 @@ class CraftingSystem : public System
 
 private:
     void CheckPendingAddItem(CraftingSystemTuple& tuple);
+    void CheckActiveRecipe(CraftingSystemTuple& tuple);
+    void CheckCrafting(CraftingSystemTuple& tuple, float deltaTime);
 };
 
 ironEND_NAMESPACE
