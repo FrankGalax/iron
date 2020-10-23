@@ -11,20 +11,15 @@ void CraftingSystem::Update(float deltaTime)
 {
     for (CraftingSystemTuple& tuple : m_Tuples)
     {
-        CheckPendingAddItem(tuple);
+        CheckPendingRecipe(tuple);
         CheckActiveRecipe(tuple);
         CheckCrafting(tuple, deltaTime);
     }
 }
 
-void CraftingSystem::CheckPendingAddItem(CraftingSystemTuple& tuple)
+void CraftingSystem::CheckPendingRecipe(CraftingSystemTuple& tuple)
 {
-    const ResourceType pendingAddItem = tuple.m_CrafterComponent->GetPendingAddItem();
-    if (pendingAddItem == ResourceType::None)
-    {
-        return;
-    }
-
+    const std::vector<InventoryItem>& inventoryItems = tuple.m_InventoryComponent->GetItems();
     if (tuple.m_CrafterComponent->GetActiveRecipe() != nullptr)
     {
         return;
@@ -33,13 +28,15 @@ void CraftingSystem::CheckPendingAddItem(CraftingSystemTuple& tuple)
     const std::vector<Recipe>& recipes = tuple.m_CrafterComponent->GetRecipes();
     for (const Recipe& recipe : recipes)
     {
-        for (const InventoryItem& ingredient : recipe.m_RecipeIngredients)
+        for (const InventoryItem& inventoryItem : inventoryItems)
         {
-            if (ingredient.m_ResourceType == pendingAddItem)
+            for (const InventoryItem& ingredient : recipe.m_RecipeIngredients)
             {
-                tuple.m_CrafterComponent->SetPendingAddItemAccepted(true);
-                tuple.m_CrafterComponent->SetActiveRecipe(&recipe);
-                return;
+                if (ingredient.m_ResourceType == inventoryItem.m_ResourceType && ingredient.m_Quantity <= inventoryItem.m_Quantity)
+                {
+                    tuple.m_CrafterComponent->SetActiveRecipe(&recipe);
+                    return;
+                }
             }
         }
     }
@@ -108,7 +105,9 @@ void CraftingSystem::CheckCrafting(CraftingSystemTuple& tuple, float deltaTime)
     const Recipe* activeRecipe = tuple.m_CrafterComponent->GetActiveRecipe();
     if (craftingTime >= activeRecipe->m_Time)
     {
-        tuple.m_InventoryComponent->GetPendingAddItems().push_back(activeRecipe->m_Product);
+        InventoryItem product = activeRecipe->m_Product;
+        product.m_IsOutput = true;
+        tuple.m_InventoryComponent->GetPendingAddItems().push_back(product);
         tuple.m_CrafterComponent->SetCraftingTime(0.f);
         tuple.m_CrafterComponent->SetIsCrafting(false);
         tuple.m_CrafterComponent->SetActiveRecipe(nullptr);

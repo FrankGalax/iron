@@ -13,6 +13,7 @@ public:
     static void BuildFurnace(Entity* entity, const Vector2f& position);
     static void BuildInserter(Entity* entity, const Vector2f& position);
     static void BuildIronOre(Entity* entity, const Vector2f& position);
+    static void BuildBelt(Entity* entity, const Vector2f& position);
 };
 
 ironEND_NAMESPACE

@@ -3,6 +3,7 @@
 #include <ecs/system.h>
 #include <graphics/spriterendersystem.h>
 #include <graphics/window.h>
+#include <item/beltsystem.h>
 #include <item/craftingsystem.h>
 #include <item/inventorysystem.h>
 #include <movement/insertersystem.h>
@@ -32,6 +33,7 @@ void World::CreateSystems()
     m_UpdateSystems.push_back(new InserterSystem());
     m_UpdateSystems.push_back(new CraftingSystem());
     m_UpdateSystems.push_back(new InventorySystem());
+    m_UpdateSystems.push_back(new BeltSystem());
     m_RenderSystems.push_back(new SpriteRenderSystem());
 }
 

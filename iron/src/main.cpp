@@ -31,6 +31,13 @@ void InitEntities(World& world)
     Entity* inserterOut = world.CreateEntity();
     EntityBuilder::BuildInserter(inserterOut, Vector2f(0.f, 4.f));
     world.RegisterEntity(inserterOut);
+
+    for (int i = 0; i < 10; ++i)
+    {
+        Entity* belt = world.CreateEntity();
+        EntityBuilder::BuildBelt(belt, Vector2f((float)i, 5.f));
+        world.RegisterEntity(belt);
+    }
 }
 
 void ProcessEvents(Window& window)

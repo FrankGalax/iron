@@ -1,6 +1,7 @@
 #include <data/entitybuilder.h>
 #include <ecs/entity.h>
 #include <graphics/spritecomponent.h>
+#include <item/beltcomponent.h>
 #include <item/craftercomponent.h>
 #include <item/inventorycomponent.h>
 #include <item/resourcecomponent.h>
@@ -45,6 +46,16 @@ void EntityBuilder::BuildIronOre(Entity* entity, const Vector2f& position)
     entity->AddComponent(new PositionComponent(position));
     entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Insertable));
     entity->AddComponent(new ResourceComponent(ResourceType::IronOre));
+}
+
+void EntityBuilder::BuildBelt(Entity* entity, const Vector2f& position)
+{
+    entity->SetName("belt");
+    entity->AddComponent(new SpriteComponent(16, 12, 1.f, 1.f));
+    entity->AddComponent(new PositionComponent(position));
+    entity->AddComponent(new BeltComponent());
+    entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Insertable));
+    entity->AddComponent(new InventoryComponent());
 }
 
 ironEND_NAMESPACE

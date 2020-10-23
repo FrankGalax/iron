@@ -15,7 +15,7 @@ class CraftingSystem : public System
     virtual void Update(float deltaTime) override;
 
 private:
-    void CheckPendingAddItem(CraftingSystemTuple& tuple);
+    void CheckPendingRecipe(CraftingSystemTuple& tuple);
     void CheckActiveRecipe(CraftingSystemTuple& tuple);
     void CheckCrafting(CraftingSystemTuple& tuple, float deltaTime);
 };

@@ -6,9 +6,11 @@
 #include <movement/insertercomponent.h>
 #include <utils.h>
 
+#include <iostream>
+
 ironBEGIN_NAMESPACE
 
-IRON_SYSTEM_IMPLEMENT_2_3(InserterSystem, InserterSystemTuple, InserterComponent, PositionComponent, CrafterComponent, ResourceComponent, InventoryComponent)
+IRON_SYSTEM_IMPLEMENT_2_2(InserterSystem, InserterSystemTuple, InserterComponent, PositionComponent, ResourceComponent, InventoryComponent)
 
 void InserterSystem::Update(float deltaTime)
 {
@@ -66,27 +68,35 @@ void InserterSystem::Update(float deltaTime)
 
         if (inInsertable != nullptr && outInsertable != nullptr)
         {
-            if (inInsertable->m_ResourceComponent != nullptr &&
-                outInsertable->m_CrafterComponent != nullptr &&
-                outInsertable->m_CrafterComponent->GetPendingAddItem() == ResourceType::None &&
-                outInsertable->m_InventoryComponent != nullptr)
+            if (outInsertable->m_InventoryComponent != nullptr)
             {
-                outInsertable->m_CrafterComponent->SetPendingAddItem(inInsertable->m_ResourceComponent->GetResourceType());
-                outInsertable->m_CrafterComponent->SetPendingAddItemAccepted(false);
-            }
+                if (inInsertable->m_ResourceComponent != nullptr)
+                {
+                    std::vector<InventoryItem>& pendingAddItems = outInsertable->m_InventoryComponent->GetPendingAddItems();
+                    pendingAddItems.push_back(InventoryItem(inInsertable->m_ResourceComponent->GetResourceType()));
+                    inserter->m_InserterComponent->SetIn(nullptr);
+                    inserter->m_InserterComponent->SetOut(nullptr);
+                    inInsertable->m_Entity->RemoveFromWorld();
 
-            if (outInsertable->m_CrafterComponent != nullptr && 
-                outInsertable->m_CrafterComponent->GetPendingAddItemAccepted() &&
-                outInsertable->m_InventoryComponent != nullptr &&
-                inInsertable->m_ResourceComponent != nullptr)
-            {
-                std::vector<InventoryItem>& pendingAddItems = outInsertable->m_InventoryComponent->GetPendingAddItems();
-                pendingAddItems.push_back(InventoryItem(inInsertable->m_ResourceComponent->GetResourceType()));
-                outInsertable->m_CrafterComponent->SetPendingAddItem(ResourceType::None);
-                outInsertable->m_CrafterComponent->SetPendingAddItemAccepted(false);
-                inserter->m_InserterComponent->SetIn(nullptr);
-                inserter->m_InserterComponent->SetOut(nullptr);
-                inInsertable->m_Entity->RemoveFromWorld();
+                    std::cout << "insert " << inInsertable->m_Entity->GetName().c_str() << " into " << outInsertable->m_Entity->GetName().c_str() << std::endl;
+                }
+                else if (inInsertable->m_InventoryComponent != nullptr)
+                {
+                    std::vector<InventoryItem>& inInventoryItems = inInsertable->m_InventoryComponent->GetItems();
+                    if (!inInventoryItems.empty() && inInventoryItems[0].m_IsOutput)
+                    {
+                        std::vector<InventoryItem>& pendingAddItems = outInsertable->m_InventoryComponent->GetPendingAddItems();
+                        pendingAddItems.push_back(inInventoryItems[0]);
+
+                        std::vector<InventoryItem>& pendingRemoveItems = inInsertable->m_InventoryComponent->GetPendingAddItems();
+                        pendingRemoveItems.push_back(inInventoryItems[0]);
+
+                        inserter->m_InserterComponent->SetIn(nullptr);
+                        inserter->m_InserterComponent->SetOut(nullptr);
+
+                        std::cout << "insert " << inInsertable->m_Entity->GetName().c_str() << " into " << outInsertable->m_Entity->GetName().c_str() << std::endl;
+                    }
+                }
             }
         }
             

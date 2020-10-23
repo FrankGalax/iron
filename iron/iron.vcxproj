@@ -132,6 +132,7 @@
     <ClCompile Include="src\graphics\spriterendersystem.cpp" />
     <ClCompile Include="src\graphics\spritesheetmanager.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
+    <ClCompile Include="src\item\beltsystem.cpp" />
     <ClCompile Include="src\item\craftingsystem.cpp" />
     <ClCompile Include="src\item\inventorysystem.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -150,6 +151,8 @@
     <ClInclude Include="src\graphics\spriterendersystem.h" />
     <ClInclude Include="src\graphics\spritesheetmanager.h" />
     <ClInclude Include="src\graphics\window.h" />
+    <ClInclude Include="src\item\beltcomponent.h" />
+    <ClInclude Include="src\item\beltsystem.h" />
     <ClInclude Include="src\item\craftercomponent.h" />
     <ClInclude Include="src\item\craftingsystem.h" />
     <ClInclude Include="src\item\inventorycomponent.h" />
