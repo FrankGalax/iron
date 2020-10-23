@@ -72,16 +72,20 @@ void World::UnregisterEntity(Entity* entity)
 
 void World::Update(float deltaTime)
 {
-    for (int i = 0 ; i < m_Entities.size() ; ++i)
+    int i = 0;
+    while (i < m_Entities.size())
     {
         Entity* entity = m_Entities[i];
         if (entity->GetWorld() == nullptr)
         {
             m_Entities[i] = m_Entities[m_Entities.size() - 1];
-            m_Entities[m_Entities.size() - 1] = entity;
             m_Entities.pop_back();
             UnregisterEntity(entity);
             delete entity;
+        }
+        else
+        {
+            i++;
         }
     }
 

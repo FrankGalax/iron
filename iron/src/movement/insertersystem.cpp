@@ -88,7 +88,7 @@ void InserterSystem::Update(float deltaTime)
                         std::vector<InventoryItem>& pendingAddItems = outInsertable->m_InventoryComponent->GetPendingAddItems();
                         pendingAddItems.push_back(inInventoryItems[0]);
 
-                        std::vector<InventoryItem>& pendingRemoveItems = inInsertable->m_InventoryComponent->GetPendingAddItems();
+                        std::vector<InventoryItem>& pendingRemoveItems = inInsertable->m_InventoryComponent->GetPendingRemoveItems();
                         pendingRemoveItems.push_back(inInventoryItems[0]);
 
                         inserter->m_InserterComponent->SetIn(nullptr);
