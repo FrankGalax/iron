@@ -56,12 +56,22 @@ void EntityBuilder::BuildIronIngot(Entity* entity, const Vector2f& position)
     entity->AddComponent(new PositionComponent(position));
 }
 
-void EntityBuilder::BuildBelt(Entity* entity, const Vector2f& position)
+void EntityBuilder::BuildBelt(Entity* entity, const Vector2f& position, const Vector2f& direction)
 {
     entity->SetName("belt");
-    entity->AddComponent(new SpriteComponent(16, 12, 1.f, 1.f));
+
+    if (ironNullWithEpsilon(direction.GetY()))
+    {
+        entity->AddComponent(new SpriteComponent(16, 12, 1.f, 1.f));
+    }
+    else if (ironNullWithEpsilon(direction.GetX()))
+    {
+        entity->AddComponent(new SpriteComponent(0, 8, 1.f, 1.f));
+    }
     entity->AddComponent(new PositionComponent(position));
-    entity->AddComponent(new BeltComponent());
+    BeltComponent* beltComponent = new BeltComponent();
+    beltComponent->SetDirection(direction);
+    entity->AddComponent(beltComponent);
     entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Insertable));
 }
 

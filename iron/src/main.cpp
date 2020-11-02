@@ -37,7 +37,8 @@ void InitEntities(World& world)
     for (int i = 0; i < 10; ++i)
     {
         Entity* belt = world.CreateEntity();
-        EntityBuilder::BuildBelt(belt, Vector2f((float)i, 5.f));
+        const Vector2f direction = i == 9 ? Vector2f(0.f, 1.f) : Vector2f(1.f, 0.f);
+        EntityBuilder::BuildBelt(belt, Vector2f((float)i, 5.f), direction);
         world.RegisterEntity(belt);
 
         belts.push_back(belt);

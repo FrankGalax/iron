@@ -16,7 +16,7 @@ void BeltSystem::Update(float deltaTime)
         if (const BeltComponent* belt = tuple.m_OnBeltComponent->GetBelt())
         {
             Vector2f& position = tuple.m_PositionComponent->GetPosition();
-            position.SetX(position.GetX() + belt->GetSpeed() * deltaTime);
+            position += belt->GetDirection() * belt->GetSpeed() * deltaTime;
 
             if (!Utils::IsColliding(belt->GetOwner()->GetComponent<PositionComponent>(), position))
             {

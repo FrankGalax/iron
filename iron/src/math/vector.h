@@ -21,7 +21,9 @@ public:
 	float GetSquareLength() const;
 
 	Vector2f operator+(const Vector2f& other) const;
+    void operator+=(const Vector2f& other);
     Vector2f operator-(const Vector2f& other) const;
+    Vector2f operator*(float operand) const;
 private:
     float m_X = 0.f;
     float m_Y = 0.f;

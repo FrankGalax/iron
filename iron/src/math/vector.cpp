@@ -28,9 +28,20 @@ Vector2f Vector2f::operator+(const Vector2f& other) const
 	return Vector2f(m_X + other.m_X, m_Y + other.m_Y);
 }
 
+void Vector2f::operator+=(const Vector2f& other)
+{
+    m_X += other.m_X;
+    m_Y += other.m_Y;
+}
+
 Vector2f Vector2f::operator-(const Vector2f& other) const
 {
     return Vector2f(m_X - other.m_X, m_Y - other.m_Y);
+}
+
+Vector2f Vector2f::operator*(float operand) const
+{
+    return Vector2f(m_X * operand, m_Y * operand);
 }
 
 ironEND_NAMESPACE
