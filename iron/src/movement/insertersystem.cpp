@@ -1,7 +1,11 @@
 #include <movement/insertersystem.h>
+#include <data/entitybuilder.h>
+#include <ecs/world.h>
 #include <item/craftercomponent.h>
 #include <item/resourcecomponent.h>
 #include <item/inventorycomponent.h>
+#include <movement/beltcomponent.h>
+#include <movement/onbeltcomponent.h>
 #include <movement/positioncomponent.h>
 #include <movement/insertercomponent.h>
 #include <utils.h>
@@ -10,7 +14,7 @@
 
 ironBEGIN_NAMESPACE
 
-IRON_SYSTEM_IMPLEMENT_2_2(InserterSystem, InserterSystemTuple, InserterComponent, PositionComponent, ResourceComponent, InventoryComponent)
+IRON_SYSTEM_IMPLEMENT_2_3(InserterSystem, InserterSystemTuple, InserterComponent, PositionComponent, ResourceComponent, InventoryComponent, BeltComponent)
 
 void InserterSystem::Update(float deltaTime)
 {
@@ -95,6 +99,38 @@ void InserterSystem::Update(float deltaTime)
                         inserter->m_InserterComponent->SetOut(nullptr);
 
                         std::cout << "insert " << inInsertable->m_Entity->GetName().c_str() << " into " << outInsertable->m_Entity->GetName().c_str() << std::endl;
+                    }
+                }
+            }
+            else if (outInsertable->m_BeltComponent != nullptr)
+            {
+                if (inInsertable->m_ResourceComponent != nullptr)
+                {
+
+                }
+                else if (inInsertable->m_InventoryComponent != nullptr)
+                {
+                    std::vector<InventoryItem>& inInventoryItems = inInsertable->m_InventoryComponent->GetItems();
+                    if (!inInventoryItems.empty() && inInventoryItems[0].m_IsOutput)
+                    {
+                        InventoryItem& inventoryItem = inInventoryItems[0];
+
+                        World* world = inInsertable->m_Entity->GetWorld();
+                        Entity* entity = world->CreateEntity();
+                        EntityBuilder::BuildFromResource(entity, outInsertable->m_PositionComponent->GetPosition(), inventoryItem.m_ResourceType);
+
+                        OnBeltComponent* onBeltComponent = new OnBeltComponent();
+                        onBeltComponent->SetBelt(outInsertable->m_BeltComponent);
+                        entity->AddComponent(onBeltComponent);
+
+                        world->AddEntity(entity);
+
+                        inInsertable->m_InventoryComponent->GetPendingRemoveItems().push_back(inventoryItem);
+
+                        inserter->m_InserterComponent->SetIn(nullptr);
+                        inserter->m_InserterComponent->SetOut(nullptr);
+
+                        std::cout << "insert " << entity->GetName().c_str() << " onto belt" << std::endl;
                     }
                 }
             }

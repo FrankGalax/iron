@@ -5,11 +5,12 @@
 
 ironBEGIN_NAMESPACE
 
-class BeltComponent;
+class OnBeltComponent;
+class PositionComponent;
 
 class BeltSystem : public System
 {
-    IRON_SYSTEM_DECLARE_1(BeltSystemTuple, BeltComponent);
+    IRON_SYSTEM_DECLARE_2(BeltSystemTuple, OnBeltComponent, PositionComponent);
 
     virtual void Update(float deltaTime) override;
 };

@@ -9,6 +9,7 @@
 #include <item/craftercomponent.h>
 #include <item/inventorycomponent.h>
 #include <item/resourcecomponent.h>
+#include <movement/beltcomponent.h>
 #include <movement/positioncomponent.h>
 #include <movement/insertercomponent.h>
 
@@ -32,12 +33,23 @@ void InitEntities(World& world)
     EntityBuilder::BuildInserter(inserterOut, Vector2f(0.f, 4.f));
     world.RegisterEntity(inserterOut);
 
+    std::vector<Entity*> belts;
     for (int i = 0; i < 10; ++i)
     {
         Entity* belt = world.CreateEntity();
         EntityBuilder::BuildBelt(belt, Vector2f((float)i, 5.f));
         world.RegisterEntity(belt);
+
+        belts.push_back(belt);
+
+        if (i > 0)
+        {
+            Entity* previousBelt = belts[i - 1];
+            BeltComponent* beltComponent = previousBelt->GetComponent<BeltComponent>();
+            beltComponent->SetNextBelt(belt->GetComponent<BeltComponent>());
+        }
     }
+
 }
 
 void ProcessEvents(Window& window)

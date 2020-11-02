@@ -2,6 +2,7 @@
 
 #include <iron.h>
 #include <math/vector.h>
+#include <item/itemenum.h>
 
 ironBEGIN_NAMESPACE
 
@@ -13,7 +14,10 @@ public:
     static void BuildFurnace(Entity* entity, const Vector2f& position);
     static void BuildInserter(Entity* entity, const Vector2f& position);
     static void BuildIronOre(Entity* entity, const Vector2f& position);
+    static void BuildIronIngot(Entity* entity, const Vector2f& position);
     static void BuildBelt(Entity* entity, const Vector2f& position);
+
+    static void BuildFromResource(Entity* entity, const Vector2f& position, ResourceType resourceType);
 };
 
 ironEND_NAMESPACE

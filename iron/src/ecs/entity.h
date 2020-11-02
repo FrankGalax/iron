@@ -16,6 +16,7 @@ public:
 
     int GetId() const { return m_Id; }
     const World* GetWorld() const { return m_World; }
+    World* GetWorld() { return m_World; }
     void SetName(const std::string& name) { m_Name = name; }
     const std::string& GetName() const { return m_Name; }
 

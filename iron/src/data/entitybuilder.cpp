@@ -1,12 +1,13 @@
 #include <data/entitybuilder.h>
 #include <ecs/entity.h>
 #include <graphics/spritecomponent.h>
-#include <item/beltcomponent.h>
+#include <movement/beltcomponent.h>
 #include <item/craftercomponent.h>
 #include <item/inventorycomponent.h>
 #include <item/resourcecomponent.h>
 #include <movement/insertercomponent.h>
 #include <movement/positioncomponent.h>
+#include <assert.h>
 
 ironBEGIN_NAMESPACE
 
@@ -48,6 +49,13 @@ void EntityBuilder::BuildIronOre(Entity* entity, const Vector2f& position)
     entity->AddComponent(new ResourceComponent(ResourceType::IronOre));
 }
 
+void EntityBuilder::BuildIronIngot(Entity* entity, const Vector2f& position)
+{
+    entity->SetName("ironIngot");
+    entity->AddComponent(new SpriteComponent(4, 15, 1.f, 1.f));
+    entity->AddComponent(new PositionComponent(position));
+}
+
 void EntityBuilder::BuildBelt(Entity* entity, const Vector2f& position)
 {
     entity->SetName("belt");
@@ -55,7 +63,18 @@ void EntityBuilder::BuildBelt(Entity* entity, const Vector2f& position)
     entity->AddComponent(new PositionComponent(position));
     entity->AddComponent(new BeltComponent());
     entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Insertable));
-    entity->AddComponent(new InventoryComponent());
+}
+
+void EntityBuilder::BuildFromResource(Entity* entity, const Vector2f& position, ResourceType resourceType)
+{
+    switch (resourceType)
+    {
+    case ResourceType::IronIngot:
+        BuildIronIngot(entity, position);
+        return;
+    }
+
+    assert(false);
 }
 
 ironEND_NAMESPACE

@@ -3,7 +3,7 @@
 #include <ecs/system.h>
 #include <graphics/spriterendersystem.h>
 #include <graphics/window.h>
-#include <item/beltsystem.h>
+#include <movement/beltsystem.h>
 #include <item/craftingsystem.h>
 #include <item/inventorysystem.h>
 #include <movement/insertersystem.h>
@@ -57,6 +57,11 @@ void World::RegisterEntity(Entity* entity)
     }
 }
 
+void World::AddEntity(Entity* entity)
+{
+    m_PendingEntities.push_back(entity);
+}
+
 void World::UnregisterEntity(Entity* entity)
 {
     for (System* system : m_UpdateSystems)
@@ -88,6 +93,12 @@ void World::Update(float deltaTime)
             i++;
         }
     }
+
+    for (Entity* pendingEntity : m_PendingEntities)
+    {
+        RegisterEntity(pendingEntity);
+    }
+    m_PendingEntities.clear();
 
     for (System* system : m_UpdateSystems)
     {

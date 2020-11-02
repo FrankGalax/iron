@@ -9,10 +9,11 @@ class InserterComponent;
 class PositionComponent;
 class ResourceComponent;
 class InventoryComponent;
+class BeltComponent;
 
 class InserterSystem : public System
 {
-    IRON_SYSTEM_DECLARE_4(InserterSystemTuple, InserterComponent, PositionComponent, ResourceComponent, InventoryComponent)
+    IRON_SYSTEM_DECLARE_5(InserterSystemTuple, InserterComponent, PositionComponent, ResourceComponent, InventoryComponent, BeltComponent)
 
     virtual void Update(float deltaTime) override;
 };

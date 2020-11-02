@@ -54,7 +54,7 @@
     <ClCompile Include="src\data\entitybuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\item\beltsystem.cpp">
+    <ClCompile Include="src\movement\beltsystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -131,10 +131,13 @@
     <ClInclude Include="src\item\inventoryitem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\item\beltcomponent.h">
+    <ClInclude Include="src\movement\beltcomponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\item\beltsystem.h">
+    <ClInclude Include="src\movement\beltsystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\movement\onbeltcomponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

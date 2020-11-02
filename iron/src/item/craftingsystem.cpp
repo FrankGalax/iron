@@ -1,6 +1,7 @@
 #include <item/craftingsystem.h>
 #include <item/craftercomponent.h>
 #include <item/inventorycomponent.h>
+#include <utils.h>
 #include <iostream>
 
 ironBEGIN_NAMESPACE
@@ -99,7 +100,6 @@ void CraftingSystem::CheckCrafting(CraftingSystemTuple& tuple, float deltaTime)
     }
 
     const float craftingTime = tuple.m_CrafterComponent->GetCraftingTime() + deltaTime;
-    std::cout << craftingTime << std::endl;
     tuple.m_CrafterComponent->SetCraftingTime(craftingTime);
 
     const Recipe* activeRecipe = tuple.m_CrafterComponent->GetActiveRecipe();
@@ -111,6 +111,8 @@ void CraftingSystem::CheckCrafting(CraftingSystemTuple& tuple, float deltaTime)
         tuple.m_CrafterComponent->SetCraftingTime(0.f);
         tuple.m_CrafterComponent->SetIsCrafting(false);
         tuple.m_CrafterComponent->SetActiveRecipe(nullptr);
+
+        std::cout << "Crafted " << Utils::GetRessourceName(product.m_ResourceType) << " in " << tuple.m_Entity->GetName().c_str() << std::endl;
     }
 }
 
