@@ -34,23 +34,46 @@ void InitEntities(World& world)
     world.RegisterEntity(inserterOut);
 
     std::vector<Entity*> belts;
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < 5; ++i)
     {
         Entity* belt = world.CreateEntity();
-        const Vector2f direction = i == 9 ? Vector2f(0.f, 1.f) : Vector2f(1.f, 0.f);
-        EntityBuilder::BuildBelt(belt, Vector2f((float)i, 5.f), direction);
+        EntityBuilder::BuildBelt(belt, Vector2f((float)i, 5.f), Vector2f::Right);
         world.RegisterEntity(belt);
 
         belts.push_back(belt);
-
-        if (i > 0)
-        {
-            Entity* previousBelt = belts[i - 1];
-            BeltComponent* beltComponent = previousBelt->GetComponent<BeltComponent>();
-            beltComponent->SetNextBelt(belt->GetComponent<BeltComponent>());
-        }
     }
 
+    for (int i = 0; i < 4; ++i)
+    {
+        Entity* belt = world.CreateEntity();
+        EntityBuilder::BuildBelt(belt, Vector2f(5, 5.f - (float)i), Vector2f::Up);
+        world.RegisterEntity(belt);
+        
+        belts.push_back(belt);
+    }
+
+    for (int i = 0; i < 2; ++i)
+    {
+        Entity* belt = world.CreateEntity();
+        EntityBuilder::BuildBelt(belt, Vector2f(5.f - (float)i, 1.f), Vector2f::Left);
+        world.RegisterEntity(belt);
+
+        belts.push_back(belt);
+    }
+    
+    for (int i = 0; i < 2; ++i)
+    {
+        Entity* belt = world.CreateEntity();
+        EntityBuilder::BuildBelt(belt, Vector2f(3.f, 1.f + (float)i), Vector2f::Down);
+        world.RegisterEntity(belt);
+
+        belts.push_back(belt);
+    }
+
+    for (int i = 0; i < belts.size() - 1; ++i)
+    {
+        belts[i]->GetComponent<BeltComponent>()->SetNextBelt(belts[i+1]->GetComponent<BeltComponent>());
+    }
 }
 
 void ProcessEvents(Window& window)

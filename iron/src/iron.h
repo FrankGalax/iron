@@ -8,6 +8,7 @@
 #define ironTolerance 0.000001f
 
 #define ironNullWithEpsilon(f) (abs(f) <= ironTolerance)
+#define ironEqualWithEpsilon(a, b) (fabs((a) - (b)) <= ironTolerance)
 
 #define ironGreaterWithEpsilon(a, b)             ((a) - (b) > ironTolerance)
 #define ironGreaterOrEqualWithEpsilon(a, b)      ((a) + ironTolerance > (b))
