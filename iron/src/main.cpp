@@ -127,6 +127,8 @@ int main()
     sf::Time ups = sf::seconds(1.f / 60.f);
     float deltaTime = ups.asSeconds();
 
+    int waitInitial = 60;
+
     while (window.IsOpen())
     {
         ProcessEvents(window);
@@ -134,7 +136,15 @@ int main()
         while (accumulator > ups)
         {
             accumulator -= ups;
-            Update(deltaTime, world);
+
+            if (waitInitial > 0)
+            {
+                waitInitial--;
+            }
+            else
+            {
+                Update(deltaTime, world);
+            }
         }
 
         Render(window, world);

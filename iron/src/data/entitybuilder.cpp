@@ -38,7 +38,7 @@ void EntityBuilder::BuildInserter(Entity* entity, const Vector2f& position)
     entity->SetName("inserter");
     entity->AddComponent(new SpriteComponent(18, 11, 1.f, 1.f));
     entity->AddComponent(new PositionComponent(position));
-    entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Inserter, Vector2f(0.f, -1.f), Vector2f(0.f, 1.f)));
+    entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Inserter, Vector2f(0.f, -0.02f), Vector2f(0.f, 1.f)));
 }
 
 void EntityBuilder::BuildIronOre(Entity* entity, const Vector2f& position)
