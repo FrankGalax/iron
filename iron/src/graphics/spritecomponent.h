@@ -15,7 +15,9 @@ public:
     const sf::Sprite& GetSprite() const { return m_Sprite; }
     sf::Sprite& GetSprite() { return m_Sprite; }
     int GetSpriteSheetX() const { return m_SpriteSheetX; }
+    void SetSpriteSheetX(int spriteSheetX) { m_SpriteSheetX = spriteSheetX; }
     int GetSpriteSheetY() const { return m_SpriteSheetY; }
+    void SetSpriteSheetY(int spriteSheetY) { m_SpriteSheetY = spriteSheetY; }
     float GetScaleX() const { return m_ScaleX; }
     float GetScaleY() const { return m_ScaleY; }
 

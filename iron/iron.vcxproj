@@ -129,6 +129,7 @@
     <ClCompile Include="src\ecs\entity.cpp" />
     <ClCompile Include="src\ecs\system.cpp" />
     <ClCompile Include="src\ecs\world.cpp" />
+    <ClCompile Include="src\graphics\animationsystem.cpp" />
     <ClCompile Include="src\graphics\spriterendersystem.cpp" />
     <ClCompile Include="src\graphics\spritesheetmanager.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
@@ -146,6 +147,8 @@
     <ClInclude Include="src\ecs\entity.h" />
     <ClInclude Include="src\ecs\system.h" />
     <ClInclude Include="src\ecs\world.h" />
+    <ClInclude Include="src\graphics\animationcomponent.h" />
+    <ClInclude Include="src\graphics\animationsystem.h" />
     <ClInclude Include="src\graphics\sfmlspritecomponent.h" />
     <ClInclude Include="src\graphics\spritecomponent.h" />
     <ClInclude Include="src\graphics\spriterendersystem.h" />

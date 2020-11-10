@@ -1,6 +1,7 @@
 #include <data/entitybuilder.h>
 #include <ecs/entity.h>
 #include <graphics/spritecomponent.h>
+#include <graphics/animationcomponent.h>
 #include <movement/beltcomponent.h>
 #include <item/craftercomponent.h>
 #include <item/inventorycomponent.h>
@@ -59,7 +60,7 @@ void EntityBuilder::BuildIronIngot(Entity* entity, const Vector2f& position)
 void EntityBuilder::BuildBelt(Entity* entity, const Vector2f& position, const Vector2f& direction)
 {
     entity->SetName("belt");
-
+    
     if (ironNullWithEpsilon(direction.GetY()))
     {
         entity->AddComponent(new SpriteComponent(16, 12, 1.f, 1.f));
@@ -73,6 +74,44 @@ void EntityBuilder::BuildBelt(Entity* entity, const Vector2f& position, const Ve
     beltComponent->SetDirection(direction);
     entity->AddComponent(beltComponent);
     entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Insertable));
+    
+    AnimationComponent* animationComponent = new AnimationComponent();
+    std::vector<AnimationSprite>& animationSprites = animationComponent->GetAnimationSprites();
+    animationSprites.resize(4);
+
+    if (direction.Equals(Vector2f::Right))
+    {
+        animationSprites[0].SetSpriteSheetXY(16, 12);
+        animationSprites[1].SetSpriteSheetXY(24, 0);
+        animationSprites[2].SetSpriteSheetXY(24, 1);
+        animationSprites[3].SetSpriteSheetXY(24, 2);
+    }
+    else if (direction.Equals(Vector2f::Down))
+    {
+        animationSprites[0].SetSpriteSheetXY(0, 8);
+        animationSprites[1].SetSpriteSheetXY(24, 3);
+        animationSprites[2].SetSpriteSheetXY(24, 4);
+        animationSprites[3].SetSpriteSheetXY(24, 5);
+    }
+    else if (direction.Equals(Vector2f::Left))
+    {
+        animationSprites[0].SetSpriteSheetXY(16, 12);
+        animationSprites[1].SetSpriteSheetXY(24, 2);
+        animationSprites[2].SetSpriteSheetXY(24, 1);
+        animationSprites[3].SetSpriteSheetXY(24, 0);
+    }
+    else if (direction.Equals(Vector2f::Up))
+    {
+        animationSprites[0].SetSpriteSheetXY(0, 8);
+        animationSprites[1].SetSpriteSheetXY(24, 5);
+        animationSprites[2].SetSpriteSheetXY(24, 4);
+        animationSprites[3].SetSpriteSheetXY(24, 3);
+    }
+
+    const float time = beltComponent->GetSpeed() / GRID_SIZE;
+    animationComponent->SetTime(time);
+    animationComponent->SetTimer(time);
+    entity->AddComponent(animationComponent);
 }
 
 void EntityBuilder::BuildFromResource(Entity* entity, const Vector2f& position, ResourceType resourceType)
