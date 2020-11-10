@@ -61,7 +61,12 @@ void World::RegisterEntity(Entity* entity)
 
 void World::AddEntity(Entity* entity)
 {
-    m_PendingEntities.push_back(entity);
+    m_PendingAddEntities.push_back(entity);
+}
+
+void World::RemoveEntity(Entity* entity)
+{
+    m_PendingRemoveEntities.push_back(entity);
 }
 
 void World::UnregisterEntity(Entity* entity)
@@ -79,28 +84,24 @@ void World::UnregisterEntity(Entity* entity)
 
 void World::Update(float deltaTime)
 {
-    int i = 0;
-    while (i < m_Entities.size())
+    for (Entity* pendingEntity : m_PendingRemoveEntities)
     {
-        Entity* entity = m_Entities[i];
-        if (entity->GetWorld() == nullptr)
+        for (int i = 0; i < m_Entities.size(); ++i)
         {
             m_Entities[i] = m_Entities[m_Entities.size() - 1];
             m_Entities.pop_back();
-            UnregisterEntity(entity);
-            delete entity;
-        }
-        else
-        {
-            i++;
+            UnregisterEntity(pendingEntity);
+            delete pendingEntity;
+            break;
         }
     }
+    m_PendingRemoveEntities.clear();
 
-    for (Entity* pendingEntity : m_PendingEntities)
+    for (Entity* pendingEntity : m_PendingAddEntities)
     {
         RegisterEntity(pendingEntity);
     }
-    m_PendingEntities.clear();
+    m_PendingAddEntities.clear();
 
     for (System* system : m_UpdateSystems)
     {

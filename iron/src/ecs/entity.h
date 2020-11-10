@@ -21,7 +21,6 @@ public:
     const std::string& GetName() const { return m_Name; }
 
     void AddComponent(Component* component);
-    void RemoveFromWorld();
 
     template <class T>
     T* GetComponent()

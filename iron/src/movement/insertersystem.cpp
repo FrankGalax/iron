@@ -80,7 +80,7 @@ void InserterSystem::Update(float deltaTime)
                     pendingAddItems.push_back(InventoryItem(inInsertable->m_ResourceComponent->GetResourceType()));
                     inserter->m_InserterComponent->SetIn(nullptr);
                     inserter->m_InserterComponent->SetOut(nullptr);
-                    inInsertable->m_Entity->RemoveFromWorld();
+                    inInsertable->m_Entity->GetWorld()->RemoveEntity(inInsertable->m_Entity);
 
                     std::cout << "insert " << inInsertable->m_Entity->GetName().c_str() << " into " << outInsertable->m_Entity->GetName().c_str() << std::endl;
                 }

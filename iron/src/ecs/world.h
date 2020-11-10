@@ -20,6 +20,7 @@ public:
     void RegisterEntity(Entity* entity);
     void AddEntity(Entity* entity);
     void UnregisterEntity(Entity* entity);
+    void RemoveEntity(Entity* entity);
 
     void Update(float deltaTime);
     void Render(Window* window);
@@ -31,7 +32,8 @@ public:
 
 private:
     std::vector<Entity*> m_Entities;
-    std::vector<Entity*> m_PendingEntities;
+    std::vector<Entity*> m_PendingAddEntities;
+    std::vector<Entity*> m_PendingRemoveEntities;
     std::vector<System*> m_UpdateSystems;
     std::vector<System*> m_RenderSystems;
     int m_NextEntityId = 0;

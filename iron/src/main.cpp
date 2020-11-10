@@ -98,20 +98,6 @@ void ProcessEvents(Window& window)
     }
 }
 
-void Update(float deltaTime, World& world)
-{
-    world.Update(deltaTime);
-}
-
-void Render(Window& window, World& world)
-{
-    window.Clear();
-
-    world.Render(&window);
-
-    window.Display();
-}
-
 int main()
 {
     Window window;
@@ -123,7 +109,8 @@ int main()
     InitEntities(world);
 
     sf::Clock clock;
-    sf::Time accumulator = sf::Time::Zero;
+    
+    /*sf::Time accumulator = sf::Time::Zero;
     sf::Time ups = sf::seconds(1.f / 60.f);
     float deltaTime = ups.asSeconds();
 
@@ -150,6 +137,43 @@ int main()
         Render(window, world);
 
         accumulator += clock.restart();
+    }*/
+
+    sf::Time deltaTime;
+    int fps = 0;
+    float deltaTimeSum = 0.f;
+    int deltaTimeCount = 0;
+    sf::Text fpsText;
+    sf::Font font;
+    font.loadFromFile("arial.ttf");
+    fpsText.setFont(font);
+    fpsText.setFillColor(sf::Color::Black);
+    fpsText.setCharacterSize(15);
+
+    while (window.IsOpen())
+    {
+        ProcessEvents(window);
+        deltaTime = clock.restart();
+        world.Update(deltaTime.asSeconds());
+
+        window.Clear();
+        world.Render(&window);
+
+        deltaTimeSum += deltaTime.asSeconds();
+        deltaTimeCount++;
+        if (deltaTimeSum > 1.f)
+        {
+            float average = deltaTimeSum / (float)deltaTimeCount;
+            fps = (int)(1.f / average);
+
+            deltaTimeSum = 0.f;
+            deltaTimeCount = 0;
+        }
+
+        fpsText.setString(std::to_string(fps));
+        window.Draw(&fpsText);
+
+        window.Display();
     }
 
     return 0;

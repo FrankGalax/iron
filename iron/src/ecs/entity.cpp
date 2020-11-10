@@ -22,9 +22,4 @@ void Entity::AddComponent(Component* component)
     m_Components.push_back(component);
 }
 
-void Entity::RemoveFromWorld()
-{
-    m_World = nullptr;
-}
-
 ironEND_NAMESPACE
