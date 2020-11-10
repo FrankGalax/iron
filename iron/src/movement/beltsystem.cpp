@@ -17,6 +17,13 @@ void BeltSystem::Update(float deltaTime)
         if (const BeltComponent* belt = tuple.m_OnBeltComponent->GetBelt())
         {
             Vector2f& position = tuple.m_PositionComponent->GetPosition();
+
+            if (belt->GetNextBelt() == nullptr &&
+                Utils::GetEntityAtPosition(belt->GetOwner()->GetWorld(), position + belt->GetDirection()) != nullptr)
+            {
+                return;
+            }
+
             position += belt->GetDirection() * belt->GetSpeed() * deltaTime;
 
             Vector2f testPosition;

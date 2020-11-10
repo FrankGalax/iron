@@ -1,4 +1,6 @@
 #include <utils.h>
+#include <ecs/world.h>
+#include <ecs/entity.h>
 #include <movement/positioncomponent.h>
 #include <assert.h>
 
@@ -37,6 +39,25 @@ const char* Utils::GetRessourceName(ResourceType resourceType)
 
     assert(false);
     return "";
+}
+
+Entity* Utils::GetEntityAtPosition(const World* world, const Vector2f& position)
+{
+    if (world != nullptr)
+    {
+        for (Entity* entity : world->GetEntities())
+        {
+            if (const PositionComponent* positionComponent = entity->GetComponent<PositionComponent>())
+            {
+                if (IsColliding(positionComponent, position))
+                {
+                    return entity;
+                }
+            }
+        }
+    }
+    
+    return nullptr;
 }
 
 ironEND_NAMESPACE

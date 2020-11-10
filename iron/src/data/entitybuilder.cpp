@@ -55,6 +55,8 @@ void EntityBuilder::BuildIronIngot(Entity* entity, const Vector2f& position)
     entity->SetName("ironIngot");
     entity->AddComponent(new SpriteComponent(4, 15, 1.f, 1.f));
     entity->AddComponent(new PositionComponent(position));
+    entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Insertable));
+    entity->AddComponent(new ResourceComponent(ResourceType::IronIngot));
 }
 
 void EntityBuilder::BuildBelt(Entity* entity, const Vector2f& position, const Vector2f& direction)
@@ -73,7 +75,9 @@ void EntityBuilder::BuildBelt(Entity* entity, const Vector2f& position, const Ve
     BeltComponent* beltComponent = new BeltComponent();
     beltComponent->SetDirection(direction);
     entity->AddComponent(beltComponent);
-    entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Insertable));
+    InserterComponent* inserterComponent = new InserterComponent(InserterComponent::InserterType::Insertable);
+    inserterComponent->SetIsInsertableOutOnly(true);
+    entity->AddComponent(inserterComponent);
     
     AnimationComponent* animationComponent = new AnimationComponent();
     std::vector<AnimationSprite>& animationSprites = animationComponent->GetAnimationSprites();
@@ -112,6 +116,15 @@ void EntityBuilder::BuildBelt(Entity* entity, const Vector2f& position, const Ve
     animationComponent->SetTime(time);
     animationComponent->SetTimer(time);
     entity->AddComponent(animationComponent);
+}
+
+void EntityBuilder::BuildChest(Entity* entity, const Vector2f& position)
+{
+    entity->SetName("chest");
+    entity->AddComponent(new SpriteComponent(21, 5, 1.f, 1.f));
+    entity->AddComponent(new PositionComponent(position));
+    entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Insertable));
+    entity->AddComponent(new InventoryComponent());
 }
 
 void EntityBuilder::BuildFromResource(Entity* entity, const Vector2f& position, ResourceType resourceType)

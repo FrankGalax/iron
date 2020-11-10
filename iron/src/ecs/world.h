@@ -26,6 +26,8 @@ public:
 
     SpriteSheetManager& GetSpriteSheetManager() { return m_SpriteSheetManager; }
     const SpriteSheetManager& GetSpriteSheetManager() const { return m_SpriteSheetManager; }
+    
+    const std::vector<Entity*>& GetEntities() const { return m_Entities; }
 
 private:
     std::vector<Entity*> m_Entities;

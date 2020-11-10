@@ -22,7 +22,8 @@ public:
         m_In(nullptr), 
         m_Out(nullptr),
         m_InOffset(inOffset),
-        m_OutOffset(outOffset)
+        m_OutOffset(outOffset),
+        m_IsInsertableOutOnly(false)
     {}
 
     InserterType GetInserterType() const { return m_InserterType; }
@@ -32,6 +33,8 @@ public:
 	const Entity* GetOut() const { return m_Out; }
 	const Vector2f& GetInOffset() const { return m_InOffset; }
 	const Vector2f& GetOutOffset() const { return m_OutOffset; }
+    bool GetIsInsertableOutOnly() const { return m_IsInsertableOutOnly; }
+    void SetIsInsertableOutOnly(bool isInsertableOutOnly) { m_IsInsertableOutOnly = isInsertableOutOnly; }
 
 private:
     InserterType m_InserterType;
@@ -39,6 +42,7 @@ private:
     Entity* m_Out;
     Vector2f m_InOffset;
     Vector2f m_OutOffset;
+    bool m_IsInsertableOutOnly;
 };
 
 ironEND_NAMESPACE

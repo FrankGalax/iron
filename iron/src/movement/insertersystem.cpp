@@ -40,7 +40,7 @@ void InserterSystem::Update(float deltaTime)
 
         for (InserterSystemTuple* insertable : insertables)
 		{
-			if (inserter->m_InserterComponent->GetIn() == nullptr)
+			if (inserter->m_InserterComponent->GetIn() == nullptr && !insertable->m_InserterComponent->GetIsInsertableOutOnly())
 			{
 				const Vector2f testPosition = inserter->m_PositionComponent->GetPosition() + inserter->m_InserterComponent->GetInOffset();
 				if (Utils::IsColliding(insertable->m_PositionComponent, testPosition))

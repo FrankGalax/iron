@@ -74,6 +74,14 @@ void InitEntities(World& world)
     {
         belts[i]->GetComponent<BeltComponent>()->SetNextBelt(belts[i+1]->GetComponent<BeltComponent>());
     }
+
+    Entity* inserter2 = world.CreateEntity();
+    EntityBuilder::BuildInserter(inserter2, Vector2f(3.f, 3.f));
+    world.RegisterEntity(inserter2);
+
+    Entity* chest = world.CreateEntity();
+    EntityBuilder::BuildChest(chest, Vector2f(3.f, 4.f));
+    world.RegisterEntity(chest);
 }
 
 void ProcessEvents(Window& window)
