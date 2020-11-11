@@ -112,7 +112,7 @@ void EntityBuilder::BuildBelt(Entity* entity, const Vector2f& position, const Ve
         animationSprites[3].SetSpriteSheetXY(24, 3);
     }
 
-    const float time = beltComponent->GetSpeed() / GRID_SIZE;
+    const float time = 1.f / (beltComponent->GetSpeed() * GRID_SIZE);
     animationComponent->SetTime(time);
     animationComponent->SetTimer(time);
     entity->AddComponent(animationComponent);

@@ -143,6 +143,9 @@ int main()
     int fps = 0;
     float deltaTimeSum = 0.f;
     int deltaTimeCount = 0;
+
+    float waitInitial = 1.f;
+
     sf::Text fpsText;
     sf::Font font;
     font.loadFromFile("arial.ttf");
@@ -154,7 +157,16 @@ int main()
     {
         ProcessEvents(window);
         deltaTime = clock.restart();
-        world.Update(deltaTime.asSeconds());
+        const float deltaTimeSeconds = deltaTime.asSeconds();
+
+        if (waitInitial > 0)
+        {
+            waitInitial -= deltaTimeSeconds;
+        }
+        else
+        {
+            world.Update(deltaTimeSeconds);
+        }
 
         window.Clear();
         world.Render(&window);
@@ -168,9 +180,10 @@ int main()
 
             deltaTimeSum = 0.f;
             deltaTimeCount = 0;
+
+            fpsText.setString(std::to_string(fps));
         }
 
-        fpsText.setString(std::to_string(fps));
         window.Draw(&fpsText);
 
         window.Display();

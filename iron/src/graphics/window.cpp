@@ -3,7 +3,7 @@
 ironBEGIN_NAMESPACE
 
 Window::Window() :
-	m_Window(sf::VideoMode(800, 600), "SFML Test")
+	m_Window(sf::VideoMode(800, 600), "Iron")
 {
 }
 

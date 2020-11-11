@@ -2,6 +2,7 @@
 
 #include <iron.h>
 #include <vector>
+#include <string>
 
 ironBEGIN_NAMESPACE
 
