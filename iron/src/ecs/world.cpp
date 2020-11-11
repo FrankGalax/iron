@@ -88,11 +88,14 @@ void World::Update(float deltaTime)
     {
         for (int i = 0; i < m_Entities.size(); ++i)
         {
-            m_Entities[i] = m_Entities[m_Entities.size() - 1];
-            m_Entities.pop_back();
-            UnregisterEntity(pendingEntity);
-            delete pendingEntity;
-            break;
+            if (m_Entities[i] == pendingEntity)
+            {
+                m_Entities[i] = m_Entities[m_Entities.size() - 1];
+                m_Entities.pop_back();
+                UnregisterEntity(pendingEntity);
+                delete pendingEntity;
+                break;
+            }
         }
     }
     m_PendingRemoveEntities.clear();
