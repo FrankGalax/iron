@@ -136,6 +136,7 @@
     <ClCompile Include="src\graphics\spriterendersystem.cpp" />
     <ClCompile Include="src\graphics\spritesheetmanager.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
+    <ClCompile Include="src\input\inputsystem.cpp" />
     <ClCompile Include="src\movement\beltsystem.cpp" />
     <ClCompile Include="src\item\craftingsystem.cpp" />
     <ClCompile Include="src\item\inventorysystem.cpp" />
@@ -147,6 +148,8 @@
   <ItemGroup>
     <ClInclude Include="src\data\entitybuilder.h" />
     <ClInclude Include="src\ecs\component.h" />
+    <ClInclude Include="src\ecs\componentcache.h" />
+    <ClInclude Include="src\ecs\componentcacheimpl.h" />
     <ClInclude Include="src\ecs\entity.h" />
     <ClInclude Include="src\ecs\system.h" />
     <ClInclude Include="src\ecs\world.h" />
@@ -157,6 +160,8 @@
     <ClInclude Include="src\graphics\spriterendersystem.h" />
     <ClInclude Include="src\graphics\spritesheetmanager.h" />
     <ClInclude Include="src\graphics\window.h" />
+    <ClInclude Include="src\input\inputcomponent.h" />
+    <ClInclude Include="src\input\inputsystem.h" />
     <ClInclude Include="src\movement\beltcomponent.h" />
     <ClInclude Include="src\movement\beltsystem.h" />
     <ClInclude Include="src\item\craftercomponent.h" />

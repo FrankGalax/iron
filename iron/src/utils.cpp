@@ -47,7 +47,7 @@ Entity* Utils::GetEntityAtPosition(const World* world, const Vector2f& position)
     {
         for (Entity* entity : world->GetEntities())
         {
-            if (const PositionComponent* positionComponent = entity->GetComponent<PositionComponent>())
+            if (const PositionComponent* positionComponent = entity->GetPositionComponent())
             {
                 if (IsColliding(positionComponent, position))
                 {

@@ -15,8 +15,12 @@
 
 using namespace iron;
 
-void InitEntities(World& world)
+void InitEntities(World& world, const Window& window)
 {
+    Entity* inputEntity = world.CreateEntity();
+    EntityBuilder::BuildInputEntity(inputEntity, &window);
+    world.RegisterEntity(inputEntity);
+
     Entity* ironOre = world.CreateEntity();
     EntityBuilder::BuildIronOre(ironOre, Vector2f(0.f, 0.f));
     world.RegisterEntity(ironOre);
@@ -106,7 +110,7 @@ int main()
 
     world.CreateSystems();
 
-    InitEntities(world);
+    InitEntities(world, window);
 
     sf::Clock clock;
     

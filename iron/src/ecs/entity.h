@@ -3,11 +3,13 @@
 #include <iron.h>
 #include <vector>
 #include <string>
+#include <ecs/componentcache.h>
 
 ironBEGIN_NAMESPACE
 
 class Component;
 class World;
+class PositionComponent;
 
 class Entity
 {
@@ -22,6 +24,11 @@ public:
     const std::string& GetName() const { return m_Name; }
 
     void AddComponent(Component* component);
+    const std::vector<Component*>& GetComponents() const { return m_Components; }
+
+    void ResetComponentCaches();
+    PositionComponent* GetPositionComponent();
+    const PositionComponent* GetPositionComponent() const;
 
     template <class T>
     T* GetComponent()
@@ -54,6 +61,10 @@ private:
     World* m_World;
     std::string m_Name = "";
     std::vector<Component*> m_Components;
+
+    ComponentCache<PositionComponent> m_PositionComponentCache;
 };
 
 ironEND_NAMESPACE
+
+#include <ecs/componentcacheimpl.h>

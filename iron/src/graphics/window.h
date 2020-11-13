@@ -9,6 +9,7 @@ class Window
 {
 public:
     Window();
+    const sf::RenderWindow& GetSFMLWindow() const { return m_Window; }
     sf::RenderWindow& GetSFMLWindow() { return m_Window; }
     void Clear() { m_Window.clear(sf::Color(200, 200, 200, 255)); }
     void Display() { m_Window.display(); }

@@ -7,10 +7,12 @@
 ironBEGIN_NAMESPACE
 
 class Entity;
+class Window;
 
 class EntityBuilder
 {
 public:
+    static void BuildInputEntity(Entity* entity, const Window* window);
     static void BuildFurnace(Entity* entity, const Vector2f& position);
     static void BuildInserter(Entity* entity, const Vector2f& position);
     static void BuildIronOre(Entity* entity, const Vector2f& position);

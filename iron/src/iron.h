@@ -4,6 +4,7 @@
 #define ironEND_NAMESPACE }
 
 #define GRID_SIZE 16
+#define RENDER_SCALE 2.f
 
 #define ironTolerance 0.000001f
 

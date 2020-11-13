@@ -4,9 +4,10 @@
 #include <graphics/animationsystem.h>
 #include <graphics/spriterendersystem.h>
 #include <graphics/window.h>
-#include <movement/beltsystem.h>
+#include <input/inputsystem.h>
 #include <item/craftingsystem.h>
 #include <item/inventorysystem.h>
+#include <movement/beltsystem.h>
 #include <movement/insertersystem.h>
 
 ironBEGIN_NAMESPACE
@@ -31,6 +32,7 @@ World::~World()
 
 void World::CreateSystems()
 {
+    m_UpdateSystems.push_back(new InputSystem());
     m_UpdateSystems.push_back(new InserterSystem());
     m_UpdateSystems.push_back(new CraftingSystem());
     m_UpdateSystems.push_back(new InventorySystem());
@@ -48,6 +50,8 @@ Entity* World::CreateEntity()
 
 void World::RegisterEntity(Entity* entity)
 {
+    entity->ResetComponentCaches();
+
     for (System* system : m_UpdateSystems)
     {
         system->RegisterEntity(entity);

@@ -3,6 +3,7 @@
 #include <graphics/spritecomponent.h>
 #include <graphics/animationcomponent.h>
 #include <movement/beltcomponent.h>
+#include <input/inputcomponent.h>
 #include <item/craftercomponent.h>
 #include <item/inventorycomponent.h>
 #include <item/resourcecomponent.h>
@@ -11,6 +12,12 @@
 #include <assert.h>
 
 ironBEGIN_NAMESPACE
+
+void EntityBuilder::BuildInputEntity(Entity* entity, const Window* window)
+{
+    entity->SetName("input");
+    entity->AddComponent(new InputComponent(window));
+}
 
 void EntityBuilder::BuildFurnace(Entity* entity, const Vector2f& position)
 {
