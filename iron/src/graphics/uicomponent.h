@@ -17,6 +17,7 @@ public:
 	sf::Sprite& GetBorderBottomLeft() { return m_BorderBottomLeft; }
 	sf::Sprite& GetBorderBottom() { return m_BorderBottom; }
 	sf::Sprite& GetBorderBottomRight() { return m_BorderBottomRight; }
+	sf::Sprite& GetInventoryBackground() { return m_InventoryBackground; }
 
 private:
 	sf::Sprite m_BorderRight;
@@ -27,6 +28,7 @@ private:
 	sf::Sprite m_BorderBottomLeft;
 	sf::Sprite m_BorderBottom;
 	sf::Sprite m_BorderBottomRight;
+	sf::Sprite m_InventoryBackground;
 };
 
 ironEND_NAMESPACE

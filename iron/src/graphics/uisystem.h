@@ -16,6 +16,7 @@ class UISystem : public System
 
 private:
 	void InitUIComponent(UIComponent* uiComponent);
+	void DrawInventoryUI(UIComponent* uiComponent, Window* window, float topLeftX, float topLeftY, int sizeX, int sizeY);
 };
 
 ironEND_NAMESPACE
