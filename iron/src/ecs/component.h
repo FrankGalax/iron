@@ -12,6 +12,7 @@ public:
     virtual ~Component() {}
 
     const Entity* GetOwner() const { return m_Owner; }
+    Entity* GetOwner() { return m_Owner; }
     void SetOwner(Entity* owner) { m_Owner = owner; }
 
 private:

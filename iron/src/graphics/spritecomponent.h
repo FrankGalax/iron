@@ -2,6 +2,7 @@
 
 #include <iron.h>
 #include <ecs/component.h>
+#include <graphics/spriteinfo.h>
 #include <SFML/Graphics.hpp>
 
 ironBEGIN_NAMESPACE
@@ -11,6 +12,8 @@ class SpriteComponent : public Component
 public:
     SpriteComponent(int spriteSheetX, int spriteSheetY, float scaleX, float scaleY) :
         m_SpriteSheetX(spriteSheetX), m_SpriteSheetY(spriteSheetY), m_ScaleX(scaleX), m_ScaleY(scaleY) {}
+    SpriteComponent(const SpriteInfo& spriteInfo) :
+        m_SpriteSheetX(spriteInfo.m_SpriteSheetX), m_SpriteSheetY(spriteInfo.m_SpriteSheetY), m_ScaleX(spriteInfo.m_ScaleX), m_ScaleY(spriteInfo.m_ScaleY) {}
 
     const sf::Sprite& GetSprite() const { return m_Sprite; }
     sf::Sprite& GetSprite() { return m_Sprite; }

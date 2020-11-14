@@ -24,8 +24,8 @@ public:
     const std::string& GetName() const { return m_Name; }
 
     void AddComponent(Component* component);
-    void RemoveComponent(Component* component);
     const std::vector<Component*>& GetComponents() const { return m_Components; }
+    std::vector<Component*>& GetComponents() { return m_Components; }
 
     void ResetComponentCaches();
     PositionComponent* GetPositionComponent();

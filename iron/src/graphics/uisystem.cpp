@@ -1,8 +1,11 @@
 #include <graphics/uisystem.h>
+#include <data/entitybuilder.h>
 #include <ecs/world.h>
+#include <graphics/spriteinfo.h>
 #include <graphics/uicomponent.h>
 #include <graphics/window.h>
 #include <input/clickedcomponent.h>
+#include <item/inventorycomponent.h>
 
 ironBEGIN_NAMESPACE
 
@@ -33,13 +36,22 @@ void UISystem::Render(Window* window)
 
 	assert(uiComponent != nullptr);
 
-	if (uiComponent != nullptr && uiComponent->GetBorderTopLeft().getTexture() == nullptr)
-	{
-		InitUIComponent(uiComponent);
-	}
+	InventoryComponent* inventoryComponent = clickedComponent != nullptr ?
+		clickedComponent->GetOwner()->GetComponent<InventoryComponent>() : nullptr;
 
-	if (clickedComponent != nullptr)
+	if (inventoryComponent != nullptr)
 	{
+		if (uiComponent->GetBorderTopLeft().getTexture() == nullptr)
+		{
+			InitBaseSprites(uiComponent);
+		}
+
+		if (inventoryComponent->GetIsDirtyForUI())
+		{
+			inventoryComponent->SetIsDirtyForUI(false);
+			InitInventorySprites(uiComponent, inventoryComponent);
+		}
+
 		const int sizeX = 10;
 		const int sizeY = 3;
 		const float screenSizeX = window->GetSFMLWindow().getSize().x / (float)(GRID_SIZE * RENDER_SCALE);
@@ -53,7 +65,7 @@ void UISystem::Render(Window* window)
 	}
 }
 
-void UISystem::InitUIComponent(UIComponent* uiComponent)
+void UISystem::InitBaseSprites(UIComponent* uiComponent)
 {
 	const sf::Texture& spriteSheet = uiComponent->GetOwner()->GetWorld()->GetSpriteSheetManager().GetSpriteSheet();
 
@@ -74,6 +86,29 @@ void UISystem::InitUIComponent(UIComponent* uiComponent)
 	initSprite(uiComponent->GetBorderRight(), 24, 7, 180.f);
 	initSprite(uiComponent->GetBorderTopRight(), 24, 6, 90.f);
 	initSprite(uiComponent->GetInventoryBackground(), 24, 9, 0.f);
+}
+
+void UISystem::InitInventorySprites(UIComponent* uiComponent, const InventoryComponent* inventoryComponent)
+{
+	for (sf::Sprite* sprite : uiComponent->GetInventorySprites())
+	{
+		delete sprite;
+	}
+	uiComponent->GetInventorySprites().clear();
+
+	const sf::Texture& spriteSheet = uiComponent->GetOwner()->GetWorld()->GetSpriteSheetManager().GetSpriteSheet();
+
+	for (const InventoryItem& item : inventoryComponent->GetItems())
+	{
+		sf::Sprite* sprite = new sf::Sprite();
+		SpriteInfo spriteInfo;
+		EntityBuilder::BuildSpriteInfoFromResource(spriteInfo, item.m_ResourceType);
+
+		sprite->setTexture(spriteSheet);
+		sprite->setTextureRect(sf::IntRect(spriteInfo.m_SpriteSheetX * GRID_SIZE, spriteInfo.m_SpriteSheetY * GRID_SIZE, GRID_SIZE, GRID_SIZE));
+		sprite->setScale(spriteInfo.m_ScaleX * RENDER_SCALE, spriteInfo.m_ScaleY * RENDER_SCALE);
+		uiComponent->GetInventorySprites().push_back(sprite);
+	}
 }
 
 void UISystem::DrawInventoryUI(UIComponent* uiComponent, Window* window, float topLeftX, float topLeftY, int sizeX, int sizeY)
@@ -101,6 +136,13 @@ void UISystem::DrawInventoryUI(UIComponent* uiComponent, Window* window, float t
 		{
 			DrawSprite(uiComponent->GetInventoryBackground(), window, topLeftX + i + 1.f, topLeftY + j + 1.f);
 		}
+	}
+
+	for (int i = 0; i < uiComponent->GetInventorySprites().size(); ++i)
+	{
+		const int row = i / sizeX;
+		const int column = i % sizeX;
+		DrawSprite(*uiComponent->GetInventorySprites()[i], window, topLeftX + column + 1.f, topLeftY + row + 1.f);
 	}
 }
 

@@ -58,7 +58,9 @@ void EntityBuilder::BuildInserter(Entity* entity, const Vector2f& position)
 void EntityBuilder::BuildIronOre(Entity* entity, const Vector2f& position)
 {
     entity->SetName("ironOre");
-    entity->AddComponent(new SpriteComponent(0, 58, 1.f, 1.f));
+    SpriteInfo spriteInfo;
+    BuildSpriteInfoFromResource(spriteInfo, ResourceType::IronOre);
+    entity->AddComponent(new SpriteComponent(spriteInfo));
     entity->AddComponent(new PositionComponent(position));
     entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Insertable));
     entity->AddComponent(new ResourceComponent(ResourceType::IronOre));
@@ -67,7 +69,9 @@ void EntityBuilder::BuildIronOre(Entity* entity, const Vector2f& position)
 void EntityBuilder::BuildIronIngot(Entity* entity, const Vector2f& position)
 {
     entity->SetName("ironIngot");
-    entity->AddComponent(new SpriteComponent(4, 15, 1.f, 1.f));
+    SpriteInfo spriteInfo;
+    BuildSpriteInfoFromResource(spriteInfo, ResourceType::IronIngot);
+    entity->AddComponent(new SpriteComponent(spriteInfo));
     entity->AddComponent(new PositionComponent(position));
     entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Insertable));
     entity->AddComponent(new ResourceComponent(ResourceType::IronIngot));
@@ -147,6 +151,23 @@ void EntityBuilder::BuildFromResource(Entity* entity, const Vector2f& position, 
     {
     case ResourceType::IronIngot:
         BuildIronIngot(entity, position);
+        return;
+    }
+
+    assert(false);
+}
+
+void EntityBuilder::BuildSpriteInfoFromResource(SpriteInfo& spriteInfo, ResourceType resourceType)
+{
+    switch (resourceType)
+    {
+    case ResourceType::IronOre:
+        spriteInfo.m_SpriteSheetX = 0;
+        spriteInfo.m_SpriteSheetY = 58;
+        return;
+    case ResourceType::IronIngot:
+        spriteInfo.m_SpriteSheetX = 4;
+        spriteInfo.m_SpriteSheetY = 15;
         return;
     }
 

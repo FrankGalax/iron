@@ -18,6 +18,7 @@ public:
 	sf::Sprite& GetBorderBottom() { return m_BorderBottom; }
 	sf::Sprite& GetBorderBottomRight() { return m_BorderBottomRight; }
 	sf::Sprite& GetInventoryBackground() { return m_InventoryBackground; }
+	std::vector<sf::Sprite*>& GetInventorySprites() { return m_InventorySprites; }
 
 private:
 	sf::Sprite m_BorderRight;
@@ -29,6 +30,7 @@ private:
 	sf::Sprite m_BorderBottom;
 	sf::Sprite m_BorderBottomRight;
 	sf::Sprite m_InventoryBackground;
+	std::vector<sf::Sprite*> m_InventorySprites;
 };
 
 ironEND_NAMESPACE

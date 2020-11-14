@@ -1,4 +1,5 @@
 #include <ecs/world.h>
+#include <ecs/component.h>
 #include <ecs/entity.h>
 #include <ecs/system.h>
 #include <graphics/animationsystem.h>
@@ -80,6 +81,11 @@ void World::ResetEntity(Entity* entity)
     m_PendingResetEntities.push_back(entity);
 }
 
+void World::RemoveComponent(Component* component)
+{
+    m_PendingRemoveComponents.push_back(component);
+}
+
 void World::UnregisterEntity(Entity* entity)
 {
     for (System* system : m_UpdateSystems)
@@ -95,6 +101,22 @@ void World::UnregisterEntity(Entity* entity)
 
 void World::Update(float deltaTime)
 {
+    for (Component* pendingComponent : m_PendingRemoveComponents)
+    {
+        std::vector<Component*>& components = pendingComponent->GetOwner()->GetComponents();
+        for (int i = 0; i < components.size(); ++i)
+        {
+            if (components[i] == pendingComponent)
+            {
+                components[i] = components[components.size() - 1];
+                components.pop_back();
+                delete pendingComponent;
+                continue;
+            }
+        }
+    }
+    m_PendingRemoveComponents.clear();
+
     for (Entity* pendingEntity : m_PendingRemoveEntities)
     {
         for (int i = 0; i < m_Entities.size(); ++i)

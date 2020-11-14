@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iron.h>
+#include <graphics/spriteinfo.h>
 #include <math/vector.h>
 #include <item/itemenum.h>
 
@@ -22,6 +23,7 @@ public:
     static void BuildChest(Entity* entity, const Vector2f& position);
 
     static void BuildFromResource(Entity* entity, const Vector2f& position, ResourceType resourceType);
+    static void BuildSpriteInfoFromResource(SpriteInfo& spriteInfo, ResourceType resourceType);
 };
 
 ironEND_NAMESPACE

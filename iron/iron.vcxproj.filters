@@ -176,5 +176,8 @@
     <ClInclude Include="src\graphics\uicomponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\graphics\spriteinfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

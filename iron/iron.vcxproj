@@ -158,6 +158,7 @@
     <ClInclude Include="src\graphics\animationsystem.h" />
     <ClInclude Include="src\graphics\sfmlspritecomponent.h" />
     <ClInclude Include="src\graphics\spritecomponent.h" />
+    <ClInclude Include="src\graphics\spriteinfo.h" />
     <ClInclude Include="src\graphics\spriterendersystem.h" />
     <ClInclude Include="src\graphics\spritesheetmanager.h" />
     <ClInclude Include="src\graphics\uicomponent.h" />

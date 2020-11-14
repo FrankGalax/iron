@@ -6,10 +6,11 @@
 ironBEGIN_NAMESPACE
 
 class InputComponent;
+class UIComponent;
 
 class InputSystem : public System
 {
-	IRON_SYSTEM_DECLARE_1(InputSystemTuple, InputComponent);
+	IRON_SYSTEM_DECLARE_2(InputSystemTuple, InputComponent, UIComponent);
 
 	virtual void Update(float deltaTime) override;
 };

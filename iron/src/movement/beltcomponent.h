@@ -16,7 +16,7 @@ public:
     void SetDirection(const Vector2f& direction) { m_Direction = direction; }
 
 private:
-    BeltComponent* m_NextBelt;
+    BeltComponent* m_NextBelt = nullptr;
     float m_Speed = 1.f;
     Vector2f m_Direction = Vector2f(1.f, 0.f);
 };

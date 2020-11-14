@@ -9,6 +9,7 @@ ironBEGIN_NAMESPACE
 class Entity;
 class System;
 class Window;
+class Component;
 
 class World
 {
@@ -22,6 +23,7 @@ public:
     void UnregisterEntity(Entity* entity);
     void RemoveEntity(Entity* entity);
     void ResetEntity(Entity* entity);
+    void RemoveComponent(Component* component);
 
     void Update(float deltaTime);
     void Render(Window* window);
@@ -36,6 +38,7 @@ private:
     std::vector<Entity*> m_PendingAddEntities;
     std::vector<Entity*> m_PendingRemoveEntities;
     std::vector<Entity*> m_PendingResetEntities;
+    std::vector<Component*> m_PendingRemoveComponents;
     std::vector<System*> m_UpdateSystems;
     std::vector<System*> m_RenderSystems;
     int m_NextEntityId = 0;

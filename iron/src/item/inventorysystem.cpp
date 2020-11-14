@@ -32,6 +32,7 @@ void InventorySystem::Update(float deltaTime)
                 }
             }
 
+            tuple.m_InventoryComponent->SetIsDirtyForUI(true);
             pendingAddItems.clear();
         }
 
@@ -67,6 +68,7 @@ void InventorySystem::Update(float deltaTime)
                 }
             }
 
+            tuple.m_InventoryComponent->SetIsDirtyForUI(true);
             pendingRemoveItems.clear();
         }
     }
