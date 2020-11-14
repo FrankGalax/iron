@@ -21,6 +21,10 @@ void InitEntities(World& world, const Window& window)
     EntityBuilder::BuildInputEntity(inputEntity, &window);
     world.RegisterEntity(inputEntity);
 
+    Entity* uiEntity = world.CreateEntity();
+    EntityBuilder::BuildUIEntity(uiEntity);
+    world.RegisterEntity(uiEntity);
+
     Entity* ironOre = world.CreateEntity();
     EntityBuilder::BuildIronOre(ironOre, Vector2f(0.f, 0.f));
     world.RegisterEntity(ironOre);

@@ -19,8 +19,28 @@ Entity::~Entity()
 
 void Entity::AddComponent(Component* component)
 {
-    component->SetOwner(this);
-    m_Components.push_back(component);
+    if (component != nullptr)
+    {
+        component->SetOwner(this);
+        m_Components.push_back(component);
+    }
+}
+
+void Entity::RemoveComponent(Component* component)
+{
+    if (component != nullptr)
+    {
+        for (int i = 0 ; i < m_Components.size() ; ++i)
+        {
+            if (m_Components[i] == component)
+            {
+                m_Components[i] = m_Components[m_Components.size() - 1];
+                m_Components.pop_back();
+                delete component;
+                return;
+            }
+        }
+    }
 }
 
 void Entity::ResetComponentCaches()

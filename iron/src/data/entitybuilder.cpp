@@ -2,6 +2,7 @@
 #include <ecs/entity.h>
 #include <graphics/spritecomponent.h>
 #include <graphics/animationcomponent.h>
+#include <graphics/uicomponent.h>
 #include <movement/beltcomponent.h>
 #include <input/inputcomponent.h>
 #include <item/craftercomponent.h>
@@ -17,6 +18,12 @@ void EntityBuilder::BuildInputEntity(Entity* entity, const Window* window)
 {
     entity->SetName("input");
     entity->AddComponent(new InputComponent(window));
+}
+
+void EntityBuilder::BuildUIEntity(Entity* entity)
+{
+    entity->SetName("ui");
+    entity->AddComponent(new UIComponent());
 }
 
 void EntityBuilder::BuildFurnace(Entity* entity, const Vector2f& position)

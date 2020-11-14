@@ -1,5 +1,7 @@
 #include <input/inputsystem.h>
+#include <ecs/world.h>
 #include <graphics/window.h>
+#include <input/clickedcomponent.h>
 #include <input/inputcomponent.h>
 #include <math/vector.h>
 #include <SFML/Window.hpp>
@@ -24,7 +26,25 @@ void InputSystem::Update(float deltaTime)
 			{
 				Vector2f position(sfPosition.x / (GRID_SIZE * RENDER_SCALE), sfPosition.y / (GRID_SIZE * RENDER_SCALE));
 
-				tuple.m_InputComponent->SetClickedEntity(Utils::GetEntityAtPosition(tuple.m_Entity->GetWorld(), position));
+				Entity* clickedEntity = Utils::GetEntityAtPosition(tuple.m_Entity->GetWorld(), position);
+				Entity* oldClickedEntity = tuple.m_InputComponent->GetClickedEntity();
+
+				if (clickedEntity != oldClickedEntity)
+				{
+					if (oldClickedEntity != nullptr)
+					{
+						oldClickedEntity->RemoveComponent(oldClickedEntity->GetComponent<ClickedComponent>());
+						oldClickedEntity->GetWorld()->ResetEntity(oldClickedEntity);
+					}
+
+					tuple.m_InputComponent->SetClickedEntity(clickedEntity);
+
+					if (clickedEntity != nullptr)
+					{
+						clickedEntity->AddComponent(new ClickedComponent());
+						clickedEntity->GetWorld()->ResetEntity(clickedEntity);
+					}
+				}
 			}
 		}
 

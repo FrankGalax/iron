@@ -3,6 +3,7 @@
 #include <ecs/system.h>
 #include <graphics/animationsystem.h>
 #include <graphics/spriterendersystem.h>
+#include <graphics/uisystem.h>
 #include <graphics/window.h>
 #include <input/inputsystem.h>
 #include <item/craftingsystem.h>
@@ -39,6 +40,7 @@ void World::CreateSystems()
     m_UpdateSystems.push_back(new BeltSystem());
     m_UpdateSystems.push_back(new AnimationSystem());
     m_RenderSystems.push_back(new SpriteRenderSystem());
+    m_RenderSystems.push_back(new UISystem());
 }
 
 Entity* World::CreateEntity()
@@ -71,6 +73,11 @@ void World::AddEntity(Entity* entity)
 void World::RemoveEntity(Entity* entity)
 {
     m_PendingRemoveEntities.push_back(entity);
+}
+
+void World::ResetEntity(Entity* entity)
+{
+    m_PendingResetEntities.push_back(entity);
 }
 
 void World::UnregisterEntity(Entity* entity)
@@ -109,6 +116,13 @@ void World::Update(float deltaTime)
         RegisterEntity(pendingEntity);
     }
     m_PendingAddEntities.clear();
+
+    for (Entity* pendingEntity : m_PendingResetEntities)
+    {
+        UnregisterEntity(pendingEntity);
+        RegisterEntity(pendingEntity);
+    }
+    m_PendingResetEntities.clear();
 
     for (System* system : m_UpdateSystems)
     {

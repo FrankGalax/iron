@@ -135,6 +135,7 @@
     <ClCompile Include="src\graphics\animationsystem.cpp" />
     <ClCompile Include="src\graphics\spriterendersystem.cpp" />
     <ClCompile Include="src\graphics\spritesheetmanager.cpp" />
+    <ClCompile Include="src\graphics\uisystem.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
     <ClCompile Include="src\input\inputsystem.cpp" />
     <ClCompile Include="src\movement\beltsystem.cpp" />
@@ -159,7 +160,10 @@
     <ClInclude Include="src\graphics\spritecomponent.h" />
     <ClInclude Include="src\graphics\spriterendersystem.h" />
     <ClInclude Include="src\graphics\spritesheetmanager.h" />
+    <ClInclude Include="src\graphics\uicomponent.h" />
+    <ClInclude Include="src\graphics\uisystem.h" />
     <ClInclude Include="src\graphics\window.h" />
+    <ClInclude Include="src\input\clickedcomponent.h" />
     <ClInclude Include="src\input\inputcomponent.h" />
     <ClInclude Include="src\input\inputsystem.h" />
     <ClInclude Include="src\movement\beltcomponent.h" />

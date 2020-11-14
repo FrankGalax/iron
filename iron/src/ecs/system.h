@@ -33,7 +33,7 @@ class Window;
         }; \
         std::vector<tupleClass> m_Tuples; \
     public:
-
+    
 #define IRON_SYSTEM_DECLARE_3(tupleClass, component1Class, component2Class, component3Class) \
     virtual void RegisterEntity(Entity* entity) override; \
     virtual void UnregisterEntity(Entity* entity) override; \
@@ -113,6 +113,20 @@ class Window;
         if (component1 == nullptr) return; \
         component2Class* component2 = entity->GetComponent<component2Class>(); \
         if (component2 == nullptr) return; \
+        tupleClass tuple; \
+        tuple.m_Entity = entity; \
+        tuple.m_##component1Class = component1; \
+        tuple.m_##component2Class = component2; \
+        m_Tuples.push_back(tuple); \
+    } \
+    IRON_SYSTEM_IMPLEMENT_COMMON(systemClass, tupleClass)
+
+#define IRON_SYSTEM_IMPLEMENT_OR_2(systemClass, tupleClass, component1Class, component2Class) \
+    void systemClass::RegisterEntity(Entity* entity) \
+    { \
+        component1Class* component1 = entity->GetComponent<component1Class>(); \
+        component2Class* component2 = entity->GetComponent<component2Class>(); \
+        if (component1 == nullptr && component2 == nullptr) return; \
         tupleClass tuple; \
         tuple.m_Entity = entity; \
         tuple.m_##component1Class = component1; \
