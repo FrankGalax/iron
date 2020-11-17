@@ -12,26 +12,20 @@
 
 ironBEGIN_NAMESPACE
 
-IRON_SYSTEM_IMPLEMENT_OR_2(InputSystem, InputSystemTuple, InputComponent, UIComponent);
+IRON_SYSTEM_IMPLEMENT_1(InputSystem, InputSystemTuple, InputComponent);
 
 void InputSystem::Update(float deltaTime)
 {
 	InputComponent* inputComponent = nullptr;
-	UIComponent* uiComponent = nullptr;
 	for (InputSystemTuple& tuple : m_Tuples)
 	{
 		if (tuple.m_InputComponent != nullptr)
 		{
 			inputComponent = tuple.m_InputComponent;
 		}
-		if (tuple.m_UIComponent != nullptr)
-		{
-			uiComponent = tuple.m_UIComponent;
-		}
 	}
 
 	assert(inputComponent != nullptr);
-	assert(uiComponent != nullptr);
 
 	const bool isLeftMouseButtonPressed = sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
 	const bool wasLeftMouseButtonPressed = inputComponent->GetIsLeftMouseButtonPressed();
@@ -44,22 +38,14 @@ void InputSystem::Update(float deltaTime)
 		{
 			Vector2f position(sfPosition.x / (GRID_SIZE * RENDER_SCALE), sfPosition.y / (GRID_SIZE * RENDER_SCALE));
 
-			Entity* clickedEntity = Utils::GetEntityAtPosition(inputComponent->GetOwner()->GetWorld(), position);
-			Entity* oldClickedEntity = inputComponent->GetClickedEntity();
-
-			if (clickedEntity != oldClickedEntity)
+			if (inputComponent->GetClickedEntity() == nullptr)
 			{
-				if (oldClickedEntity != nullptr)
-				{
-					World* world = oldClickedEntity->GetWorld();
-					world->RemoveComponent(oldClickedEntity->GetComponent<ClickedComponent>());
-					world->ResetEntity(oldClickedEntity);
-				}
-
-				inputComponent->SetClickedEntity(clickedEntity);
+				Entity* clickedEntity = Utils::GetEntityAtPosition(inputComponent->GetOwner()->GetWorld(), position);
 
 				if (clickedEntity != nullptr)
 				{
+					inputComponent->SetClickedEntity(clickedEntity);
+
 					clickedEntity->AddComponent(new ClickedComponent());
 					clickedEntity->GetWorld()->ResetEntity(clickedEntity);
 
@@ -68,16 +54,11 @@ void InputSystem::Update(float deltaTime)
 						inventoryComponent->SetIsDirtyForUI(true);
 					}
 				}
-
-				for (sf::Sprite* sprite : uiComponent->GetInventorySprites())
-				{
-					delete sprite;
-				}
-				uiComponent->GetInventorySprites().clear();
 			}
 		}
 	}
 
+	inputComponent->SetWasLeftMouseButtonPressed(wasLeftMouseButtonPressed);
 	inputComponent->SetIsLeftMouseButtonPressed(isLeftMouseButtonPressed);
 }
 

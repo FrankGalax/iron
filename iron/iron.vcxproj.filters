@@ -179,5 +179,8 @@
     <ClInclude Include="src\graphics\spriteinfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\graphics\button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -40,8 +40,10 @@ void World::CreateSystems()
     m_UpdateSystems.push_back(new InventorySystem());
     m_UpdateSystems.push_back(new BeltSystem());
     m_UpdateSystems.push_back(new AnimationSystem());
+    UISystem* uiSystem = new UISystem();
+    m_UpdateSystems.push_back(uiSystem);
     m_RenderSystems.push_back(new SpriteRenderSystem());
-    m_RenderSystems.push_back(new UISystem());
+    m_RenderSystems.push_back(uiSystem);
 }
 
 Entity* World::CreateEntity()

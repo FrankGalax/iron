@@ -156,6 +156,7 @@
     <ClInclude Include="src\ecs\world.h" />
     <ClInclude Include="src\graphics\animationcomponent.h" />
     <ClInclude Include="src\graphics\animationsystem.h" />
+    <ClInclude Include="src\graphics\button.h" />
     <ClInclude Include="src\graphics\sfmlspritecomponent.h" />
     <ClInclude Include="src\graphics\spritecomponent.h" />
     <ClInclude Include="src\graphics\spriteinfo.h" />

@@ -10,7 +10,7 @@ class UIComponent;
 
 class InputSystem : public System
 {
-	IRON_SYSTEM_DECLARE_2(InputSystemTuple, InputComponent, UIComponent);
+	IRON_SYSTEM_DECLARE_1(InputSystemTuple, InputComponent);
 
 	virtual void Update(float deltaTime) override;
 };

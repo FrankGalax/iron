@@ -15,8 +15,8 @@ class Window;
     private: \
         struct tupleClass \
         { \
-            Entity* m_Entity; \
-            component1Class* m_##component1Class; \
+            Entity* m_Entity = nullptr; \
+            component1Class* m_##component1Class = nullptr; \
         }; \
         std::vector<tupleClass> m_Tuples; \
     public:
@@ -27,7 +27,7 @@ class Window;
     private: \
         struct tupleClass \
         { \
-            Entity* m_Entity; \
+            Entity* m_Entity = nullptr; \
             component1Class* m_##component1Class = nullptr; \
             component2Class* m_##component2Class = nullptr; \
         }; \
@@ -40,7 +40,7 @@ class Window;
     private: \
         struct tupleClass \
         { \
-            Entity* m_Entity; \
+            Entity* m_Entity = nullptr; \
             component1Class* m_##component1Class = nullptr; \
             component2Class* m_##component2Class = nullptr; \
             component3Class* m_##component3Class = nullptr; \
@@ -54,7 +54,7 @@ class Window;
     private: \
         struct tupleClass \
         { \
-            Entity* m_Entity; \
+            Entity* m_Entity = nullptr; \
             component1Class* m_##component1Class = nullptr; \
             component2Class* m_##component2Class = nullptr; \
             component3Class* m_##component3Class = nullptr; \
@@ -69,7 +69,7 @@ class Window;
     private: \
         struct tupleClass \
         { \
-            Entity* m_Entity; \
+            Entity* m_Entity = nullptr; \
             component1Class* m_##component1Class = nullptr; \
             component2Class* m_##component2Class = nullptr; \
             component3Class* m_##component3Class = nullptr; \
@@ -143,6 +143,22 @@ class Window;
         component2Class* component2 = entity->GetComponent<component2Class>(); \
         if (component2 == nullptr) return; \
         component3Class* component3 = entity->GetComponent<component3Class>(); \
+        tupleClass tuple; \
+        tuple.m_Entity = entity; \
+        tuple.m_##component1Class = component1; \
+        tuple.m_##component2Class = component2; \
+        tuple.m_##component3Class = component3; \
+        m_Tuples.push_back(tuple); \
+    } \
+    IRON_SYSTEM_IMPLEMENT_COMMON(systemClass, tupleClass)
+
+#define IRON_SYSTEM_IMPLEMENT_OR_3(systemClass, tupleClass, component1Class, component2Class, component3Class) \
+    void systemClass::RegisterEntity(Entity* entity) \
+    { \
+        component1Class* component1 = entity->GetComponent<component1Class>(); \
+        component2Class* component2 = entity->GetComponent<component2Class>(); \
+        component3Class* component3 = entity->GetComponent<component3Class>(); \
+        if (component1 == nullptr && component2 == nullptr && component3 == nullptr) return; \
         tupleClass tuple; \
         tuple.m_Entity = entity; \
         tuple.m_##component1Class = component1; \
