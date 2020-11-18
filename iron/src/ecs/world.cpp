@@ -4,7 +4,8 @@
 #include <ecs/system.h>
 #include <graphics/animationsystem.h>
 #include <graphics/spriterendersystem.h>
-#include <graphics/uisystem.h>
+#include <ui/uirendersystem.h>
+#include <ui/uitextrendersystem.h>
 #include <graphics/window.h>
 #include <input/inputsystem.h>
 #include <item/craftingsystem.h>
@@ -40,10 +41,9 @@ void World::CreateSystems()
     m_UpdateSystems.push_back(new InventorySystem());
     m_UpdateSystems.push_back(new BeltSystem());
     m_UpdateSystems.push_back(new AnimationSystem());
-    UISystem* uiSystem = new UISystem();
-    m_UpdateSystems.push_back(uiSystem);
     m_RenderSystems.push_back(new SpriteRenderSystem());
-    m_RenderSystems.push_back(uiSystem);
+    m_RenderSystems.push_back(new UIRenderSystem());
+    m_RenderSystems.push_back(new UITextRenderSystem());
 }
 
 Entity* World::CreateEntity()
@@ -78,16 +78,6 @@ void World::RemoveEntity(Entity* entity)
     m_PendingRemoveEntities.push_back(entity);
 }
 
-void World::ResetEntity(Entity* entity)
-{
-    m_PendingResetEntities.push_back(entity);
-}
-
-void World::RemoveComponent(Component* component)
-{
-    m_PendingRemoveComponents.push_back(component);
-}
-
 void World::UnregisterEntity(Entity* entity)
 {
     for (System* system : m_UpdateSystems)
@@ -103,22 +93,6 @@ void World::UnregisterEntity(Entity* entity)
 
 void World::Update(float deltaTime)
 {
-    for (Component* pendingComponent : m_PendingRemoveComponents)
-    {
-        std::vector<Component*>& components = pendingComponent->GetOwner()->GetComponents();
-        for (int i = 0; i < components.size(); ++i)
-        {
-            if (components[i] == pendingComponent)
-            {
-                components[i] = components[components.size() - 1];
-                components.pop_back();
-                delete pendingComponent;
-                continue;
-            }
-        }
-    }
-    m_PendingRemoveComponents.clear();
-
     for (Entity* pendingEntity : m_PendingRemoveEntities)
     {
         for (int i = 0; i < m_Entities.size(); ++i)
@@ -140,13 +114,6 @@ void World::Update(float deltaTime)
         RegisterEntity(pendingEntity);
     }
     m_PendingAddEntities.clear();
-
-    for (Entity* pendingEntity : m_PendingResetEntities)
-    {
-        UnregisterEntity(pendingEntity);
-        RegisterEntity(pendingEntity);
-    }
-    m_PendingResetEntities.clear();
 
     for (System* system : m_UpdateSystems)
     {

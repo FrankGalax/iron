@@ -135,7 +135,7 @@
     <ClCompile Include="src\graphics\animationsystem.cpp" />
     <ClCompile Include="src\graphics\spriterendersystem.cpp" />
     <ClCompile Include="src\graphics\spritesheetmanager.cpp" />
-    <ClCompile Include="src\graphics\uisystem.cpp" />
+    <ClCompile Include="src\ui\uirendersystem.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
     <ClCompile Include="src\input\inputsystem.cpp" />
     <ClCompile Include="src\movement\beltsystem.cpp" />
@@ -144,6 +144,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\math\vector.cpp" />
     <ClCompile Include="src\movement\insertersystem.cpp" />
+    <ClCompile Include="src\ui\uitextrendersystem.cpp" />
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -156,16 +157,17 @@
     <ClInclude Include="src\ecs\world.h" />
     <ClInclude Include="src\graphics\animationcomponent.h" />
     <ClInclude Include="src\graphics\animationsystem.h" />
-    <ClInclude Include="src\graphics\button.h" />
+    <ClInclude Include="src\ui\button.h" />
     <ClInclude Include="src\graphics\sfmlspritecomponent.h" />
     <ClInclude Include="src\graphics\spritecomponent.h" />
     <ClInclude Include="src\graphics\spriteinfo.h" />
     <ClInclude Include="src\graphics\spriterendersystem.h" />
     <ClInclude Include="src\graphics\spritesheetmanager.h" />
-    <ClInclude Include="src\graphics\uicomponent.h" />
-    <ClInclude Include="src\graphics\uisystem.h" />
+    <ClInclude Include="src\ui\uibuttoncomponent.h" />
+    <ClInclude Include="src\ui\uirendersystem.h" />
+    <ClInclude Include="src\ui\uispritecomponent.h" />
+    <ClInclude Include="src\ui\uitextcomponent.h" />
     <ClInclude Include="src\graphics\window.h" />
-    <ClInclude Include="src\input\clickedcomponent.h" />
     <ClInclude Include="src\input\inputcomponent.h" />
     <ClInclude Include="src\input\inputsystem.h" />
     <ClInclude Include="src\movement\beltcomponent.h" />
@@ -179,6 +181,7 @@
     <ClInclude Include="src\item\recipe.h" />
     <ClInclude Include="src\item\resourcecomponent.h" />
     <ClInclude Include="src\movement\onbeltcomponent.h" />
+    <ClInclude Include="src\ui\uitextrendersystem.h" />
     <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\iron.h" />
     <ClInclude Include="src\math\vector.h" />

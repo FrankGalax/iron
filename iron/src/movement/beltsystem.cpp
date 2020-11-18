@@ -18,10 +18,14 @@ void BeltSystem::Update(float deltaTime)
         {
             Vector2f& position = tuple.m_PositionComponent->GetPosition();
 
-            if (belt->GetNextBelt() == nullptr &&
-                Utils::GetEntityAtPosition(belt->GetOwner()->GetWorld(), position + belt->GetDirection()) != nullptr)
+            if (belt->GetNextBelt() == nullptr)
             {
-                return;
+                std::vector<Entity*> entities;
+                Utils::GetEntitiesAtPosition(belt->GetOwner()->GetWorld(), position + belt->GetDirection(), entities);
+                if (!entities.empty())
+                {
+                    return;
+                }
             }
 
             position += belt->GetDirection() * belt->GetSpeed() * deltaTime;

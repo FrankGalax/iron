@@ -10,6 +10,7 @@ struct SpriteInfo
 	int m_SpriteSheetY = 0;
 	float m_ScaleX = 1.f;
 	float m_ScaleY = 1.f;
+	int m_Priority = 0;
 };
 
 ironEND_NAMESPACE

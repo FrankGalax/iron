@@ -16,7 +16,7 @@ public:
     void SetOwner(Entity* owner) { m_Owner = owner; }
 
 private:
-    Entity* m_Owner;
+    Entity* m_Owner = nullptr;
 };
 
 ironEND_NAMESPACE

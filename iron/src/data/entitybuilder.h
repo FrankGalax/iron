@@ -14,7 +14,6 @@ class EntityBuilder
 {
 public:
     static void BuildInputEntity(Entity* entity, const Window* window);
-    static void BuildUIEntity(Entity* entity);
     static void BuildFurnace(Entity* entity, const Vector2f& position);
     static void BuildInserter(Entity* entity, const Vector2f& position);
     static void BuildIronOre(Entity* entity, const Vector2f& position);

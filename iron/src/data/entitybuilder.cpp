@@ -2,7 +2,6 @@
 #include <ecs/entity.h>
 #include <graphics/spritecomponent.h>
 #include <graphics/animationcomponent.h>
-#include <graphics/uicomponent.h>
 #include <movement/beltcomponent.h>
 #include <input/inputcomponent.h>
 #include <item/craftercomponent.h>
@@ -18,12 +17,6 @@ void EntityBuilder::BuildInputEntity(Entity* entity, const Window* window)
 {
     entity->SetName("input");
     entity->AddComponent(new InputComponent(window));
-}
-
-void EntityBuilder::BuildUIEntity(Entity* entity)
-{
-    entity->SetName("ui");
-    entity->AddComponent(new UIComponent());
 }
 
 void EntityBuilder::BuildFurnace(Entity* entity, const Vector2f& position)
@@ -164,10 +157,12 @@ void EntityBuilder::BuildSpriteInfoFromResource(SpriteInfo& spriteInfo, Resource
     case ResourceType::IronOre:
         spriteInfo.m_SpriteSheetX = 0;
         spriteInfo.m_SpriteSheetY = 58;
+        spriteInfo.m_Priority = 5;
         return;
     case ResourceType::IronIngot:
         spriteInfo.m_SpriteSheetX = 4;
         spriteInfo.m_SpriteSheetY = 15;
+        spriteInfo.m_Priority = 5;
         return;
     }
 

@@ -121,20 +121,6 @@ class Window;
     } \
     IRON_SYSTEM_IMPLEMENT_COMMON(systemClass, tupleClass)
 
-#define IRON_SYSTEM_IMPLEMENT_OR_2(systemClass, tupleClass, component1Class, component2Class) \
-    void systemClass::RegisterEntity(Entity* entity) \
-    { \
-        component1Class* component1 = entity->GetComponent<component1Class>(); \
-        component2Class* component2 = entity->GetComponent<component2Class>(); \
-        if (component1 == nullptr && component2 == nullptr) return; \
-        tupleClass tuple; \
-        tuple.m_Entity = entity; \
-        tuple.m_##component1Class = component1; \
-        tuple.m_##component2Class = component2; \
-        m_Tuples.push_back(tuple); \
-    } \
-    IRON_SYSTEM_IMPLEMENT_COMMON(systemClass, tupleClass)
-
 #define IRON_SYSTEM_IMPLEMENT_2_1(systemClass, tupleClass, component1Class, component2Class, component3Class) \
     void systemClass::RegisterEntity(Entity* entity) \
     { \
@@ -143,22 +129,6 @@ class Window;
         component2Class* component2 = entity->GetComponent<component2Class>(); \
         if (component2 == nullptr) return; \
         component3Class* component3 = entity->GetComponent<component3Class>(); \
-        tupleClass tuple; \
-        tuple.m_Entity = entity; \
-        tuple.m_##component1Class = component1; \
-        tuple.m_##component2Class = component2; \
-        tuple.m_##component3Class = component3; \
-        m_Tuples.push_back(tuple); \
-    } \
-    IRON_SYSTEM_IMPLEMENT_COMMON(systemClass, tupleClass)
-
-#define IRON_SYSTEM_IMPLEMENT_OR_3(systemClass, tupleClass, component1Class, component2Class, component3Class) \
-    void systemClass::RegisterEntity(Entity* entity) \
-    { \
-        component1Class* component1 = entity->GetComponent<component1Class>(); \
-        component2Class* component2 = entity->GetComponent<component2Class>(); \
-        component3Class* component3 = entity->GetComponent<component3Class>(); \
-        if (component1 == nullptr && component2 == nullptr && component3 == nullptr) return; \
         tupleClass tuple; \
         tuple.m_Entity = entity; \
         tuple.m_##component1Class = component1; \

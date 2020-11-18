@@ -41,7 +41,7 @@ const char* Utils::GetRessourceName(ResourceType resourceType)
     return "";
 }
 
-Entity* Utils::GetEntityAtPosition(const World* world, const Vector2f& position)
+void Utils::GetEntitiesAtPosition(const World* world, const Vector2f& position, std::vector<Entity*>& entities)
 {
     if (world != nullptr)
     {
@@ -51,13 +51,11 @@ Entity* Utils::GetEntityAtPosition(const World* world, const Vector2f& position)
             {
                 if (IsColliding(positionComponent, position))
                 {
-                    return entity;
+                    entities.push_back(entity);
                 }
             }
         }
     }
-    
-    return nullptr;
 }
 
 ironEND_NAMESPACE
