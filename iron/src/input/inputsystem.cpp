@@ -7,6 +7,7 @@
 #include <ui/uitextcomponent.h>
 #include <graphics/window.h>
 #include <input/inputcomponent.h>
+#include <item/craftercomponent.h>
 #include <item/inventorycomponent.h>
 #include <math/vector.h>
 #include <movement/positioncomponent.h>
@@ -38,16 +39,13 @@ void InputSystem::Update(float deltaTime)
 		{
 			if (inventoryComponent->GetIsDirtyForUI())
 			{
-				float topLeftX;
-				float topLeftY;
-				int sizeX;
-				int sizeY;
-				GetUICoordonates(inputComponent, topLeftX, topLeftY, sizeX, sizeY);
-				RemoveUI(inventoryComponent->GetOwner()->GetWorld());
-				AddTitleUI(inventoryComponent->GetOwner(), topLeftX, topLeftY, sizeX, sizeY);
-				AddInventoryUI(inventoryComponent, topLeftX, topLeftY, sizeX, sizeY);
-
 				inventoryComponent->SetIsDirtyForUI(false);
+
+				CrafterComponent* crafterComponent = currentClickedEntity->GetComponent<CrafterComponent>();
+
+				World* world = inventoryComponent->GetOwner()->GetWorld();
+				RemoveUI(world);
+				AddEntityUI(world, inputComponent, inventoryComponent, crafterComponent);
 			}
 		}
 	}
@@ -87,19 +85,14 @@ void InputSystem::Update(float deltaTime)
 					}
 					else if (currentClickedEntity == nullptr)
 					{
-						float topLeftX;
-						float topLeftY;
-						int sizeX;
-						int sizeY;
-						GetUICoordonates(inputComponent, topLeftX, topLeftY, sizeX, sizeY);
-
-						if (InventoryComponent* inventoryComponent = clickedEntity->GetComponent<InventoryComponent>())
+						if (const InventoryComponent* inventoryComponent = clickedEntity->GetComponent<InventoryComponent>())
 						{
+							const CrafterComponent* crafterComponent = clickedEntity->GetComponent<CrafterComponent>();
+
+							AddEntityUI(clickedEntity->GetWorld(), inputComponent, inventoryComponent, crafterComponent);
+
 							currentClickedEntity = clickedEntity;
 							inputComponent->SetClickedEntity(clickedEntity);
-
-							AddTitleUI(inventoryComponent->GetOwner(), topLeftX, topLeftY, sizeX, sizeY);
-							AddInventoryUI(inventoryComponent, topLeftX, topLeftY, sizeX, sizeY);
 						}
 					}
 				}
@@ -111,11 +104,9 @@ void InputSystem::Update(float deltaTime)
 	inputComponent->SetIsLeftMouseButtonPressed(isLeftMouseButtonPressed);
 }
 
-void InputSystem::GetUICoordonates(const InputComponent* inputComponent, float& topLeftX, float& topLeftY, int& sizeX, int& sizeY) const
+void InputSystem::GetUITopLeft(const InputComponent* inputComponent, int sizeX, int sizeY, float& topLeftX, float& topLeftY) const
 {
 	const sf::RenderWindow& window = inputComponent->GetWindow()->GetSFMLWindow();
-	sizeX = 10;
-	sizeY = 3;
 	const float screenSizeX = window.getSize().x / (float)(GRID_SIZE * RENDER_SCALE);
 	const float screenSizeY = window.getSize().y / (float)(GRID_SIZE * RENDER_SCALE);
 	const int fullSizeX = sizeX + 2;
@@ -124,9 +115,25 @@ void InputSystem::GetUICoordonates(const InputComponent* inputComponent, float& 
 	topLeftY = screenSizeY / 2.f - fullSizeY / 2.f;
 }
 
-void InputSystem::AddTitleUI(Entity* entity, float topLeftX, float topLeftY, int sizeX, int sizeY) const
+void InputSystem::AddEntityUI(World* world, const InputComponent* inputComponent, const InventoryComponent* inventoryComponent, const CrafterComponent* crafterComponent) const
 {
-	World* world = entity->GetWorld();
+	const int sizeX = 10;
+	const int sectionSizeY = 3;
+	const int sizeY = crafterComponent != nullptr ? sectionSizeY * 2 : sectionSizeY;
+	float topLeftX;
+	float topLeftY;
+	GetUITopLeft(inputComponent, sizeX, sizeY, topLeftX, topLeftY);
+
+	AddTitleUI(world, inventoryComponent->GetOwner(), topLeftX, topLeftY, sizeX, sizeY);
+	if (crafterComponent != nullptr)
+	{
+		AddCrafterUI(world, crafterComponent, topLeftX + 1.f, topLeftY + 1.f, sizeX, sectionSizeY);
+	}
+	AddInventoryUI(world, inventoryComponent, topLeftX + 1.f, topLeftY + 1.f + (crafterComponent != nullptr ? sectionSizeY : 0), sizeX, sectionSizeY);
+}
+
+void InputSystem::AddTitleUI(World* world, const Entity* entity, float topLeftX, float topLeftY, int sizeX, int sizeY) const
+{
 	AddUISpriteEntity(world, topLeftX, topLeftY, 24, 10, 1.f, 1.f, 1); // title top left
 	AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY, 24, 10, -1, 1.f, 1); // title top right
 
@@ -152,15 +159,28 @@ void InputSystem::AddTitleUI(Entity* entity, float topLeftX, float topLeftY, int
 	AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY, 24, 6, -1.f, 1.f, 2); // border bottom left
 }
 
-void InputSystem::AddInventoryUI(InventoryComponent* inventoryComponent, float topLeftX, float topLeftY, int sizeX, int sizeY) const
+void InputSystem::AddCrafterUI(World* world, const CrafterComponent* crafterComponent, float topLeftX, float topLeftY, int sizeX, int sizeY) const
 {
-	World* world = inventoryComponent->GetOwner()->GetWorld();
+	const float midSizeX = (sizeX - 1) / 2.f;
+	const float midSizeY = (sizeY - 1) / 2.f;
 
+	AddUISpriteEntity(world, topLeftX + midSizeX - 1.f, topLeftY + midSizeY, 24, 9, 1.f, 1.f, 0);
+	AddUISpriteEntity(world, topLeftX + midSizeX + 1.f, topLeftY + midSizeY, 24, 9, 1.f, 1.f, 0);
+
+	if (const Recipe* recipe = crafterComponent->GetActiveRecipe())
+	{
+		AddUIInventoryEntity(world, topLeftX + midSizeX - 1.f, topLeftY + midSizeY, recipe->m_RecipeIngredients[0]);
+		AddUIInventoryEntity(world, topLeftX + midSizeX + 1.f, topLeftY + midSizeY, recipe->m_Product);
+	}
+}
+
+void InputSystem::AddInventoryUI(World* world, const InventoryComponent* inventoryComponent, float topLeftX, float topLeftY, int sizeX, int sizeY) const
+{
 	for (int i = 0; i < sizeX; ++i)
 	{
 		for (int j = 0; j < sizeY; ++j)
 		{
-			AddUISpriteEntity(world, topLeftX + i + 1.f, topLeftY + j + 1.f, 24, 9, 1.f, 1.f, 0);
+			AddUISpriteEntity(world, topLeftX + i, topLeftY + j, 24, 9, 1.f, 1.f, 0);
 		}
 	}
 
@@ -169,7 +189,7 @@ void InputSystem::AddInventoryUI(InventoryComponent* inventoryComponent, float t
 	{
 		const int row = i / sizeX;
 		const int column = i % sizeX;
-		AddUIInventoryEntity(world, topLeftX + column + 1.f, topLeftY + row + 1.f, items[i]);
+		AddUIInventoryEntity(world, topLeftX + column, topLeftY + row, items[i]);
 	}
 }
 
