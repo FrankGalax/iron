@@ -142,6 +142,9 @@ void EntityBuilder::BuildFromResource(Entity* entity, const Vector2f& position, 
 {
     switch (resourceType)
     {
+    case ResourceType::IronOre:
+        BuildIronOre(entity, position);
+        return;
     case ResourceType::IronIngot:
         BuildIronIngot(entity, position);
         return;

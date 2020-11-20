@@ -157,6 +157,12 @@ int main()
     fpsText.setFillColor(sf::Color::Black);
     fpsText.setCharacterSize(15);
 
+    sf::Text entitiesText;
+    entitiesText.setFont(font);
+    entitiesText.setFillColor(sf::Color::Black);
+    entitiesText.setCharacterSize(15);
+    entitiesText.setPosition(sf::Vector2f(100, 0));
+
     while (window.IsOpen())
     {
         ProcessEvents(window);
@@ -189,6 +195,9 @@ int main()
         }
 
         window.Draw(&fpsText);
+
+        entitiesText.setString(std::to_string(world.GetEntities().size()));
+        window.Draw(&entitiesText);
 
         window.Display();
     }

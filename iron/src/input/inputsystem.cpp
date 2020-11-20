@@ -31,9 +31,6 @@ void InputSystem::Update(float deltaTime)
 
 	assert(inputComponent != nullptr);
 
-	const bool isLeftMouseButtonPressed = sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
-	const bool wasLeftMouseButtonPressed = inputComponent->GetIsLeftMouseButtonPressed();
-
 	Entity* currentClickedEntity = inputComponent->GetClickedEntity();
 	if (currentClickedEntity != nullptr)
 	{
@@ -41,13 +38,22 @@ void InputSystem::Update(float deltaTime)
 		{
 			if (inventoryComponent->GetIsDirtyForUI())
 			{
-				RemoveInventoryUI(inventoryComponent->GetOwner()->GetWorld());
-				AddInventoryUI(inventoryComponent, inputComponent->GetWindow());
+				float topLeftX;
+				float topLeftY;
+				int sizeX;
+				int sizeY;
+				GetUICoordonates(inputComponent, topLeftX, topLeftY, sizeX, sizeY);
+				RemoveUI(inventoryComponent->GetOwner()->GetWorld());
+				AddTitleUI(inventoryComponent->GetOwner(), topLeftX, topLeftY, sizeX, sizeY);
+				AddInventoryUI(inventoryComponent, topLeftX, topLeftY, sizeX, sizeY);
 
 				inventoryComponent->SetIsDirtyForUI(false);
 			}
 		}
 	}
+
+	const bool isLeftMouseButtonPressed = sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
+	const bool wasLeftMouseButtonPressed = inputComponent->GetIsLeftMouseButtonPressed();
 
 	if (isLeftMouseButtonPressed && !wasLeftMouseButtonPressed)
 	{
@@ -59,24 +65,42 @@ void InputSystem::Update(float deltaTime)
 
 			std::vector<Entity*> clickedEntities;
 			Utils::GetEntitiesAtPosition(inputComponent->GetOwner()->GetWorld(), position, clickedEntities);
-			for (Entity* clickedEntity : clickedEntities)
+			if (clickedEntities.empty())
 			{
-				if (UIButtonComponent* uiButtonComponent = clickedEntity->GetComponent<UIButtonComponent>())
+				Vector2f gridPosition(floor(position.GetX()), floor(position.GetY()));
+				World* world = inputComponent->GetOwner()->GetWorld();
+				Entity* entity = world->CreateEntity();
+				EntityBuilder::BuildFromResource(entity, gridPosition, ResourceType::IronOre);
+				world->RegisterEntity(entity);
+			}
+			else
+			{
+				for (Entity* clickedEntity : clickedEntities)
 				{
-					if (uiButtonComponent->GetButtonType() == ButtonType::X)
+					if (UIButtonComponent* uiButtonComponent = clickedEntity->GetComponent<UIButtonComponent>())
 					{
-						RemoveInventoryUI(clickedEntity->GetWorld());
-						inputComponent->SetClickedEntity(nullptr);
+						if (uiButtonComponent->GetButtonType() == ButtonType::X)
+						{
+							RemoveUI(clickedEntity->GetWorld());
+							inputComponent->SetClickedEntity(nullptr);
+						}
 					}
-				}
-				else if (currentClickedEntity == nullptr)
-				{
-					if (InventoryComponent* inventoryComponent = clickedEntity->GetComponent<InventoryComponent>())
+					else if (currentClickedEntity == nullptr)
 					{
-						currentClickedEntity = clickedEntity;
-						inputComponent->SetClickedEntity(clickedEntity);
+						float topLeftX;
+						float topLeftY;
+						int sizeX;
+						int sizeY;
+						GetUICoordonates(inputComponent, topLeftX, topLeftY, sizeX, sizeY);
 
-						AddInventoryUI(inventoryComponent, inputComponent->GetWindow());
+						if (InventoryComponent* inventoryComponent = clickedEntity->GetComponent<InventoryComponent>())
+						{
+							currentClickedEntity = clickedEntity;
+							inputComponent->SetClickedEntity(clickedEntity);
+
+							AddTitleUI(inventoryComponent->GetOwner(), topLeftX, topLeftY, sizeX, sizeY);
+							AddInventoryUI(inventoryComponent, topLeftX, topLeftY, sizeX, sizeY);
+						}
 					}
 				}
 			}
@@ -87,41 +111,50 @@ void InputSystem::Update(float deltaTime)
 	inputComponent->SetIsLeftMouseButtonPressed(isLeftMouseButtonPressed);
 }
 
-void InputSystem::AddInventoryUI(InventoryComponent* inventoryComponent, const Window* window) const
+void InputSystem::GetUICoordonates(const InputComponent* inputComponent, float& topLeftX, float& topLeftY, int& sizeX, int& sizeY) const
 {
-	const int sizeX = 10;
-	const int sizeY = 3;
-	const float screenSizeX = window->GetSFMLWindow().getSize().x / (float)(GRID_SIZE * RENDER_SCALE);
-	const float screenSizeY = window->GetSFMLWindow().getSize().y / (float)(GRID_SIZE * RENDER_SCALE);
+	const sf::RenderWindow& window = inputComponent->GetWindow()->GetSFMLWindow();
+	sizeX = 10;
+	sizeY = 3;
+	const float screenSizeX = window.getSize().x / (float)(GRID_SIZE * RENDER_SCALE);
+	const float screenSizeY = window.getSize().y / (float)(GRID_SIZE * RENDER_SCALE);
 	const int fullSizeX = sizeX + 2;
 	const int fullSizeY = sizeY + 2;
-	const float topLeftX = screenSizeX / 2.f - fullSizeX / 2.f;
-	const float topLeftY = screenSizeY / 2.f - fullSizeY / 2.f;
+	topLeftX = screenSizeX / 2.f - fullSizeX / 2.f;
+	topLeftY = screenSizeY / 2.f - fullSizeY / 2.f;
+}
 
-	World* world = inventoryComponent->GetOwner()->GetWorld();
-	AddUISpriteEntity(world, topLeftX, topLeftY, 24, 10, 1.f, 1.f, 1);
-	AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY, 24, 10, -1, 1.f, 1);
+void InputSystem::AddTitleUI(Entity* entity, float topLeftX, float topLeftY, int sizeX, int sizeY) const
+{
+	World* world = entity->GetWorld();
+	AddUISpriteEntity(world, topLeftX, topLeftY, 24, 10, 1.f, 1.f, 1); // title top left
+	AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY, 24, 10, -1, 1.f, 1); // title top right
 
 	for (float i = 0; i < sizeX; i += 1.f)
 	{
-		AddUISpriteEntity(world, topLeftX + i + 1.f, topLeftY, 24, 11, 1.f, 1.f, 0);
-		AddUISpriteEntity(world, topLeftX + i + 1.f, topLeftY, 24, 8, 1.f, 1.f, 1);
-		AddUISpriteEntity(world, topLeftX + i + 1.f, topLeftY + sizeY + 2.f, 24, 8, 1.f, -1.f, 0);
+		AddUISpriteEntity(world, topLeftX + i + 1.f, topLeftY, 24, 11, 1.f, 1.f, 0); // title top
+		AddUISpriteEntity(world, topLeftX + i + 1.f, topLeftY, 24, 8, 1.f, 1.f, 1); // border top
+		AddUISpriteEntity(world, topLeftX + i + 1.f, topLeftY + sizeY + 2.f, 24, 8, 1.f, -1.f, 0); // border bottom
 	}
 
-	AddUITextEntity(world, topLeftX + 1.f, topLeftY + 0.1f, inventoryComponent->GetOwner()->GetName(), sf::Color::Black, 20);
+	AddUITextEntity(world, topLeftX + 1.f, topLeftY + 0.1f, entity->GetName(), sf::Color::Black, 20);
 	AddUIButtonEntity(world, topLeftX + sizeX, topLeftY, ButtonType::X);
 
 	for (float i = 0; i < sizeY; i += 1.f)
 	{
-		AddUISpriteEntity(world, topLeftX, topLeftY + i + 1.f, 24, 7, 1.f, 1.f, 0);
-		AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY + i + 1.f, 24, 7, -1.f, 1.f, 0);
+		AddUISpriteEntity(world, topLeftX, topLeftY + i + 1.f, 24, 7, 1.f, 1.f, 0); // border left
+		AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY + i + 1.f, 24, 7, -1.f, 1.f, 0); // border right
 	}
 
-	AddUISpriteEntity(world, topLeftX, topLeftY, 24, 6, 1.f, 1.f, 2);
-	AddUISpriteEntity(world, topLeftX, topLeftY + sizeY + 2.f, 24, 6, 1.f, -1.f, 0);
-	AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY + sizeY + 2.f, 24, 6, -1.f, -1.f, 0);
-	AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY, 24, 6, -1.f, 1.f, 2);
+	AddUISpriteEntity(world, topLeftX, topLeftY, 24, 6, 1.f, 1.f, 2); // border top left
+	AddUISpriteEntity(world, topLeftX, topLeftY + sizeY + 2.f, 24, 6, 1.f, -1.f, 0); // border top right
+	AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY + sizeY + 2.f, 24, 6, -1.f, -1.f, 0); // border bottom right
+	AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY, 24, 6, -1.f, 1.f, 2); // border bottom left
+}
+
+void InputSystem::AddInventoryUI(InventoryComponent* inventoryComponent, float topLeftX, float topLeftY, int sizeX, int sizeY) const
+{
+	World* world = inventoryComponent->GetOwner()->GetWorld();
 
 	for (int i = 0; i < sizeX; ++i)
 	{
@@ -140,7 +173,7 @@ void InputSystem::AddInventoryUI(InventoryComponent* inventoryComponent, const W
 	}
 }
 
-void InputSystem::RemoveInventoryUI(World* world) const
+void InputSystem::RemoveUI(World* world) const
 {
 	for (Entity* entity : world->GetEntities())
 	{

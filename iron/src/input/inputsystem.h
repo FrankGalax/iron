@@ -19,8 +19,10 @@ class InputSystem : public System
 	virtual void Update(float deltaTime) override;
 
 private:
-	void AddInventoryUI(InventoryComponent* inventoryComponent, const Window* window) const;
-	void RemoveInventoryUI(World* world) const;
+	void GetUICoordonates(const InputComponent* inputComponent, float& topLeftX, float& topLeftY, int& sizeX, int& sizeY) const;
+	void AddTitleUI(Entity* entity, float topLeftX, float topLeftY, int sizeX, int sizeY) const;
+	void AddInventoryUI(InventoryComponent* inventoryComponent, float topLeftX, float topLeftY, int sizeX, int sizeY) const;
+	void RemoveUI(World* world) const;
 	void AddUISpriteEntity(World* world, float x, float y, int spriteSheetX, int spriteSheetY, float scaleX, float scaleY, int priority) const;
 	void AddUIInventoryEntity(World* world, float x, float y, const InventoryItem& item) const;
 	void AddUITextEntity(World* world, float x, float y, const std::string& string, const sf::Color& color, int size) const;

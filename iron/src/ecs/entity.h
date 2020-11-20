@@ -25,7 +25,6 @@ public:
 
     void AddComponent(Component* component);
     const std::vector<Component*>& GetComponents() const { return m_Components; }
-    std::vector<Component*>& GetComponents() { return m_Components; }
 
     void ResetComponentCaches();
     PositionComponent* GetPositionComponent();
