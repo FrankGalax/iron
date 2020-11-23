@@ -222,7 +222,16 @@ void InputSystem::AddUIInventoryEntity(World* world, float x, float y, const Inv
 	entity->AddComponent(new UISpriteComponent(spriteInfo));
 	world->RegisterEntity(entity);
 
-	AddUITextEntity(world, x + 0.7f, y + 0.45f, std::to_string(item.m_Quantity), sf::Color::White, 14);
+	float offset = 0.f;
+	if (item.m_Quantity >= 10)
+	{
+		offset = 0.45f;
+	}
+	else
+	{
+		offset = 0.7f;
+	}
+	AddUITextEntity(world, x + offset, y + 0.45f, std::to_string(item.m_Quantity), sf::Color::White, 14);
 }
 
 void InputSystem::AddUITextEntity(World* world, float x, float y, const std::string& string, const sf::Color& color, int size) const

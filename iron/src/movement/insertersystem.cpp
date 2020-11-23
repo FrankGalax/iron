@@ -111,26 +111,30 @@ void InserterSystem::Update(float deltaTime)
                 else if (inInsertable->m_InventoryComponent != nullptr)
                 {
                     std::vector<InventoryItem>& inInventoryItems = inInsertable->m_InventoryComponent->GetItems();
-                    if (!inInventoryItems.empty() && inInventoryItems[0].m_IsOutput)
+                    for (InventoryItem& inInventoryItem : inInventoryItems)
                     {
-                        InventoryItem& inventoryItem = inInventoryItems[0];
+                        if (inInventoryItem.m_IsOutput)
+                        {
+                            World* world = inInsertable->m_Entity->GetWorld();
+                            Entity* entity = world->CreateEntity();
+                            EntityBuilder::BuildFromResource(entity, outInsertable->m_PositionComponent->GetPosition(), inInventoryItem.m_ResourceType);
 
-                        World* world = inInsertable->m_Entity->GetWorld();
-                        Entity* entity = world->CreateEntity();
-                        EntityBuilder::BuildFromResource(entity, outInsertable->m_PositionComponent->GetPosition(), inventoryItem.m_ResourceType);
+                            OnBeltComponent* onBeltComponent = new OnBeltComponent();
+                            onBeltComponent->SetBelt(outInsertable->m_BeltComponent);
+                            entity->AddComponent(onBeltComponent);
 
-                        OnBeltComponent* onBeltComponent = new OnBeltComponent();
-                        onBeltComponent->SetBelt(outInsertable->m_BeltComponent);
-                        entity->AddComponent(onBeltComponent);
+                            world->AddEntity(entity);
 
-                        world->AddEntity(entity);
+                            InventoryItem removeItem = inInventoryItem;
+                            removeItem.m_Quantity = 1;
+                            inInsertable->m_InventoryComponent->GetPendingRemoveItems().push_back(removeItem);
 
-                        inInsertable->m_InventoryComponent->GetPendingRemoveItems().push_back(inventoryItem);
+                            inserter->m_InserterComponent->SetIn(nullptr);
+                            inserter->m_InserterComponent->SetOut(nullptr);
 
-                        inserter->m_InserterComponent->SetIn(nullptr);
-                        inserter->m_InserterComponent->SetOut(nullptr);
-
-                        std::cout << "insert " << entity->GetName().c_str() << " onto belt" << std::endl;
+                            std::cout << "insert " << entity->GetName().c_str() << " onto belt" << std::endl;
+                            break;
+                        }
                     }
                 }
             }

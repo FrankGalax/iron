@@ -60,15 +60,6 @@ void BeltSystem::Update(float deltaTime)
             {
                 const BeltComponent* nextBelt = belt->GetNextBelt();
                 tuple.m_OnBeltComponent->SetBelt(nextBelt);
-                
-                if (nextBelt != nullptr)
-                {
-                    std::cout << "Transfer to belt with direction " << nextBelt->GetDirection().GetX() << ", " << nextBelt->GetDirection().GetY() << std::endl;
-                }
-                else
-                {
-                    std::cout << "End of belt" << std::endl;
-                }
             }
         }
     }
