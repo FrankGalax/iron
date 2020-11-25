@@ -18,10 +18,7 @@ public:
 
     void CreateSystems();
     Entity* CreateEntity();
-    void RegisterEntity(Entity* entity);
-    void AddEntity(Entity* entity);
-    void UnregisterEntity(Entity* entity);
-    void RemoveEntity(Entity* entity);
+    void DestroyEntity(Entity* entity);
 
     void Update(float deltaTime);
     void Render(Window* window);
@@ -32,6 +29,9 @@ public:
     const std::vector<Entity*>& GetEntities() const { return m_Entities; }
 
 private:
+    void RegisterEntity(Entity* entity);
+    void UnregisterEntity(Entity* entity);
+
     std::vector<Entity*> m_Entities;
     std::vector<Entity*> m_PendingAddEntities;
     std::vector<Entity*> m_PendingRemoveEntities;

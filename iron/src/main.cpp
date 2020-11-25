@@ -10,6 +10,7 @@
 #include <item/inventorycomponent.h>
 #include <item/resourcecomponent.h>
 #include <movement/beltcomponent.h>
+#include <movement/onbeltcomponent.h>
 #include <movement/positioncomponent.h>
 #include <movement/insertercomponent.h>
 
@@ -19,39 +20,41 @@ void InitEntities(World& world, const Window& window)
 {
     Entity* inputEntity = world.CreateEntity();
     EntityBuilder::BuildInputEntity(inputEntity, &window);
-    world.RegisterEntity(inputEntity);
 
-    Entity* ironOre = world.CreateEntity();
-    EntityBuilder::BuildIronOre(ironOre, Vector2f(0.f, 0.f));
-    world.RegisterEntity(ironOre);
+    Entity* inserterInTopBelt = world.CreateEntity();
+    EntityBuilder::BuildInserter(inserterInTopBelt, Vector2f(6.f, 2.f), Vector2f::Down);
+
+    Entity* inserterInTopBelt1 = world.CreateEntity();
+    EntityBuilder::BuildInserter(inserterInTopBelt1, Vector2f(5.f, 3.f), Vector2f::Right);
+
+    Entity* inserterInTopBelt2 = world.CreateEntity();
+    EntityBuilder::BuildInserter(inserterInTopBelt2, Vector2f(7.f, 4.f), Vector2f::Left);
 
     Entity* inserterIn = world.CreateEntity();
-    EntityBuilder::BuildInserter(inserterIn, Vector2f(0.f, 1.f));
-    world.RegisterEntity(inserterIn);
+    EntityBuilder::BuildInserter(inserterIn, Vector2f(6.f, 7.f), Vector2f::Down);
 
     Entity* furnace = world.CreateEntity();
-    EntityBuilder::BuildFurnace(furnace, Vector2f(0.f, 2.f));
-    world.RegisterEntity(furnace);
+    EntityBuilder::BuildFurnace(furnace, Vector2f(6.f, 8.f));
 
     Entity* inserterOut = world.CreateEntity();
-    EntityBuilder::BuildInserter(inserterOut, Vector2f(0.f, 4.f));
-    world.RegisterEntity(inserterOut);
+    EntityBuilder::BuildInserter(inserterOut, Vector2f(6.f, 10.f), Vector2f::Down);
 
     std::vector<Entity*> belts;
     for (int i = 0; i < 5; ++i)
     {
         Entity* belt = world.CreateEntity();
-        EntityBuilder::BuildBelt(belt, Vector2f((float)i, 5.f), Vector2f::Right);
-        world.RegisterEntity(belt);
+        EntityBuilder::BuildBelt(belt, Vector2f(6.f + (float)i, 11.f), Vector2f::Right);
 
         belts.push_back(belt);
     }
 
+    Entity* inserterInBottomBelt = world.CreateEntity();
+    EntityBuilder::BuildInserter(inserterInBottomBelt, Vector2f(7.f, 12.f), Vector2f::Up);
+
     for (int i = 0; i < 4; ++i)
     {
         Entity* belt = world.CreateEntity();
-        EntityBuilder::BuildBelt(belt, Vector2f(5, 5.f - (float)i), Vector2f::Up);
-        world.RegisterEntity(belt);
+        EntityBuilder::BuildBelt(belt, Vector2f(11, 11.f - (float)i), Vector2f::Up);
         
         belts.push_back(belt);
     }
@@ -59,8 +62,7 @@ void InitEntities(World& world, const Window& window)
     for (int i = 0; i < 2; ++i)
     {
         Entity* belt = world.CreateEntity();
-        EntityBuilder::BuildBelt(belt, Vector2f(5.f - (float)i, 1.f), Vector2f::Left);
-        world.RegisterEntity(belt);
+        EntityBuilder::BuildBelt(belt, Vector2f(11.f - (float)i, 7.f), Vector2f::Left);
 
         belts.push_back(belt);
     }
@@ -68,24 +70,45 @@ void InitEntities(World& world, const Window& window)
     for (int i = 0; i < 2; ++i)
     {
         Entity* belt = world.CreateEntity();
-        EntityBuilder::BuildBelt(belt, Vector2f(3.f, 1.f + (float)i), Vector2f::Down);
-        world.RegisterEntity(belt);
+        EntityBuilder::BuildBelt(belt, Vector2f(9.f, 7.f + (float)i), Vector2f::Down);
 
         belts.push_back(belt);
     }
 
     for (int i = 0; i < belts.size() - 1; ++i)
     {
-        belts[i]->GetComponent<BeltComponent>()->SetNextBelt(belts[i+1]->GetComponent<BeltComponent>());
+        belts[i]->GetComponent<BeltComponent>()->SetNextBelt(belts[(size_t)i+1]->GetComponent<BeltComponent>());
+    }
+    belts.clear();
+
+    for (int i = 0; i < 4; ++i)
+    {
+        Entity* belt = world.CreateEntity();
+        EntityBuilder::BuildBelt(belt, Vector2f(6.f, 3.f + (float)i), Vector2f::Down);
+
+        belts.push_back(belt);
+
+        if (i == 0)
+        {
+            Entity* ironOre = world.CreateEntity();
+            EntityBuilder::BuildIronOre(ironOre, Vector2f(6.f, 3.f));
+            OnBeltComponent* onBeltComponent = new OnBeltComponent();
+            onBeltComponent->SetBelt(belt->GetComponent<BeltComponent>());
+            ironOre->AddComponent(onBeltComponent);
+        }
     }
 
+    for (int i = 0; i < belts.size() - 1; ++i)
+    {
+        belts[i]->GetComponent<BeltComponent>()->SetNextBelt(belts[(size_t)i+1]->GetComponent<BeltComponent>());
+    }
+    belts.clear();
+
     Entity* inserter2 = world.CreateEntity();
-    EntityBuilder::BuildInserter(inserter2, Vector2f(3.f, 3.f));
-    world.RegisterEntity(inserter2);
+    EntityBuilder::BuildInserter(inserter2, Vector2f(9.f, 9.f), Vector2f::Down);
 
     Entity* chest = world.CreateEntity();
-    EntityBuilder::BuildChest(chest, Vector2f(3.f, 4.f));
-    world.RegisterEntity(chest);
+    EntityBuilder::BuildChest(chest, Vector2f(9.f, 10.f));
 }
 
 void ProcessEvents(Window& window)
@@ -148,8 +171,6 @@ int main()
     float deltaTimeSum = 0.f;
     int deltaTimeCount = 0;
 
-    float waitInitial = 1.f;
-
     sf::Text fpsText;
     sf::Font font;
     font.loadFromFile("arial.ttf");
@@ -169,15 +190,7 @@ int main()
         deltaTime = clock.restart();
         const float deltaTimeSeconds = deltaTime.asSeconds();
 
-        if (waitInitial > 0)
-        {
-            waitInitial -= deltaTimeSeconds;
-        }
-        else
-        {
-            world.Update(deltaTimeSeconds);
-        }
-
+        world.Update(deltaTimeSeconds);
         window.Clear();
         world.Render(&window);
 

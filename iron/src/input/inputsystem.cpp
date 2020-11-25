@@ -62,14 +62,13 @@ void InputSystem::Update(float deltaTime)
 			Vector2f position(sfPosition.x / (GRID_SIZE * RENDER_SCALE), sfPosition.y / (GRID_SIZE * RENDER_SCALE));
 
 			std::vector<Entity*> clickedEntities;
-			Utils::GetEntitiesAtPosition(inputComponent->GetOwner()->GetWorld(), position, clickedEntities);
+			Utils::GetEntitiesAtPosition(inputComponent->GetOwner()->GetWorld(), position, Vector2f::Zero, clickedEntities);
 			if (clickedEntities.empty())
 			{
 				Vector2f gridPosition(floor(position.GetX()), floor(position.GetY()));
 				World* world = inputComponent->GetOwner()->GetWorld();
 				Entity* entity = world->CreateEntity();
 				EntityBuilder::BuildFromResource(entity, gridPosition, ResourceType::IronOre);
-				world->RegisterEntity(entity);
 			}
 			else
 			{
@@ -137,21 +136,15 @@ void InputSystem::AddTitleUI(World* world, const Entity* entity, float topLeftX,
 	AddUISpriteEntity(world, topLeftX, topLeftY, 24, 10, 1.f, 1.f, 1); // title top left
 	AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY, 24, 10, -1, 1.f, 1); // title top right
 
-	for (float i = 0; i < sizeX; i += 1.f)
-	{
-		AddUISpriteEntity(world, topLeftX + i + 1.f, topLeftY, 24, 11, 1.f, 1.f, 0); // title top
-		AddUISpriteEntity(world, topLeftX + i + 1.f, topLeftY, 24, 8, 1.f, 1.f, 1); // border top
-		AddUISpriteEntity(world, topLeftX + i + 1.f, topLeftY + sizeY + 2.f, 24, 8, 1.f, -1.f, 0); // border bottom
-	}
+	AddUISpriteEntity(world, topLeftX + 1.f, topLeftY, 24, 11, (float)sizeX, 1.f, 0); // title top
+	AddUISpriteEntity(world, topLeftX + 1.f, topLeftY, 24, 8, (float)sizeX, 1.f, 1); // border top
+	AddUISpriteEntity(world, topLeftX + 1.f, topLeftY + sizeY + 2.f, 24, 8, (float)sizeX, -1.f, 0); // border bottom
 
 	AddUITextEntity(world, topLeftX + 1.f, topLeftY + 0.1f, entity->GetName(), sf::Color::Black, 20);
 	AddUIButtonEntity(world, topLeftX + sizeX, topLeftY, ButtonType::X);
 
-	for (float i = 0; i < sizeY; i += 1.f)
-	{
-		AddUISpriteEntity(world, topLeftX, topLeftY + i + 1.f, 24, 7, 1.f, 1.f, 0); // border left
-		AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY + i + 1.f, 24, 7, -1.f, 1.f, 0); // border right
-	}
+	AddUISpriteEntity(world, topLeftX, topLeftY + 1.f, 24, 7, 1.f, (float)sizeY, 0); // border left
+	AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY + 1.f, 24, 7, -1.f, (float)sizeY, 0); // border right
 
 	AddUISpriteEntity(world, topLeftX, topLeftY, 24, 6, 1.f, 1.f, 2); // border top left
 	AddUISpriteEntity(world, topLeftX, topLeftY + sizeY + 2.f, 24, 6, 1.f, -1.f, 0); // border top right
@@ -164,8 +157,9 @@ void InputSystem::AddCrafterUI(World* world, const CrafterComponent* crafterComp
 	const float midSizeX = (sizeX - 1) / 2.f;
 	const float midSizeY = (sizeY - 1) / 2.f;
 
-	AddUISpriteEntity(world, topLeftX + midSizeX - 1.f, topLeftY + midSizeY, 24, 9, 1.f, 1.f, 0);
-	AddUISpriteEntity(world, topLeftX + midSizeX + 1.f, topLeftY + midSizeY, 24, 9, 1.f, 1.f, 0);
+	AddUISpriteEntity(world, topLeftX, topLeftY, 24, 13, (float)sizeX, (float)sizeY, 0);
+	AddUISpriteEntity(world, topLeftX + midSizeX - 1.f, topLeftY + midSizeY, 24, 9, 1.f, 1.f, 1);
+	AddUISpriteEntity(world, topLeftX + midSizeX + 1.f, topLeftY + midSizeY, 24, 9, 1.f, 1.f, 1);
 
 	if (const Recipe* recipe = crafterComponent->GetActiveRecipe())
 	{
@@ -200,7 +194,7 @@ void InputSystem::RemoveUI(World* world) const
 		if (entity->GetComponent<UISpriteComponent>() != nullptr ||
 			entity->GetComponent<UITextComponent>() != nullptr)
 		{
-			world->RemoveEntity(entity);
+			world->DestroyEntity(entity);
 		}
 	}
 }
@@ -208,19 +202,17 @@ void InputSystem::RemoveUI(World* world) const
 void InputSystem::AddUISpriteEntity(World* world, float x, float y, int spriteSheetX, int spriteSheetY, float scaleX, float scaleY, int priority) const
 {
 	Entity* entity = world->CreateEntity();
-	entity->AddComponent(new PositionComponent(Vector2f(x, y), 1, 1));
+	entity->AddComponent(new PositionComponent(Vector2f(x, y)));
 	entity->AddComponent(new UISpriteComponent(spriteSheetX, spriteSheetY, scaleX, scaleY, priority));
-	world->RegisterEntity(entity);
 }
 
 void InputSystem::AddUIInventoryEntity(World* world, float x, float y, const InventoryItem& item) const
 {
 	Entity* entity = world->CreateEntity();
-	entity->AddComponent(new PositionComponent(Vector2f(x, y), 1, 1));
+	entity->AddComponent(new PositionComponent(Vector2f(x, y)));
 	SpriteInfo spriteInfo;
 	EntityBuilder::BuildSpriteInfoFromResource(spriteInfo, item.m_ResourceType);
 	entity->AddComponent(new UISpriteComponent(spriteInfo));
-	world->RegisterEntity(entity);
 
 	float offset = 0.f;
 	if (item.m_Quantity >= 10)
@@ -237,18 +229,16 @@ void InputSystem::AddUIInventoryEntity(World* world, float x, float y, const Inv
 void InputSystem::AddUITextEntity(World* world, float x, float y, const std::string& string, const sf::Color& color, int size) const
 {
 	Entity* entity = world->CreateEntity();
-	entity->AddComponent(new PositionComponent(Vector2f(x, y), 1, 1));
+	entity->AddComponent(new PositionComponent(Vector2f(x, y)));
 	entity->AddComponent(new UITextComponent(string, color, size));
-	world->RegisterEntity(entity);
 }
 
 void InputSystem::AddUIButtonEntity(World* world, float x, float y, ButtonType buttonType) const
 {
 	Entity* entity = world->CreateEntity();
-	entity->AddComponent(new PositionComponent(Vector2f(x, y), 1, 1));
+	entity->AddComponent(new PositionComponent(Vector2f(x, y)));
 	entity->AddComponent(new UISpriteComponent(24, 12, 1.f, 1.f, 5));
 	entity->AddComponent(new UIButtonComponent(buttonType));
-	world->RegisterEntity(entity);
 }
 
 ironEND_NAMESPACE

@@ -103,6 +103,7 @@ class Window;
         tuple.m_Entity = entity; \
         tuple.m_##component1Class = component1; \
         m_Tuples.push_back(tuple); \
+        OnRegisterEntity(); \
     } \
     IRON_SYSTEM_IMPLEMENT_COMMON(systemClass, tupleClass)
 
@@ -118,6 +119,7 @@ class Window;
         tuple.m_##component1Class = component1; \
         tuple.m_##component2Class = component2; \
         m_Tuples.push_back(tuple); \
+        OnRegisterEntity(); \
     } \
     IRON_SYSTEM_IMPLEMENT_COMMON(systemClass, tupleClass)
 
@@ -135,6 +137,7 @@ class Window;
         tuple.m_##component2Class = component2; \
         tuple.m_##component3Class = component3; \
         m_Tuples.push_back(tuple); \
+        OnRegisterEntity(); \
     } \
     IRON_SYSTEM_IMPLEMENT_COMMON(systemClass, tupleClass)
 
@@ -154,6 +157,7 @@ class Window;
         tuple.m_##component3Class = component3; \
         tuple.m_##component4Class = component4; \
         m_Tuples.push_back(tuple); \
+        OnRegisterEntity(); \
     } \
     IRON_SYSTEM_IMPLEMENT_COMMON(systemClass, tupleClass)
 
@@ -175,6 +179,7 @@ class Window;
         tuple.m_##component4Class = component4; \
         tuple.m_##component5Class = component5; \
         m_Tuples.push_back(tuple); \
+        OnRegisterEntity(); \
     } \
     IRON_SYSTEM_IMPLEMENT_COMMON(systemClass, tupleClass)
 
@@ -186,6 +191,8 @@ public:
 
     virtual void Update(float deltaTime) {}
     virtual void Render(Window* window) {}
+protected:
+    virtual void OnRegisterEntity() {}
 };
 
 ironEND_NAMESPACE

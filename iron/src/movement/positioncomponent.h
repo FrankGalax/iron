@@ -9,18 +9,16 @@ ironBEGIN_NAMESPACE
 class PositionComponent : public Component
 {
 public:
-    PositionComponent(const Vector2f& position) : m_Position(position), m_SizeX(1), m_SizeY(1) {}
-	PositionComponent(const Vector2f& position, int sizeX, int sizeY) : m_Position(position), m_SizeX(sizeX), m_SizeY(sizeY) {}
+    PositionComponent(const Vector2f& position) : m_Position(position), m_Size(1.f, 1.f) {}
+	PositionComponent(const Vector2f& position, const Vector2f& size) : m_Position(position), m_Size(size) {}
 
     Vector2f& GetPosition() { return m_Position; }
     const Vector2f& GetPosition() const { return m_Position; }
-	int GetSizeX() const { return m_SizeX; }
-	int GetSizeY() const { return m_SizeY; }
+    const Vector2f& GetSize() const { return m_Size; }
 
 private:
     Vector2f m_Position;
-	int m_SizeX;
-	int m_SizeY;
+	Vector2f m_Size;
 };
 
 ironEND_NAMESPACE

@@ -6,23 +6,25 @@
 
 ironBEGIN_NAMESPACE
 
-bool Utils::IsColliding(const PositionComponent* positionComponent, const Vector2f& position)
+bool Utils::IsColliding(const PositionComponent* positionComponent, const Vector2f& position, const Vector2f& size)
 {
 	if (positionComponent == nullptr)
 	{
 		return false;
 	}
 
-    const float minX = positionComponent->GetPosition().GetX();
-    const float maxX = minX + positionComponent->GetSizeX();
-    const float minY = positionComponent->GetPosition().GetY();
-    const float maxY = minY + positionComponent->GetSizeY();
+    const float aMinX = positionComponent->GetPosition().GetX();
+    const float aMaxX = aMinX + positionComponent->GetSize().GetX();
+    const float aMinY = positionComponent->GetPosition().GetY();
+    const float aMaxY = aMinY + positionComponent->GetSize().GetY();
 
-    const float x = position.GetX();
-    const float y = position.GetY();
+    const float bMinX = position.GetX();
+    const float bMaxX = bMinX + size.GetX();
+    const float bMinY = position.GetY();
+    const float bMaxY = bMinY + size.GetY();
 
-    return ironGreaterOrEqualWithEpsilon(x, minX) && ironLesserWithEpsilon(x, maxX) &&
-        ironGreaterOrEqualWithEpsilon(y, minY) && ironLesserWithEpsilon(y, maxY);
+    return ironLesserOrEqualWithEpsilon(aMinX, bMaxX) && ironGreaterOrEqualWithEpsilon(aMaxX, bMinX) &&
+        ironLesserOrEqualWithEpsilon(aMinY, bMaxY) && ironGreaterOrEqualWithEpsilon(aMaxY, bMinY);
 }
 
 const char* Utils::GetRessourceName(ResourceType resourceType)
@@ -41,7 +43,7 @@ const char* Utils::GetRessourceName(ResourceType resourceType)
     return "";
 }
 
-void Utils::GetEntitiesAtPosition(const World* world, const Vector2f& position, std::vector<Entity*>& entities)
+void Utils::GetEntitiesAtPosition(const World* world, const Vector2f& position, const Vector2f& size, std::vector<Entity*>& entities)
 {
     if (world != nullptr)
     {
@@ -49,7 +51,7 @@ void Utils::GetEntitiesAtPosition(const World* world, const Vector2f& position, 
         {
             if (const PositionComponent* positionComponent = entity->GetPositionComponent())
             {
-                if (IsColliding(positionComponent, position))
+                if (IsColliding(positionComponent, position, size))
                 {
                     entities.push_back(entity);
                 }

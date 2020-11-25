@@ -14,7 +14,7 @@ public:
     void SetBelt(const BeltComponent* belt) { m_Belt = belt; }
 
 private:
-    const BeltComponent* m_Belt;
+    const BeltComponent* m_Belt = nullptr;
 };
 
 ironEND_NAMESPACE

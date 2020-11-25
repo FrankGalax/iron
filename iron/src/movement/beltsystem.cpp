@@ -21,7 +21,7 @@ void BeltSystem::Update(float deltaTime)
             if (belt->GetNextBelt() == nullptr)
             {
                 std::vector<Entity*> entities;
-                Utils::GetEntitiesAtPosition(belt->GetOwner()->GetWorld(), position + belt->GetDirection(), entities);
+                Utils::GetEntitiesAtPosition(belt->GetOwner()->GetWorld(), position + belt->GetDirection(), Vector2f::Zero, entities);
                 if (!entities.empty())
                 {
                     return;
@@ -56,7 +56,7 @@ void BeltSystem::Update(float deltaTime)
                 testPosition.SetY(testPosition.GetY() + 1.f);
             }
 
-            if (!Utils::IsColliding(belt->GetOwner()->GetPositionComponent(), testPosition))
+            if (!Utils::IsColliding(belt->GetOwner()->GetPositionComponent(), testPosition, Vector2f::Zero))
             {
                 const BeltComponent* nextBelt = belt->GetNextBelt();
                 tuple.m_OnBeltComponent->SetBelt(nextBelt);

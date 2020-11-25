@@ -13,9 +13,9 @@ class Entity;
 class Utils
 {
 public:
-	static bool IsColliding(const PositionComponent* positionComponent, const Vector2f& position);
+	static bool IsColliding(const PositionComponent* positionComponent, const Vector2f& position, const Vector2f& size);
     static const char* GetRessourceName(ResourceType resourceType);
-    static void GetEntitiesAtPosition(const World* world, const Vector2f& position, std::vector<Entity*>& entities);
+    static void GetEntitiesAtPosition(const World* world, const Vector2f& position, const Vector2f& size, std::vector<Entity*>& entities);
 };
 
 ironEND_NAMESPACE

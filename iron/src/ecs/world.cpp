@@ -49,46 +49,13 @@ void World::CreateSystems()
 Entity* World::CreateEntity()
 {
     Entity* entity = new Entity(m_NextEntityId++, this);
-    m_Entities.push_back(entity);
+    m_PendingAddEntities.push_back(entity);
     return entity;
 }
 
-void World::RegisterEntity(Entity* entity)
-{
-    entity->ResetComponentCaches();
-
-    for (System* system : m_UpdateSystems)
-    {
-        system->RegisterEntity(entity);
-    }
-
-    for (System* system : m_RenderSystems)
-    {
-        system->RegisterEntity(entity);
-    }
-}
-
-void World::AddEntity(Entity* entity)
-{
-    m_PendingAddEntities.push_back(entity);
-}
-
-void World::RemoveEntity(Entity* entity)
+void World::DestroyEntity(Entity* entity)
 {
     m_PendingRemoveEntities.push_back(entity);
-}
-
-void World::UnregisterEntity(Entity* entity)
-{
-    for (System* system : m_UpdateSystems)
-    {
-        system->UnregisterEntity(entity);
-    }
-
-    for (System* system : m_RenderSystems)
-    {
-        system->UnregisterEntity(entity);
-    }
 }
 
 void World::Update(float deltaTime)
@@ -112,6 +79,7 @@ void World::Update(float deltaTime)
     for (Entity* pendingEntity : m_PendingAddEntities)
     {
         RegisterEntity(pendingEntity);
+        m_Entities.push_back(pendingEntity);
     }
     m_PendingAddEntities.clear();
 
@@ -126,6 +94,34 @@ void World::Render(Window* window)
     for (System* system : m_RenderSystems)
     {
         system->Render(window);
+    }
+}
+
+void World::RegisterEntity(Entity* entity)
+{
+    entity->ResetComponentCaches();
+
+    for (System* system : m_UpdateSystems)
+    {
+        system->RegisterEntity(entity);
+    }
+
+    for (System* system : m_RenderSystems)
+    {
+        system->RegisterEntity(entity);
+    }
+}
+
+void World::UnregisterEntity(Entity* entity)
+{
+    for (System* system : m_UpdateSystems)
+    {
+        system->UnregisterEntity(entity);
+    }
+
+    for (System* system : m_RenderSystems)
+    {
+        system->UnregisterEntity(entity);
     }
 }
 

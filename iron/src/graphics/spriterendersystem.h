@@ -14,6 +14,9 @@ public:
     IRON_SYSTEM_DECLARE_2(SpriteRenderSystemTuple, SpriteComponent, PositionComponent)
 
     virtual void Render(Window* window) override;
+
+protected:
+    virtual void OnRegisterEntity() override;
 };
 
 ironEND_NAMESPACE

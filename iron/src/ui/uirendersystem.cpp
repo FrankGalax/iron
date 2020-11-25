@@ -10,11 +10,6 @@ IRON_SYSTEM_IMPLEMENT_2(UIRenderSystem, UIRenderSystemTuple, UISpriteComponent, 
 
 void UIRenderSystem::Render(Window* window)
 {
-    std::sort(m_Tuples.begin(), m_Tuples.end(), [](const UIRenderSystemTuple& tuple1, const UIRenderSystemTuple& tuple2)
-        {
-            return tuple1.m_UISpriteComponent->GetPriority() < tuple2.m_UISpriteComponent->GetPriority();
-        });
-
     for (UIRenderSystemTuple& tuple : m_Tuples)
     {
         sf::Sprite& sprite = tuple.m_UISpriteComponent->GetSprite();
@@ -31,6 +26,14 @@ void UIRenderSystem::Render(Window* window)
         sprite.setPosition(position.GetX() * GRID_SIZE * RENDER_SCALE, position.GetY() * GRID_SIZE * RENDER_SCALE);
         window->Draw(&sprite);
     }
+}
+
+void UIRenderSystem::OnRegisterEntity()
+{
+    std::sort(m_Tuples.begin(), m_Tuples.end(), [](const UIRenderSystemTuple& tuple1, const UIRenderSystemTuple& tuple2)
+        {
+            return tuple1.m_UISpriteComponent->GetPriority() < tuple2.m_UISpriteComponent->GetPriority();
+        });
 }
 
 ironEND_NAMESPACE
