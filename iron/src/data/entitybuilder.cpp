@@ -46,22 +46,22 @@ void EntityBuilder::BuildInserter(Entity* entity, const Vector2f& position, cons
     if (direction.Equals(Vector2f::Down))
     {
         entity->AddComponent(new SpriteComponent(18, 11, 1.f, 1.f, 0.f, 0));
-        entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Inserter, Vector2f(0.f, -0.02f), Vector2f(0.f, 1.f)));
+        entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Inserter, Vector2f(0.5f, -0.02f), Vector2f(0.5f, 1.5f)));
     }
     else if (direction.Equals(Vector2f::Right))
     {
         entity->AddComponent(new SpriteComponent(18, 11, 1.f, 1.f, 270.f, 0));
-        entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Inserter, Vector2f(-0.02f, 0.f), Vector2f(1.f, 0.f)));
+        entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Inserter, Vector2f(-0.02f, 0.5f), Vector2f(1.5f, 0.5f)));
     }
     else if (direction.Equals(Vector2f::Up))
     {
         entity->AddComponent(new SpriteComponent(18, 11, 1.f, 1.f, 180.f, 0));
-        entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Inserter, Vector2f(0.f, 1.02f), Vector2f(0.f, -1.f)));
+        entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Inserter, Vector2f(0.5f, 1.02f), Vector2f(0.5f, -0.5f)));
     }
     else if (direction.Equals(Vector2f::Left))
     {
         entity->AddComponent(new SpriteComponent(18, 11, 1.f, 1.f, 90.f, 0));
-        entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Inserter, Vector2f(1.02f, 0.f), Vector2f(-1.f, 0.f)));
+        entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Inserter, Vector2f(1.02f, 0.5f), Vector2f(-0.5f, 0.5f)));
     }
 
     entity->AddComponent(new PositionComponent(position));

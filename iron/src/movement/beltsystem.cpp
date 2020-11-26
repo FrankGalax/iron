@@ -30,33 +30,20 @@ void BeltSystem::Update(float deltaTime)
 
             position += belt->GetDirection() * belt->GetSpeed() * deltaTime;
 
-            Vector2f testPosition;
             const Vector2f& beltPosition = belt->GetOwner()->GetPositionComponent()->GetPosition();
             
-            if (belt->GetDirection().Equals(Vector2f::Right))
+            if (belt->GetDirection().Equals(Vector2f::Right) ||
+                belt->GetDirection().Equals(Vector2f::Left))
             {
                 position.SetY(beltPosition.GetY());
-                testPosition = position;
             }
-            else if (belt->GetDirection().Equals(Vector2f::Down))
+            else if (belt->GetDirection().Equals(Vector2f::Up) ||
+                belt->GetDirection().Equals(Vector2f::Down))
             {
                 position.SetX(beltPosition.GetX());
-                testPosition = position;
-            }
-            else if (belt->GetDirection().Equals(Vector2f::Left))
-            {
-                position.SetY(beltPosition.GetY());
-                testPosition = position;
-                testPosition.SetX(testPosition.GetX() + 1.f);
-            }
-            else if (belt->GetDirection().Equals(Vector2f::Up))
-            {
-                position.SetX(beltPosition.GetX());
-                testPosition = position;
-                testPosition.SetY(testPosition.GetY() + 1.f);
             }
 
-            if (!Utils::IsColliding(belt->GetOwner()->GetPositionComponent(), testPosition, Vector2f::Zero))
+            if (!Utils::IsColliding(belt->GetOwner()->GetPositionComponent(), position, tuple.m_PositionComponent->GetSize()))
             {
                 const BeltComponent* nextBelt = belt->GetNextBelt();
                 tuple.m_OnBeltComponent->SetBelt(nextBelt);

@@ -23,8 +23,7 @@ bool Utils::IsColliding(const PositionComponent* positionComponent, const Vector
     const float bMinY = position.GetY();
     const float bMaxY = bMinY + size.GetY();
 
-    return ironLesserOrEqualWithEpsilon(aMinX, bMaxX) && ironGreaterOrEqualWithEpsilon(aMaxX, bMinX) &&
-        ironLesserOrEqualWithEpsilon(aMinY, bMaxY) && ironGreaterOrEqualWithEpsilon(aMaxY, bMinY);
+    return aMinX < bMaxX && aMaxX > bMinX && aMinY < bMaxY && aMaxY > bMinY;
 }
 
 const char* Utils::GetRessourceName(ResourceType resourceType)

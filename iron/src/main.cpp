@@ -183,18 +183,23 @@ int main()
     entitiesText.setFillColor(sf::Color::Black);
     entitiesText.setCharacterSize(15);
     entitiesText.setPosition(sf::Vector2f(100, 0));
+    constexpr float maxDeltaTime = 1.f / 60.f;
 
     while (window.IsOpen())
     {
         ProcessEvents(window);
         deltaTime = clock.restart();
-        const float deltaTimeSeconds = deltaTime.asSeconds();
+        float deltaTimeSeconds = deltaTime.asSeconds();
+        if (deltaTimeSeconds > maxDeltaTime)
+        {
+            deltaTimeSeconds = maxDeltaTime;
+        }
 
         world.Update(deltaTimeSeconds);
         window.Clear();
         world.Render(&window);
 
-        deltaTimeSum += deltaTime.asSeconds();
+        deltaTimeSum += deltaTimeSeconds;
         deltaTimeCount++;
         if (deltaTimeSum > 1.f)
         {
