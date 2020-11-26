@@ -32,3 +32,4 @@
 Debug/
 x64/
 .vs/
+ironparser/obj/
