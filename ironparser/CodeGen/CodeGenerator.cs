@@ -26,6 +26,33 @@ namespace IronParser.CodeGen
 
         private void H()
         {
+            string file = File.ReadAllText(m_FilePath.Replace(".iron", ".h"));
+
+            string userCode = "";
+            string userCodeNameSpace = "";
+            string userCodeClass = "";
+
+            int userCodeStartIndex = file.IndexOf("#pragma region usercode");
+            if (userCodeStartIndex != -1)
+            {
+                int userCodeEndIndex = file.IndexOf("#pragma endregion", userCodeStartIndex);
+                userCode = file.Substring(userCodeStartIndex, userCodeEndIndex - userCodeStartIndex + 18);
+            }
+
+            int userCodeNamespaceStartIndex = file.IndexOf("#pragma region usercodenamespace");
+            if (userCodeNamespaceStartIndex != -1)
+            {
+                int userCodeNamespaceEndIndex = file.IndexOf("#pragma endregion", userCodeNamespaceStartIndex);
+                userCodeNameSpace = file.Substring(userCodeNamespaceStartIndex, userCodeNamespaceEndIndex - userCodeNamespaceStartIndex + 18);
+            }
+
+            int userCodeClassStartIndex = file.IndexOf("#pragma region usercodeclass");
+            if (userCodeClassStartIndex != -1)
+            {
+                int userCodeClassEndIndex = file.IndexOf("#pragma endregion", userCodeClassStartIndex);
+                userCodeClass = file.Substring(userCodeClassStartIndex, userCodeClassEndIndex - userCodeClassStartIndex + 18);
+            }
+
             StringBuilder hBuilder = new StringBuilder();
             hBuilder.Append("#pragma once\n\n")
                 .Append("#include <iron.h>\n");
@@ -33,6 +60,11 @@ namespace IronParser.CodeGen
             foreach (string include in m_Class.Includes)
             {
                 hBuilder.Append("#include <").Append(include).Append(">\n");
+            }
+
+            if (!String.IsNullOrEmpty(userCode))
+            {
+                hBuilder.Append("\n").Append(userCode);
             }
 
             hBuilder.Append("\n")
@@ -43,6 +75,11 @@ namespace IronParser.CodeGen
             if (forwardDeclareVisitor.DeclaredAtLeastOne)
             {
                 hBuilder.Append("\n");
+            }
+
+            if (!String.IsNullOrEmpty(userCodeNameSpace))
+            {
+                hBuilder.Append(userCodeNameSpace).Append("\n");
             }
 
             hBuilder.Append("class ")
@@ -109,9 +146,14 @@ namespace IronParser.CodeGen
             // private
             hBuilder.Append("\nprivate:\n");
             ApplyVisitor(new HDeclareGenDeclarationVisitor(hBuilder));
+
+            if (!String.IsNullOrEmpty(userCodeClass))
+            {
+                hBuilder.Append("\n").Append(userCodeClass);
+            }
+
             hBuilder.Append("};\n\n")
                 .Append("ironEND_NAMESPACE");
-
 
             File.WriteAllText(m_FilePath.Replace(".iron", ".h"), hBuilder.ToString());
         }
