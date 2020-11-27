@@ -18,6 +18,11 @@ namespace IronParser.Parsing.Syntax
 
         }
 
+        public override bool HasDefaultValue()
+        {
+            return Value == 0.0f;
+        }
+
         public override void AcceptVisitor(DeclarationVisitor visitor)
         {
             visitor.VisitFloatDeclaration(this);

@@ -11,16 +11,16 @@ namespace IronParser
     {
         static void Main(string[] args)
         {
-            string[] files = Directory.GetFiles("../../../../iron/src/", "*.iron", SearchOption.AllDirectories);
-            foreach (string file in files)
+            string[] filePaths = Directory.GetFiles("../../../../iron/src/", "*.iron", SearchOption.AllDirectories);
+            foreach (string filePath in filePaths)
             {
-                string source = File.ReadAllText(file);
+                string source = File.ReadAllText(filePath);
 
                 Lexer lexer = new Lexer(source);
                 Parser parser = new Parser(lexer);
                 Class c = parser.Class();
 
-                CppCodeGenerator codeGen = new CppCodeGenerator(c);
+                CodeGenerator codeGen = new CodeGenerator(c, filePath);
                 codeGen.Generate();
             }
         }

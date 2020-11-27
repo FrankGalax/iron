@@ -9,11 +9,13 @@ namespace IronParser.CodeGen.Visitors
     {
         private StringBuilder m_Builder;
         private bool m_IsFirst;
+        private bool m_IsDefault;
 
-        public HConstructorParamsDeclarationVisitor(StringBuilder builder)
+        public HConstructorParamsDeclarationVisitor(StringBuilder builder, bool isDefault)
         {
             m_Builder = builder;
             m_IsFirst = true;
+            m_IsDefault = isDefault;
         }
 
         public override void VisitBoolDeclaration(BoolDeclaration boolDeclaration)
@@ -38,21 +40,33 @@ namespace IronParser.CodeGen.Visitors
 
         private void VisitValueDeclaration(Declaration declaration)
         {
+            if (m_IsDefault && !declaration.HasDefaultValue())
+            {
+                return;
+            }
+
             if (!m_IsFirst)
             {
                 m_Builder.Append(", ");
             }
             m_IsFirst = false;
+
             m_Builder.Append(declaration.CppType).Append(" ").Append(declaration.Name.ToLower());
         }
 
         private void VisitReferenceDeclaration(Declaration declaration)
         {
+            if (m_IsDefault && !declaration.HasDefaultValue())
+            {
+                return;
+            }
+
             if (!m_IsFirst)
             {
                 m_Builder.Append(", ");
             }
             m_IsFirst = false;
+
             m_Builder.Append("const ").Append(declaration.CppType).Append("& ").Append(declaration.Name.ToLower());
         }
     }

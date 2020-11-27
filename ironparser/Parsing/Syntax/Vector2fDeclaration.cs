@@ -23,6 +23,11 @@ namespace IronParser.Parsing.Syntax
 
         }
 
+        public override bool HasDefaultValue()
+        {
+            return XValue == 0.0f && YValue == 0.0f;
+        }
+
         public override void AcceptVisitor(DeclarationVisitor visitor)
         {
             visitor.VisitVector2fDeclaration(this);

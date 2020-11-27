@@ -150,6 +150,10 @@ namespace IronParser.Parsing
             {
                 return InitializedFloat(name);
             }
+            else if (t == CType.Vector2f)
+            {
+                return InitializedVector2f(name);
+            }
             return null;
         }
 
@@ -188,6 +192,16 @@ namespace IronParser.Parsing
             Real token = (Real)m_Look;
             Match(TagType.Real);
             return new FloatDeclaration(name, negate ? -token.Value : token.Value);
+        }
+
+        private Vector2fDeclaration InitializedVector2f(string name)
+        {
+            Real xToken = (Real)m_Look;
+            Match(TagType.Real);
+            Match(',');
+            Real yToken = (Real)m_Look;
+            Match(TagType.Real);
+            return new Vector2fDeclaration(name, xToken.Value, yToken.Value);
         }
 
         private Declaration UninitializedDeclaration(CType t, string name)

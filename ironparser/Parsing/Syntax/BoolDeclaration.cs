@@ -17,6 +17,11 @@ namespace IronParser.Parsing.Syntax
         {
         }
 
+        public override bool HasDefaultValue()
+        {
+            return !Value;
+        }
+
         public override void AcceptVisitor(DeclarationVisitor visitor)
         {
             visitor.VisitBoolDeclaration(this);

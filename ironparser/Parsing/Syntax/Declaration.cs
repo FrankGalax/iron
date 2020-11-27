@@ -28,6 +28,8 @@ namespace IronParser.Parsing.Syntax
             return false;
         }
 
+        public abstract bool HasDefaultValue();
+
         public abstract void AcceptVisitor(DeclarationVisitor visitor);
     }
 }

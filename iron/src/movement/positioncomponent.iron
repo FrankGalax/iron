@@ -3,5 +3,5 @@ class PositionComponent : Component
 	[NonConstGetter, ReadOnly]
 	Vector2f Position;
 	[ReadOnly]
-	Vector2f Size;
+	Vector2f Size = 1.f, 1.f;
 }
