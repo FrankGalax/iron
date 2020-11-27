@@ -6,14 +6,14 @@ namespace IronParser.Parsing.Syntax
     {
         public int Value { get; private set; }
 
-        public IntDeclaration(string name, int value) :
-            base(name, "int")
+        public IntDeclaration(string name, int value, bool isPointer) :
+            base(name, "int", isPointer)
         {
             Value = value;
         }
 
-        public IntDeclaration(string name) :
-            this(name, 0)
+        public IntDeclaration(string name, bool isPointer) :
+            this(name, 0, isPointer)
         {
 
         }

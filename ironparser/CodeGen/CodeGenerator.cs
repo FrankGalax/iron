@@ -36,40 +36,72 @@ namespace IronParser.CodeGen
             }
 
             hBuilder.Append("\n")
-                .Append("ironBEGIN_NAMESPACE\n\n")
-                .Append("class ")
-                .Append(m_Class.Name)
-                .Append(" : public ")
-                .Append(m_Class.ParentClassName)
-                .Append("\n{\n")
+                .Append("ironBEGIN_NAMESPACE\n\n");
+
+            HForwardDeclareDeclarationVisitor forwardDeclareVisitor = new HForwardDeclareDeclarationVisitor(hBuilder);
+            ApplyVisitor(forwardDeclareVisitor);
+            if (forwardDeclareVisitor.DeclaredAtLeastOne)
+            {
+                hBuilder.Append("\n");
+            }
+
+            hBuilder.Append("class ")
+                .Append(m_Class.Name);
+
+            if (m_Class.ParentClassName != null)
+            {
+                hBuilder.Append(" : public ")
+                    .Append(m_Class.ParentClassName);
+            }
+            
+            hBuilder.Append("\n{\n")
             // public
                 .Append("public:\n");
 
-            // Default Constructor
-            bool isDefault = true;
+            if (m_Class.HasAttribute("Virtual"))
+            {
+                hBuilder.Tab().Append("virtual ~").Append(m_Class.Name).Append("() {}\n");
+            }
+
+            bool needConstructor = false;
             foreach (Declaration declaration in m_Class.Declarations)
             {
-                if (!declaration.HasDefaultValue())
+                if (declaration.NeedConstructor)
                 {
-                    hBuilder.Tab()
-                        .Append(m_Class.Name)
-                        .Append("(");
-                    ApplyVisitor(new HConstructorParamsDeclarationVisitor(hBuilder, isDefault));
-                    hBuilder.Append(") : ");
-                    ApplyVisitor(new HConstructorParamsInitDeclarationVisitor(hBuilder, isDefault));
-                    hBuilder.Append(" {}\n");
-                    break;
+                    needConstructor = true;
                 }
             }
 
-            // Param Constructor
-            hBuilder.Tab()
-                .Append(m_Class.Name)
-                .Append("(");
-            ApplyVisitor(new HConstructorParamsDeclarationVisitor(hBuilder, !isDefault));
-            hBuilder.Append(") : ");
-            ApplyVisitor(new HConstructorParamsInitDeclarationVisitor(hBuilder, !isDefault));
-            hBuilder.Append(" {}\n\n");
+            if (needConstructor)
+            {
+                // Default Constructor
+                bool isDefault = true;
+                foreach (Declaration declaration in m_Class.Declarations)
+                {
+                    if (!declaration.HasDefaultValue())
+                    {
+                        hBuilder.Tab()
+                            .Append(m_Class.Name)
+                            .Append("(");
+                        ApplyVisitor(new HConstructorParamsDeclarationVisitor(hBuilder, isDefault));
+                        hBuilder.Append(") : ");
+                        ApplyVisitor(new HConstructorParamsInitDeclarationVisitor(hBuilder, isDefault));
+                        hBuilder.Append(" {}\n");
+                        break;
+                    }
+                }
+
+                // Param Constructor
+                hBuilder.Tab()
+                    .Append(m_Class.Name)
+                    .Append("(");
+                ApplyVisitor(new HConstructorParamsDeclarationVisitor(hBuilder, !isDefault));
+                hBuilder.Append(") : ");
+                ApplyVisitor(new HConstructorParamsInitDeclarationVisitor(hBuilder, !isDefault));
+                hBuilder.Append(" {}\n");
+            }
+
+            hBuilder.Append("\n");
 
             // Getters and setters
             ApplyVisitor(new HGetterSetterDeclarationVisitor(hBuilder));

@@ -52,6 +52,11 @@ namespace IronParser.CodeGen.Visitors
             throw new NotImplementedException();
         }
 
+        public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
+        {
+            throw new NotImplementedException();
+        }
+
         private void Prefix(Declaration declaration)
         {
             if (m_IsFirst)

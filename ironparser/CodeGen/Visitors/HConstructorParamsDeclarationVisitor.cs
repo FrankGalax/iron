@@ -38,6 +38,18 @@ namespace IronParser.CodeGen.Visitors
             VisitReferenceDeclaration(vector2fDeclaration);
         }
 
+        public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
+        {
+            if (customDeclaration.IsPointer)
+            {
+                VisitValueDeclaration(customDeclaration);
+            }
+            else
+            {
+                VisitReferenceDeclaration(customDeclaration);
+            }
+        }
+
         private void VisitValueDeclaration(Declaration declaration)
         {
             if (m_IsDefault && !declaration.HasDefaultValue())
@@ -51,7 +63,7 @@ namespace IronParser.CodeGen.Visitors
             }
             m_IsFirst = false;
 
-            m_Builder.Append(declaration.CppType).Append(" ").Append(declaration.Name.ToLower());
+            m_Builder.Append(declaration.CppType).Append(declaration.IsPointer ? "* " : " ").Append(declaration.Name.ToLower());
         }
 
         private void VisitReferenceDeclaration(Declaration declaration)

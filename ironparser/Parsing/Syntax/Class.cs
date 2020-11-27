@@ -11,6 +11,20 @@ namespace IronParser.Parsing.Syntax
         public string Name { get; set; }
         public string ParentClassName { get; set; }
         public List<Declaration> Declarations { get; set; }
+        public List<FieldAttribute> Attributes { get; set; }
         public List<string> Includes { get; set; }
+
+        public bool HasAttribute(string attribute)
+        {
+            foreach (FieldAttribute attr in Attributes)
+            {
+                if (attr.Name.Equals(attribute))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

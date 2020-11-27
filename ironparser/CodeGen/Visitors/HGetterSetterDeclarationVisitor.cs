@@ -18,17 +18,20 @@ namespace IronParser.CodeGen.Visitors
 
         public override void VisitBoolDeclaration(BoolDeclaration boolDeclaration)
         {
-            VisitValueDeclaration(boolDeclaration);
+            bool isBaseType = true;
+            VisitValueDeclaration(boolDeclaration, isBaseType);
         }
 
         public override void VisitFloatDeclaration(FloatDeclaration floatDeclaration)
         {
-            VisitValueDeclaration(floatDeclaration);
+            bool isBaseType = true;
+            VisitValueDeclaration(floatDeclaration, isBaseType);
         }
 
         public override void VisitIntDeclaration(IntDeclaration intDeclaration)
         {
-            VisitIntDeclaration(intDeclaration);
+            bool isBaseType = true;
+            VisitValueDeclaration(intDeclaration, isBaseType);
         }
 
         public override void VisitVector2fDeclaration(Vector2fDeclaration vector2fDeclaration)
@@ -36,26 +39,56 @@ namespace IronParser.CodeGen.Visitors
             VisitReferenceDeclaration(vector2fDeclaration);
         }
 
-        private void VisitValueDeclaration(Declaration declaration)
+        public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
+        {
+            if (customDeclaration.IsPointer)
+            {
+                bool isBaseType = false;
+                VisitValueDeclaration(customDeclaration, isBaseType);
+            }
+            else
+            {
+                VisitReferenceDeclaration(customDeclaration);
+            }
+        }
+
+        private void VisitValueDeclaration(Declaration declaration, bool isBaseType)
         {
             if (declaration.HasAttribute("NoAccessors"))
                 return;
 
+            if (!isBaseType && declaration.HasAttribute("NonConstGetter"))
+            {
+                m_Builder.Tab()
+                    .Append(declaration.CppType)
+                    .Append(declaration.IsPointer ? "* Get" : " Get")
+                    .Append(declaration.Name)
+                    .Append("() { return m_")
+                    .Append(declaration.Name)
+                    .Append("; }\n");
+            }
+
             m_Builder.Tab()
+                .Append(isBaseType ? "" : "const ")
                 .Append(declaration.CppType)
-                .Append(" Get")
+                .Append(declaration.IsPointer ? "* Get" : " Get")
                 .Append(declaration.Name)
                 .Append("() const { return m_")
                 .Append(declaration.Name)
-                .Append("; }\n")
-                .Tab()
+                .Append("; }\n");
+
+            m_Builder.Tab()
                 .Append("void Set")
                 .Append(declaration.Name)
                 .Append("(")
                 .Append(declaration.CppType)
-                .Append(" value) { m_")
+                .Append(declaration.IsPointer ? "* " : " ")
+                .Append(declaration.Name.ToLower())
+                .Append(") { m_")
                 .Append(declaration.Name)
-                .Append(" = value; }\n");
+                .Append(" = ")
+                .Append(declaration.Name.ToLower())
+                .Append("; }\n");
         }
 
         private void VisitReferenceDeclaration(Declaration declaration)

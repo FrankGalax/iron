@@ -194,5 +194,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\movement\positioncomponent.iron" />
+    <None Include="src\ecs\component.iron" />
   </ItemGroup>
 </Project>

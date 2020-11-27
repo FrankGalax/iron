@@ -33,13 +33,24 @@ namespace IronParser.CodeGen.Visitors
             VisitDeclaration(vector2fDeclaration);
         }
 
+        public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
+        {
+            VisitDeclaration(customDeclaration);
+        }
+
         private void VisitDeclaration(Declaration declaration)
         {
             m_Builder.Tab()
                 .Append(declaration.CppType)
-                .Append(" m_")
-                .Append(declaration.Name)
-                .Append(";\n");
+                .Append(declaration.IsPointer ? "* m_" : " m_")
+                .Append(declaration.Name);
+
+            if (declaration.IsPointer)
+            {
+                m_Builder.Append(" = nullptr");
+            }
+
+            m_Builder.Append(";\n");
         }
     }
 }

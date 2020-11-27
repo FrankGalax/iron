@@ -83,6 +83,13 @@ namespace IronParser.CodeGen.Visitors
             }
         }
 
+        public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
+        {
+            Prefix();
+
+            VisitDeclaration(customDeclaration);
+        }
+
         private void Prefix()
         {
             if (!m_IsFirst)

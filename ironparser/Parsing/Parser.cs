@@ -41,21 +41,34 @@ namespace IronParser.Parsing
 
         public Class Class()
         {
+            List<FieldAttribute> attrs = new List<FieldAttribute>();
+            while (m_Look.Tag == '[')
+            {
+                List<FieldAttribute> fieldAttributes = FieldAttributes();
+                attrs.AddRange(fieldAttributes);
+            }
+
             Match(TagType.Class);
             Class c = new Class
             {
                 Name = ((Word)m_Look).Lexeme,
+                Attributes = attrs,
                 Includes = new List<string>()
             };
             Match(TagType.Id);
-            Match(':');
-            c.ParentClassName = ((Word)m_Look).Lexeme;
-            Match(TagType.Id);
+
+            if (m_Look.Tag == ':')
+            {
+                Match(':');
+                c.ParentClassName = ((Word)m_Look).Lexeme;
+                Match(TagType.Id);
+            }
+
             Match('{');
             c.Declarations = Declarations();
             Match('}');
 
-            if (c.ParentClassName.Equals("Component"))
+            if (c.ParentClassName != null && c.ParentClassName.Equals("Component"))
             {
                 c.Includes.Add("ecs/component.h");
             }
@@ -87,25 +100,40 @@ namespace IronParser.Parsing
 
         private Declaration Declaration()
         {
-            List<DeclarationAttribute> attrs = new List<DeclarationAttribute>();
+            List<FieldAttribute> attrs = new List<FieldAttribute>();
             while (m_Look.Tag == '[')
             {
-                List<DeclarationAttribute> declarationAttributes = DeclarationAttributes();
-                attrs.AddRange(declarationAttributes);
+                List<FieldAttribute> fieldAttributes = FieldAttributes();
+                attrs.AddRange(fieldAttributes);
             }
 
             CType t = Type();
+
+            bool isPointer = false;
+            if (m_Look.Tag == '*')
+            {
+                isPointer = true;
+                Match('*');
+            }
+
             Word word = (Word)m_Look;
             Match(TagType.Id);
             Declaration decl = null;
 
             if (m_Look.Tag == '=')
             {
-                decl = InitializedDeclaration(t, word.Lexeme);
+                decl = InitializedDeclaration(t, word.Lexeme, isPointer);
             }
             else
             {
-                decl = UninitializedDeclaration(t, word.Lexeme);
+                if (t.Tag == (int)TagType.Custom)
+                {
+                    decl = new CustomDeclaration(word.Lexeme, t.Lexeme, isPointer);
+                }
+                else
+                {
+                    decl = UninitializedDeclaration(t, word.Lexeme, isPointer);
+                }
             }
 
             if (decl == null)
@@ -116,9 +144,9 @@ namespace IronParser.Parsing
             return decl;
         }
 
-        private List<DeclarationAttribute> DeclarationAttributes()
+        private List<FieldAttribute> FieldAttributes()
         {
-            List<DeclarationAttribute> declarationAttributes = new List<DeclarationAttribute>();
+            List<FieldAttribute> declarationAttributes = new List<FieldAttribute>();
             Match('[');
             do
             {
@@ -126,7 +154,7 @@ namespace IronParser.Parsing
                 {
                     Match(',');
                 }
-                declarationAttributes.Add(new DeclarationAttribute { Name = ((Word)m_Look).Lexeme });
+                declarationAttributes.Add(new FieldAttribute { Name = ((Word)m_Look).Lexeme });
                 Match(TagType.Id);
             } while (m_Look.Tag == ',');
 
@@ -135,29 +163,29 @@ namespace IronParser.Parsing
             return declarationAttributes;
         }
 
-        private Declaration InitializedDeclaration(CType t, string name)
+        private Declaration InitializedDeclaration(CType t, string name, bool isPointer)
         {
             Match('=');
             if (t == CType.Bool)
             {
-                return InitializedBool(name);
+                return InitializedBool(name, isPointer);
             }
             else if (t == CType.Int)
             {
-                return InitializedInt(name);
+                return InitializedInt(name, isPointer);
             }
             else if (t == CType.Float)
             {
-                return InitializedFloat(name);
+                return InitializedFloat(name, isPointer);
             }
             else if (t == CType.Vector2f)
             {
-                return InitializedVector2f(name);
+                return InitializedVector2f(name, isPointer);
             }
             return null;
         }
 
-        private BoolDeclaration InitializedBool(string name)
+        private BoolDeclaration InitializedBool(string name, bool isPointer)
         {
             if (m_Look.Tag == (int)TagType.True)
             {
@@ -168,7 +196,7 @@ namespace IronParser.Parsing
             return new BoolDeclaration(name, false);
         }
 
-        private IntDeclaration InitializedInt(string name)
+        private IntDeclaration InitializedInt(string name, bool isPointer)
         {
             bool negate = false;
             if (m_Look.Tag == '-')
@@ -178,10 +206,10 @@ namespace IronParser.Parsing
             }
             Num token = (Num)m_Look;
             Match(TagType.Num);
-            return new IntDeclaration(name, negate ? -token.Value : token.Value);
+            return new IntDeclaration(name, negate ? -token.Value : token.Value, isPointer);
         }
 
-        private FloatDeclaration InitializedFloat(string name)
+        private FloatDeclaration InitializedFloat(string name, bool isPointer)
         {
             bool negate = false;
             if (m_Look.Tag == '-')
@@ -191,44 +219,60 @@ namespace IronParser.Parsing
             }
             Real token = (Real)m_Look;
             Match(TagType.Real);
-            return new FloatDeclaration(name, negate ? -token.Value : token.Value);
+            return new FloatDeclaration(name, negate ? -token.Value : token.Value, isPointer);
         }
 
-        private Vector2fDeclaration InitializedVector2f(string name)
+        private Vector2fDeclaration InitializedVector2f(string name, bool isPointer)
         {
             Real xToken = (Real)m_Look;
             Match(TagType.Real);
             Match(',');
             Real yToken = (Real)m_Look;
             Match(TagType.Real);
-            return new Vector2fDeclaration(name, xToken.Value, yToken.Value);
+            return new Vector2fDeclaration(name, xToken.Value, yToken.Value, isPointer);
         }
 
-        private Declaration UninitializedDeclaration(CType t, string name)
+        private Declaration UninitializedDeclaration(CType t, string name, bool isPointer)
         {
             if (t == CType.Bool)
             {
-                return new BoolDeclaration(name);
+                return new BoolDeclaration(name, isPointer);
             }
             else if (t == CType.Int)
             {
-                return new IntDeclaration(name);
+                return new IntDeclaration(name, isPointer);
             }
             else if (t == CType.Float)
             {
-                return new FloatDeclaration(name);
+                return new FloatDeclaration(name, isPointer);
             }
             else if (t == CType.Vector2f)
             {
-                return new Vector2fDeclaration(name);
+                return new Vector2fDeclaration(name, isPointer);
             }
+
             return null;
         }
 
         private CType Type()
         {
-            CType t = (CType)m_Look;
-            Match((int)TagType.Basic);
+            CType t = null;
+            if (m_Look is CType)
+            {
+                t = (CType)m_Look;
+                Match((int)TagType.Basic);
+            }
+            else if (m_Look is Word)
+            {
+                t = new CType(((Word)m_Look).Lexeme, TagType.Custom);
+                Match(m_Look.Tag);
+            }
+
+            if (t == null)
+            {
+                Error("unrecognized type");
+            }
+
             if (m_Look.Tag != '[')
                 return t;
             return Dims(t);

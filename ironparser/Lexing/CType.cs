@@ -13,21 +13,5 @@ namespace IronParser.Lexing
             base(lexeme, tag)
         {
         }
-
-        public static bool Numeric(CType t)
-        {
-            return t == CType.Int || t == CType.Float;
-        }
-
-        public static CType Max(CType t1, CType t2)
-        {
-            if (!Numeric(t1) || !Numeric(t2))
-                return null;
-            if (t1 == CType.Float || t2 == CType.Float)
-                return CType.Float;
-            if (t1 == CType.Int || t2 == CType.Int)
-                return CType.Int;
-            return null;
-        }
     }
 }

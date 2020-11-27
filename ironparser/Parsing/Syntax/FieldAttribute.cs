@@ -4,7 +4,7 @@ using System.Text;
 
 namespace IronParser.Parsing.Syntax
 {
-    class DeclarationAttribute
+    class FieldAttribute
     {
         public string Name { get; set; }
     }

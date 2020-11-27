@@ -7,19 +7,22 @@ namespace IronParser.Parsing.Syntax
     {
         public string Name { get; private set; }
         public string CppType { get; private set; }
-        public List<DeclarationAttribute> Attributes { get; set; }
+        public List<FieldAttribute> Attributes { get; set; }
+        public bool IsPointer { get; set; }
+        public virtual bool NeedConstructor { get { return true; } }
 
-        public Declaration(string name, string cppType)
+        public Declaration(string name, string cppType, bool isPointer)
         {
             Name = name;
             CppType = cppType;
+            IsPointer = isPointer;
         }
 
         public bool HasAttribute(string attribute)
         {
-            foreach (DeclarationAttribute declarationAttribute in Attributes)
+            foreach (FieldAttribute attr in Attributes)
             {
-                if (declarationAttribute.Name.Equals(attribute))
+                if (attr.Name.Equals(attribute))
                 {
                     return true;
                 }

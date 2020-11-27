@@ -1,0 +1,6 @@
+[Virtual]
+class Component
+{
+	[NonConstGetter]
+	Entity* Owner;
+}

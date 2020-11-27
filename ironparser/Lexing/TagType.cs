@@ -11,6 +11,7 @@ namespace IronParser.Lexing
         Index,
         Num,
         Real,
-        True
+        True,
+        Custom
     }
 }

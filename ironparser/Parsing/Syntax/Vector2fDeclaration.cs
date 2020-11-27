@@ -10,15 +10,15 @@ namespace IronParser.Parsing.Syntax
         public float XValue { get; private set; }
         public float YValue { get; private set; }
 
-        public Vector2fDeclaration(string name, float xValue, float yValue) :
-            base(name, "Vector2f")
+        public Vector2fDeclaration(string name, float xValue, float yValue, bool isPointer) :
+            base(name, "Vector2f", isPointer)
         {
             XValue = xValue;
             YValue = yValue;
         }
 
-        public Vector2fDeclaration(string name) :
-            this(name, 0.0f, 0.0f)
+        public Vector2fDeclaration(string name, bool isPointer) :
+            this(name, 0.0f, 0.0f, isPointer)
         {
 
         }
