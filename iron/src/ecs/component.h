@@ -2,9 +2,17 @@
 
 #include <iron.h>
 
+#pragma region usercode
+// test 1
+#pragma endregion
+
 ironBEGIN_NAMESPACE
 
 class Entity;
+
+#pragma region usercodenamespace
+// test 2
+#pragma endregion
 
 class Component
 {
@@ -17,6 +25,10 @@ public:
 
 private:
     Entity* m_Owner = nullptr;
+
+#pragma region usercodeclass
+// test 3
+#pragma endregion
 };
 
 ironEND_NAMESPACE
