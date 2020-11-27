@@ -1,0 +1,7 @@
+class PositionComponent : Component
+{
+	[NonConstGetter, ReadOnly]
+	Vector2f Position;
+	[ReadOnly]
+	Vector2f Size;
+}

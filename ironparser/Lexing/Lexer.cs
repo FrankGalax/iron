@@ -23,6 +23,7 @@ namespace IronParser.Lexing
             Reserve(CType.Int);
             Reserve(CType.Bool);
             Reserve(CType.Float);
+            Reserve(CType.Vector2f);
             Reserve(new Word("class", TagType.Class));
         }
 

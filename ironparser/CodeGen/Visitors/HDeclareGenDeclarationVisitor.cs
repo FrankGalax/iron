@@ -4,11 +4,11 @@ using System.Text;
 
 namespace IronParser.CodeGen.Visitors
 {
-    class CppHDeclareGenDeclarationVisitor : DeclarationVisitor
+    class HDeclareGenDeclarationVisitor : DeclarationVisitor
     {
         private StringBuilder m_Builder;
 
-        public CppHDeclareGenDeclarationVisitor(StringBuilder builder)
+        public HDeclareGenDeclarationVisitor(StringBuilder builder)
         {
             m_Builder = builder;
         }
@@ -26,6 +26,11 @@ namespace IronParser.CodeGen.Visitors
         public override void VisitIntDeclaration(IntDeclaration intDeclaration)
         {
             VisitDeclaration(intDeclaration);
+        }
+
+        public override void VisitVector2fDeclaration(Vector2fDeclaration vector2fDeclaration)
+        {
+            VisitDeclaration(vector2fDeclaration);
         }
 
         private void VisitDeclaration(Declaration declaration)

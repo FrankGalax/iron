@@ -8,12 +8,12 @@ using System.Globalization;
 
 namespace IronParser.CodeGen.Visitors
 {
-    class CppCppConstructorDeclarationVisitor : DeclarationVisitor
+    class ConstructorDeclarationVisitor : DeclarationVisitor
     {
         private StringBuilder m_Builder;
         private bool m_IsFirst;
 
-        public CppCppConstructorDeclarationVisitor(StringBuilder builder)
+        public ConstructorDeclarationVisitor(StringBuilder builder)
         {
             m_Builder = builder;
             m_IsFirst = true;
@@ -45,6 +45,11 @@ namespace IronParser.CodeGen.Visitors
             Prefix(intDeclaration);
             m_Builder.Append(intDeclaration.Value);
             Suffix();
+        }
+
+        public override void VisitVector2fDeclaration(Vector2fDeclaration vector2fDeclaration)
+        {
+            throw new NotImplementedException();
         }
 
         private void Prefix(Declaration declaration)

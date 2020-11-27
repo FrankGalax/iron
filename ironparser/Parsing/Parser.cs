@@ -2,8 +2,6 @@
 using System;
 using IronParser.Lexing;
 using IronParser.Parsing.Syntax;
-using IronParser.Parsing.Syntax.Attributes.DeclarationAttributes;
-using IronParser.Parsing.Syntax.Attributes;
 
 namespace IronParser.Parsing
 {
@@ -46,13 +44,31 @@ namespace IronParser.Parsing
             Match(TagType.Class);
             Class c = new Class
             {
-                Name = ((Word)m_Look).Lexeme
+                Name = ((Word)m_Look).Lexeme,
+                Includes = new List<string>()
             };
+            Match(TagType.Id);
+            Match(':');
+            c.ParentClassName = ((Word)m_Look).Lexeme;
             Match(TagType.Id);
             Match('{');
             c.Declarations = Declarations();
             Match('}');
 
+            if (c.ParentClassName.Equals("Component"))
+            {
+                c.Includes.Add("ecs/component.h");
+            }
+
+            bool addedVector = false;
+            foreach (Declaration declaration in c.Declarations)
+            {
+                if (declaration is Vector2fDeclaration && !addedVector)
+                {
+                    c.Includes.Add("math/vector.h");
+                    addedVector = true;
+                }
+            }
             return c;
         }
 
@@ -74,8 +90,8 @@ namespace IronParser.Parsing
             List<DeclarationAttribute> attrs = new List<DeclarationAttribute>();
             while (m_Look.Tag == '[')
             {
-                DeclarationAttribute attr = DeclarationAttribute();
-                attrs.Add(attr);
+                List<DeclarationAttribute> declarationAttributes = DeclarationAttributes();
+                attrs.AddRange(declarationAttributes);
             }
 
             CType t = Type();
@@ -100,14 +116,23 @@ namespace IronParser.Parsing
             return decl;
         }
 
-        private DeclarationAttribute DeclarationAttribute()
+        private List<DeclarationAttribute> DeclarationAttributes()
         {
+            List<DeclarationAttribute> declarationAttributes = new List<DeclarationAttribute>();
             Match('[');
-            Word word = (Word)m_Look;
-            Match(TagType.Id);
+            do
+            {
+                if (m_Look.Tag == ',')
+                {
+                    Match(',');
+                }
+                declarationAttributes.Add(new DeclarationAttribute { Name = ((Word)m_Look).Lexeme });
+                Match(TagType.Id);
+            } while (m_Look.Tag == ',');
+
             Match(']');
 
-            return AttributeHelper.GetDeclarationAttribute(word.Lexeme);
+            return declarationAttributes;
         }
 
         private Declaration InitializedDeclaration(CType t, string name)
@@ -178,6 +203,10 @@ namespace IronParser.Parsing
             else if (t == CType.Float)
             {
                 return new FloatDeclaration(name);
+            }
+            else if (t == CType.Vector2f)
+            {
+                return new Vector2fDeclaration(name);
             }
             return null;
         }

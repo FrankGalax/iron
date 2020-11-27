@@ -189,6 +189,9 @@
     <ClInclude Include="src\movement\insertercomponent.h" />
     <ClInclude Include="src\movement\insertersystem.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="src\movement\positioncomponent.iron" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,5 +1,4 @@
 ﻿using IronParser.CodeGen.Visitors;
-using IronParser.Parsing.Syntax.Attributes.DeclarationAttributes;
 using System.Collections.Generic;
 
 namespace IronParser.Parsing.Syntax
@@ -9,21 +8,24 @@ namespace IronParser.Parsing.Syntax
         public string Name { get; private set; }
         public string CppType { get; private set; }
         public List<DeclarationAttribute> Attributes { get; set; }
-        public bool HasAccessors { get; set; }
 
         public Declaration(string name, string cppType)
         {
             Name = name;
             CppType = cppType;
-            HasAccessors = true;
         }
 
-        public void ApplyAttributes()
+        public bool HasAttribute(string attribute)
         {
-            foreach (DeclarationAttribute attribute in Attributes)
+            foreach (DeclarationAttribute declarationAttribute in Attributes)
             {
-                attribute.Apply(this);
+                if (declarationAttribute.Name.Equals(attribute))
+                {
+                    return true;
+                }
             }
+
+            return false;
         }
 
         public abstract void AcceptVisitor(DeclarationVisitor visitor);

@@ -4,16 +4,14 @@ namespace IronParser.Lexing
 {
     class CType : Word
     {
-        public static readonly CType Int = new CType("int", TagType.Basic, 4),
-            Float = new CType("float", TagType.Basic, 8),
-            Bool = new CType("bool", TagType.Basic, 1);
+        public static readonly CType Int = new CType("int", TagType.Basic),
+            Float = new CType("float", TagType.Basic),
+            Bool = new CType("bool", TagType.Basic),
+            Vector2f = new CType("Vector2f", TagType.Basic);
 
-        public int Width { get; private set; }
-
-        public CType(String lexeme, TagType tag, int width) :
+        public CType(String lexeme, TagType tag) :
             base(lexeme, tag)
         {
-            Width = width;
         }
 
         public static bool Numeric(CType t)
