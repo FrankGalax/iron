@@ -78,4 +78,6 @@ private:
 
 ironEND_NAMESPACE
 
+#pragma region usercodeend
 #include <ecs/componentcacheimpl.h>
+#pragma endregion
