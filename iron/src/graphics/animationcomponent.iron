@@ -1,0 +1,11 @@
+class AnimationComponent : Component
+{
+    [ConstructorIgnore, NonConstGetter]
+    AnimationSprite[] AnimationSprites;
+    [ConstructorIgnore]
+    int AnimationSpriteIndex;
+    [ConstructorIgnore]
+    float Time;
+    [ConstructorIgnore]
+    float Timer;
+}

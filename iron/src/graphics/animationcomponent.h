@@ -6,24 +6,26 @@
 
 ironBEGIN_NAMESPACE
 
+#pragma region usercodenamespace
 struct AnimationSprite
 {
     void SetSpriteSheetXY(int x, int y) { m_SpriteSheetX = x; m_SpriteSheetY = y; }
     int m_SpriteSheetX;
     int m_SpriteSheetY;
 };
+#pragma endregion
 
 class AnimationComponent : public Component
 {
 public:
     std::vector<AnimationSprite>& GetAnimationSprites() { return m_AnimationSprites; }
     const std::vector<AnimationSprite>& GetAnimationSprites() const { return m_AnimationSprites; }
+    int GetAnimationSpriteIndex() const { return m_AnimationSpriteIndex; }
+    void SetAnimationSpriteIndex(int animationspriteindex) { m_AnimationSpriteIndex = animationspriteindex; }
     float GetTime() const { return m_Time; }
     void SetTime(float time) { m_Time = time; }
     float GetTimer() const { return m_Timer; }
     void SetTimer(float timer) { m_Timer = timer; }
-    int GetAnimationSpriteIndex() const { return m_AnimationSpriteIndex; }
-    void SetAnimationSpriteIndex(int animationSpriteIndex) { m_AnimationSpriteIndex = animationSpriteIndex; }
 
 private:
     std::vector<AnimationSprite> m_AnimationSprites;

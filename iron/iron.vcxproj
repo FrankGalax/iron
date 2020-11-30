@@ -193,6 +193,7 @@
     <None Include="src\ecs\component.iron" />
     <None Include="src\ecs\entity.iron" />
     <None Include="src\ecs\world.iron" />
+    <None Include="src\graphics\animationcomponent.iron" />
     <None Include="src\movement\positioncomponent.iron" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -33,7 +33,7 @@ namespace IronParser.CodeGen
             string userCodeClass = "";
             string userCodeEnd = "";
 
-            int userCodeStartIndex = file.IndexOf("#pragma region usercode");
+            int userCodeStartIndex = file.IndexOf("#pragma region usercode\n");
             if (userCodeStartIndex != -1)
             {
                 int userCodeEndIndex = file.IndexOf("#pragma endregion", userCodeStartIndex);

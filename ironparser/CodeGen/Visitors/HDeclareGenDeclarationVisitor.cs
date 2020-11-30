@@ -15,35 +15,38 @@ namespace IronParser.CodeGen.Visitors
 
         public override void VisitBoolDeclaration(BoolDeclaration boolDeclaration)
         {
-            VisitDeclaration(boolDeclaration);
+            VisitDeclaration(boolDeclaration, boolDeclaration.Value ? "true" : "false");
         }
 
         public override void VisitFloatDeclaration(FloatDeclaration floatDeclaration)
         {
-            VisitDeclaration(floatDeclaration);
+            string valueString = floatDeclaration.Value == 0.0f ?
+                "0.f" :
+                floatDeclaration.Value.ToString("0.0f").Replace(",", ".");
+            VisitDeclaration(floatDeclaration, valueString);
         }
 
         public override void VisitIntDeclaration(IntDeclaration intDeclaration)
         {
-            VisitDeclaration(intDeclaration);
+            VisitDeclaration(intDeclaration, intDeclaration.Value.ToString());
         }
 
         public override void VisitVector2fDeclaration(Vector2fDeclaration vector2fDeclaration)
         {
-            VisitDeclaration(vector2fDeclaration);
+            VisitDeclaration(vector2fDeclaration, null);
         }
 
         public override void VisitStringDeclaration(StringDeclaration stringDeclaration)
         {
-            VisitDeclaration(stringDeclaration);
+            VisitDeclaration(stringDeclaration, null);
         }
 
         public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
         {
-            VisitDeclaration(customDeclaration);
+            VisitDeclaration(customDeclaration, null);
         }
 
-        private void VisitDeclaration(Declaration declaration)
+        private void VisitDeclaration(Declaration declaration, string valueString)
         {
             m_Builder.Tab();
 
@@ -62,10 +65,17 @@ namespace IronParser.CodeGen.Visitors
 
             m_Builder.Append(" m_")
                 .Append(declaration.Name);
-
-            if (declaration.IsPointer && !declaration.IsArray)
+            
+            if (!declaration.IsArray)
             {
-                m_Builder.Append(" = nullptr");
+                if (declaration.IsPointer)
+                {
+                    m_Builder.Append(" = nullptr");
+                }
+                else if (valueString != null)
+                {
+                    m_Builder.Append(" = ").Append(valueString);
+                }
             }
 
             m_Builder.Append(";\n");

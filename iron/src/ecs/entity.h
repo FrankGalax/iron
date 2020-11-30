@@ -30,7 +30,7 @@ public:
     const std::vector<Component*>& GetComponents() const { return m_Components; }
 
 private:
-    int m_Id;
+    int m_Id = 0;
     World* m_World = nullptr;
     std::string m_Name;
     std::vector<Component*> m_Components;
