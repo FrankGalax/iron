@@ -1,0 +1,13 @@
+class SpriteComponent : Component
+{
+	int SpriteSheetX;
+    int SpriteSheetY;
+    [ReadOnly]
+    float ScaleX;
+    [ReadOnly]
+    float ScaleY;
+    [ReadOnly]
+    float Rotation;
+    [ReadOnly]
+    int Priority;
+}

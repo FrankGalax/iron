@@ -198,5 +198,6 @@
     <None Include="src\ecs\entity.iron" />
     <None Include="src\ecs\world.iron" />
     <None Include="src\graphics\animationcomponent.iron" />
+    <None Include="src\graphics\spritecomponent.iron" />
   </ItemGroup>
 </Project>

@@ -21,7 +21,7 @@ public:
     std::vector<AnimationSprite>& GetAnimationSprites() { return m_AnimationSprites; }
     const std::vector<AnimationSprite>& GetAnimationSprites() const { return m_AnimationSprites; }
     int GetAnimationSpriteIndex() const { return m_AnimationSpriteIndex; }
-    void SetAnimationSpriteIndex(int animationspriteindex) { m_AnimationSpriteIndex = animationspriteindex; }
+    void SetAnimationSpriteIndex(int animationSpriteIndex) { m_AnimationSpriteIndex = animationSpriteIndex; }
     float GetTime() const { return m_Time; }
     void SetTime(float time) { m_Time = time; }
     float GetTimer() const { return m_Timer; }

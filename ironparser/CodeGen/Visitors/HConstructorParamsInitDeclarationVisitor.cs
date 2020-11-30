@@ -154,7 +154,7 @@ namespace IronParser.CodeGen.Visitors
 
         private void VisitDeclaration(Declaration declaration)
         {
-            m_Builder.Append("m_").Append(declaration.Name).Append("(").Append(declaration.Name.ToLower()).Append(")");
+            m_Builder.Append("m_").Append(declaration.Name).Append("(").Append(declaration.Name.ToLowerCamelCase()).Append(")");
         }
     }
 }

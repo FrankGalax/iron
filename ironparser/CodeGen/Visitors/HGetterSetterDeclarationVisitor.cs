@@ -90,11 +90,11 @@ namespace IronParser.CodeGen.Visitors
                     .Append("(")
                     .Append(declaration.CppType)
                     .Append(declaration.IsPointer ? "* " : " ")
-                    .Append(declaration.Name.ToLower())
+                    .Append(declaration.Name.ToLowerCamelCase())
                     .Append(") { m_")
                     .Append(declaration.Name)
                     .Append(" = ")
-                    .Append(declaration.Name.ToLower())
+                    .Append(declaration.Name.ToLowerCamelCase())
                     .Append("; }\n");
             }
         }

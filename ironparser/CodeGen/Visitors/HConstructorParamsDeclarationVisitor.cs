@@ -73,7 +73,9 @@ namespace IronParser.CodeGen.Visitors
             }
             m_IsFirst = false;
 
-            m_Builder.Append(declaration.CppType).Append(declaration.IsPointer ? "* " : " ").Append(declaration.Name.ToLower());
+            m_Builder.Append(declaration.CppType)
+                .Append(declaration.IsPointer ? "* " : " ")
+                .Append(declaration.Name.ToLowerCamelCase());
         }
 
         private void VisitReferenceDeclaration(Declaration declaration)
@@ -94,7 +96,10 @@ namespace IronParser.CodeGen.Visitors
             }
             m_IsFirst = false;
 
-            m_Builder.Append("const ").Append(declaration.CppType).Append("& ").Append(declaration.Name.ToLower());
+            m_Builder.Append("const ")
+                .Append(declaration.CppType)
+                .Append("& ")
+                .Append(declaration.Name.ToLowerCamelCase());
         }
     }
 }
