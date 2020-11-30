@@ -2,17 +2,29 @@
 
 #include <iron.h>
 #include <vector>
+
+#pragma region usercode
 #include <graphics/spritesheetmanager.h>
+#pragma endregion
 
 ironBEGIN_NAMESPACE
 
 class Entity;
+
+#pragma region usercodenamespace
 class System;
 class Window;
-class Component;
+#pragma endregion
 
 class World
 {
+public:
+    const std::vector<Entity*>& GetEntities() const { return m_Entities; }
+
+private:
+    std::vector<Entity*> m_Entities;
+
+#pragma region usercodeclass
 public:
     ~World();
 
@@ -25,20 +37,18 @@ public:
 
     SpriteSheetManager& GetSpriteSheetManager() { return m_SpriteSheetManager; }
     const SpriteSheetManager& GetSpriteSheetManager() const { return m_SpriteSheetManager; }
-    
-    const std::vector<Entity*>& GetEntities() const { return m_Entities; }
 
 private:
     void RegisterEntity(Entity* entity);
     void UnregisterEntity(Entity* entity);
 
-    std::vector<Entity*> m_Entities;
     std::vector<Entity*> m_PendingAddEntities;
     std::vector<Entity*> m_PendingRemoveEntities;
     std::vector<System*> m_UpdateSystems;
     std::vector<System*> m_RenderSystems;
     int m_NextEntityId = 0;
     SpriteSheetManager m_SpriteSheetManager;
+#pragma endregion
 };
 
 ironEND_NAMESPACE

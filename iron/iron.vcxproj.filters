@@ -196,5 +196,6 @@
     <None Include="src\movement\positioncomponent.iron" />
     <None Include="src\ecs\component.iron" />
     <None Include="src\ecs\entity.iron" />
+    <None Include="src\ecs\world.iron" />
   </ItemGroup>
 </Project>
