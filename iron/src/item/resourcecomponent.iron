@@ -1,0 +1,5 @@
+class ResourceComponent : Component
+{
+	[ReadOnly, Enum]
+	ResourceType ResourceType;
+}

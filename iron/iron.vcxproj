@@ -196,6 +196,10 @@
     <None Include="src\graphics\animationcomponent.iron" />
     <None Include="src\graphics\spritecomponent.iron" />
     <None Include="src\input\inputcomponent.iron" />
+    <None Include="src\item\craftercomponent.iron" />
+    <None Include="src\item\inventorycomponent.iron" />
+    <None Include="src\item\resourcecomponent.iron" />
+    <None Include="src\movement\beltcomponent.iron" />
     <None Include="src\movement\positioncomponent.iron" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

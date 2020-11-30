@@ -39,7 +39,7 @@ namespace IronParser.CodeGen.Visitors
 
         public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
         {
-            if (customDeclaration.IsPointer)
+            if (customDeclaration.IsPointer && !customDeclaration.HasAttribute("ForwardDeclareIgnore"))
             {
                 m_Builder.Append("class ").Append(customDeclaration.CppType).Append(";\n");
                 DeclaredAtLeastOne = true;

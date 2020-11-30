@@ -26,7 +26,7 @@ public:
     World* GetWorld() { return m_World; }
     const World* GetWorld() const { return m_World; }
     const std::string& GetName() const { return m_Name; }
-    void SetName(const std::string& value) { m_Name = value; }
+    void SetName(const std::string& name) { m_Name = name; }
     const std::vector<Component*>& GetComponents() const { return m_Components; }
 
 private:

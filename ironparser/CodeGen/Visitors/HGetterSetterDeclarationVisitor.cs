@@ -46,9 +46,9 @@ namespace IronParser.CodeGen.Visitors
 
         public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
         {
-            if (customDeclaration.IsPointer && !customDeclaration.IsArray)
+            if ((customDeclaration.IsPointer || customDeclaration.HasAttribute("Enum")) && !customDeclaration.IsArray)
             {
-                bool isBaseType = false;
+                bool isBaseType = customDeclaration.HasAttribute("Enum");
                 VisitValueDeclaration(customDeclaration, isBaseType);
             }
             else
@@ -165,9 +165,13 @@ namespace IronParser.CodeGen.Visitors
                     .Append(declaration.Name)
                     .Append("(const ")
                     .Append(declaration.CppType)
-                    .Append("& value) { m_")
+                    .Append("& ")
+                    .Append(declaration.Name.ToLowerCamelCase())
+                    .Append(") { m_")
                     .Append(declaration.Name)
-                    .Append(" = value; }\n");
+                    .Append(" = ")
+                    .Append(declaration.Name.ToLowerCamelCase())
+                    .Append("; }\n");
             }
         }
     }

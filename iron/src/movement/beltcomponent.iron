@@ -1,0 +1,9 @@
+class BeltComponent : Component
+{
+    [ConstructorIgnore, ForwardDeclareIgnore]
+    BeltComponent* NextBelt;
+    [ConstructorIgnore, ReadOnly]
+    float Speed = 1.f;
+    [ConstructorIgnore]
+    Vector2f Direction = 1.f, 0.f;
+}

@@ -45,7 +45,7 @@ namespace IronParser.CodeGen.Visitors
 
         public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
         {
-            if (customDeclaration.IsPointer)
+            if (customDeclaration.IsPointer || customDeclaration.HasAttribute("Enum"))
             {
                 VisitValueDeclaration(customDeclaration);
             }
