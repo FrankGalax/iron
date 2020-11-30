@@ -8,6 +8,11 @@ ironBEGIN_NAMESPACE
 class InputComponent : public Component
 {
 public:
+
+private:
+
+#pragma region usercodeclass
+public:
 	InputComponent(const Window* window) : m_Window(window) {}
 
 	const Window* GetWindow() const { return m_Window; }
@@ -23,5 +28,7 @@ private:
 	bool m_IsLeftMouseButtonPressed = false;
 	bool m_WasLeftMouseButtonPressed = false;
 	const Window* m_Window = nullptr;
+#pragma endregion
 };
+
 ironEND_NAMESPACE
