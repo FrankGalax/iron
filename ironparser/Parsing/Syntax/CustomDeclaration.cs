@@ -9,8 +9,8 @@ namespace IronParser.Parsing.Syntax
     {
         public override bool NeedConstructor { get { return false; } }
 
-        public CustomDeclaration(string name, string cppType, bool isPointer) :
-            base(name, cppType, isPointer)
+        public CustomDeclaration(string name, string cppType, bool isPointer, bool isArray) :
+            base(name, cppType, isPointer, isArray)
         {
 
         }

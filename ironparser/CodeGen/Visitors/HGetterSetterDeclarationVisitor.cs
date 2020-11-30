@@ -39,9 +39,14 @@ namespace IronParser.CodeGen.Visitors
             VisitReferenceDeclaration(vector2fDeclaration);
         }
 
+        public override void VisitStringDeclaration(StringDeclaration stringDeclaration)
+        {
+            VisitReferenceDeclaration(stringDeclaration);
+        }
+
         public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
         {
-            if (customDeclaration.IsPointer)
+            if (customDeclaration.IsPointer && !customDeclaration.IsArray)
             {
                 bool isBaseType = false;
                 VisitValueDeclaration(customDeclaration, isBaseType);
@@ -77,18 +82,21 @@ namespace IronParser.CodeGen.Visitors
                 .Append(declaration.Name)
                 .Append("; }\n");
 
-            m_Builder.Tab()
-                .Append("void Set")
-                .Append(declaration.Name)
-                .Append("(")
-                .Append(declaration.CppType)
-                .Append(declaration.IsPointer ? "* " : " ")
-                .Append(declaration.Name.ToLower())
-                .Append(") { m_")
-                .Append(declaration.Name)
-                .Append(" = ")
-                .Append(declaration.Name.ToLower())
-                .Append("; }\n");
+            if (!declaration.HasAttribute("ReadOnly") && !declaration.IsArray)
+            {
+                m_Builder.Tab()
+                    .Append("void Set")
+                    .Append(declaration.Name)
+                    .Append("(")
+                    .Append(declaration.CppType)
+                    .Append(declaration.IsPointer ? "* " : " ")
+                    .Append(declaration.Name.ToLower())
+                    .Append(") { m_")
+                    .Append(declaration.Name)
+                    .Append(" = ")
+                    .Append(declaration.Name.ToLower())
+                    .Append("; }\n");
+            }
         }
 
         private void VisitReferenceDeclaration(Declaration declaration)
@@ -98,9 +106,26 @@ namespace IronParser.CodeGen.Visitors
             
             if (declaration.HasAttribute("NonConstGetter"))
             {
-                m_Builder.Tab()
-                    .Append(declaration.CppType)
-                    .Append("& Get")
+                m_Builder.Tab();
+
+                if (declaration.IsArray)
+                {
+                    m_Builder.Append("std::vector<");
+                }
+
+                m_Builder.Append(declaration.CppType);
+
+                if (declaration.IsPointer)
+                {
+                    m_Builder.Append("*");
+                }
+
+                if (declaration.IsArray)
+                {
+                    m_Builder.Append(">");
+                }
+
+                m_Builder.Append("& Get")
                     .Append(declaration.Name)
                     .Append("() { return m_")
                     .Append(declaration.Name)
@@ -108,15 +133,32 @@ namespace IronParser.CodeGen.Visitors
             }
 
             m_Builder.Tab()
-                .Append("const ")
-                .Append(declaration.CppType)
-                .Append("& Get")
+                .Append("const ");
+
+            if (declaration.IsArray)
+            {
+                m_Builder.Append("std::vector<");
+            }
+
+            m_Builder.Append(declaration.CppType);
+
+            if (declaration.IsPointer)
+            {
+                m_Builder.Append("*");
+            }
+
+            if (declaration.IsArray)
+            {
+                m_Builder.Append(">");
+            }
+
+            m_Builder.Append("& Get")
                 .Append(declaration.Name)
                 .Append("() const { return m_")
                 .Append(declaration.Name)
                 .Append("; }\n");
 
-            if (!declaration.HasAttribute("ReadOnly"))
+            if (!declaration.HasAttribute("ReadOnly") && !declaration.IsArray)
             {
                 m_Builder.Tab()
                     .Append("void Set")

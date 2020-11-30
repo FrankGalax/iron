@@ -52,6 +52,11 @@ namespace IronParser.CodeGen.Visitors
             throw new NotImplementedException();
         }
 
+        public override void VisitStringDeclaration(StringDeclaration stringDeclaration)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
         {
             throw new NotImplementedException();

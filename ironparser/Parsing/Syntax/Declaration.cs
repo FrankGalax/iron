@@ -9,13 +9,15 @@ namespace IronParser.Parsing.Syntax
         public string CppType { get; private set; }
         public List<FieldAttribute> Attributes { get; set; }
         public bool IsPointer { get; set; }
+        public bool IsArray { get; set; }
         public virtual bool NeedConstructor { get { return true; } }
 
-        public Declaration(string name, string cppType, bool isPointer)
+        public Declaration(string name, string cppType, bool isPointer, bool isArray)
         {
             Name = name;
             CppType = cppType;
             IsPointer = isPointer;
+            IsArray = isArray;
         }
 
         public bool HasAttribute(string attribute)

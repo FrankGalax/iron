@@ -1,0 +1,10 @@
+class Entity
+{
+	[ReadOnly]
+	int Id;
+	[ReadOnly, NonConstGetter]
+	World* World;
+	[ConstructorIgnore]
+	string Name;
+	Component*[] Components;
+}

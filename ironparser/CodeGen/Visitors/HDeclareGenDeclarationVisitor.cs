@@ -33,6 +33,11 @@ namespace IronParser.CodeGen.Visitors
             VisitDeclaration(vector2fDeclaration);
         }
 
+        public override void VisitStringDeclaration(StringDeclaration stringDeclaration)
+        {
+            VisitDeclaration(stringDeclaration);
+        }
+
         public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
         {
             VisitDeclaration(customDeclaration);
@@ -40,12 +45,25 @@ namespace IronParser.CodeGen.Visitors
 
         private void VisitDeclaration(Declaration declaration)
         {
-            m_Builder.Tab()
-                .Append(declaration.CppType)
-                .Append(declaration.IsPointer ? "* m_" : " m_")
+            m_Builder.Tab();
+
+            if (declaration.IsArray)
+            {
+                m_Builder.Append("std::vector<");
+            }
+
+            m_Builder.Append(declaration.CppType)
+                .Append(declaration.IsPointer ? "*" : "");
+
+            if (declaration.IsArray)
+            {
+                m_Builder.Append(">");
+            }
+
+            m_Builder.Append(" m_")
                 .Append(declaration.Name);
 
-            if (declaration.IsPointer)
+            if (declaration.IsPointer && !declaration.IsArray)
             {
                 m_Builder.Append(" = nullptr");
             }

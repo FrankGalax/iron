@@ -6,14 +6,14 @@ namespace IronParser.Parsing.Syntax
     {
         public bool Value { get; private set; }
 
-        public BoolDeclaration(string Name, bool value, bool isPointer) :
-            base(Name, "bool", isPointer)
+        public BoolDeclaration(string Name, bool value, bool isPointer, bool isArray) :
+            base(Name, "bool", isPointer, isArray)
         {
             Value = value;
         }
 
-        public BoolDeclaration(string name, bool isPointer) :
-            this(name, false, isPointer)
+        public BoolDeclaration(string name, bool isPointer, bool isArray) :
+            this(name, false, isPointer, isArray)
         {
         }
 

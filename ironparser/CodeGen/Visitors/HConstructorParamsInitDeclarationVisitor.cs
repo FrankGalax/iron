@@ -20,6 +20,11 @@ namespace IronParser.CodeGen.Visitors
 
         public override void VisitBoolDeclaration(BoolDeclaration boolDeclaration)
         {
+            if (!CanVisit(boolDeclaration))
+            {
+                return;
+            }
+
             Prefix();
 
             if (m_IsDefault && !boolDeclaration.HasDefaultValue())
@@ -34,6 +39,11 @@ namespace IronParser.CodeGen.Visitors
 
         public override void VisitFloatDeclaration(FloatDeclaration floatDeclaration)
         {
+            if (!CanVisit(floatDeclaration))
+            {
+                return;
+            }
+
             Prefix();
 
             if (m_IsDefault && !floatDeclaration.HasDefaultValue())
@@ -52,6 +62,11 @@ namespace IronParser.CodeGen.Visitors
 
         public override void VisitIntDeclaration(IntDeclaration intDeclaration)
         {
+            if (!CanVisit(intDeclaration))
+            {
+                return;
+            }
+
             Prefix();
 
             if (m_IsDefault && !intDeclaration.HasDefaultValue())
@@ -66,6 +81,11 @@ namespace IronParser.CodeGen.Visitors
 
         public override void VisitVector2fDeclaration(Vector2fDeclaration vector2fDeclaration)
         {
+            if (!CanVisit(vector2fDeclaration))
+            {
+                return;
+            }
+
             Prefix();
 
             if (m_IsDefault && !vector2fDeclaration.HasDefaultValue())
@@ -83,11 +103,44 @@ namespace IronParser.CodeGen.Visitors
             }
         }
 
+        public override void VisitStringDeclaration(StringDeclaration stringDeclaration)
+        {
+            if (!CanVisit(stringDeclaration))
+            {
+                return;
+            }
+
+            Prefix();
+
+            if (m_IsDefault && !stringDeclaration.HasDefaultValue())
+            {
+                m_Builder.Append("m_")
+                    .Append(stringDeclaration.Name)
+                    .Append("(\"")
+                    .Append(stringDeclaration.Value)
+                    .Append("\")");
+            }
+            else
+            {
+                VisitDeclaration(stringDeclaration);
+            }
+        }
+
         public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
         {
+            if (!CanVisit(customDeclaration))
+            {
+                return;
+            }
+
             Prefix();
 
             VisitDeclaration(customDeclaration);
+        }
+
+        private bool CanVisit(Declaration declaration)
+        {
+            return !declaration.IsArray && !declaration.HasAttribute("ConstructorIgnore");
         }
 
         private void Prefix()

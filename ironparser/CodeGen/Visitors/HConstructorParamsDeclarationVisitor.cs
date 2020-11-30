@@ -30,12 +30,17 @@ namespace IronParser.CodeGen.Visitors
 
         public override void VisitIntDeclaration(IntDeclaration intDeclaration)
         {
-            VisitIntDeclaration(intDeclaration);
+            VisitValueDeclaration(intDeclaration);
         }
 
         public override void VisitVector2fDeclaration(Vector2fDeclaration vector2fDeclaration)
         {
             VisitReferenceDeclaration(vector2fDeclaration);
+        }
+
+        public override void VisitStringDeclaration(StringDeclaration stringDeclaration)
+        {
+            VisitReferenceDeclaration(stringDeclaration);
         }
 
         public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
@@ -52,6 +57,11 @@ namespace IronParser.CodeGen.Visitors
 
         private void VisitValueDeclaration(Declaration declaration)
         {
+            if (declaration.IsArray || declaration.HasAttribute("ConstructorIgnore"))
+            {
+                return;
+            }
+
             if (m_IsDefault && !declaration.HasDefaultValue())
             {
                 return;
@@ -68,6 +78,11 @@ namespace IronParser.CodeGen.Visitors
 
         private void VisitReferenceDeclaration(Declaration declaration)
         {
+            if (declaration.IsArray || declaration.HasAttribute("ConstructorIgnore"))
+            {
+                return;
+            }
+
             if (m_IsDefault && !declaration.HasDefaultValue())
             {
                 return;

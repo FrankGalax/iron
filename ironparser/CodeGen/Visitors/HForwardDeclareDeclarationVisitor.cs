@@ -33,6 +33,10 @@ namespace IronParser.CodeGen.Visitors
         {
         }
 
+        public override void VisitStringDeclaration(StringDeclaration stringDeclaration)
+        {
+        }
+
         public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
         {
             if (customDeclaration.IsPointer)

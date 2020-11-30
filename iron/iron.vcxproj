@@ -191,6 +191,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ecs\component.iron" />
+    <None Include="src\ecs\entity.iron" />
     <None Include="src\movement\positioncomponent.iron" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

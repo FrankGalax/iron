@@ -26,11 +26,12 @@ namespace IronParser.CodeGen
 
         private void H()
         {
-            string file = File.ReadAllText(m_FilePath.Replace(".iron", ".h"));
+            string file = File.ReadAllText(m_FilePath.Replace(".iron", ".h")).Replace("\r", "");
 
             string userCode = "";
             string userCodeNameSpace = "";
             string userCodeClass = "";
+            string userCodeEnd = "";
 
             int userCodeStartIndex = file.IndexOf("#pragma region usercode");
             if (userCodeStartIndex != -1)
@@ -51,6 +52,13 @@ namespace IronParser.CodeGen
             {
                 int userCodeClassEndIndex = file.IndexOf("#pragma endregion", userCodeClassStartIndex);
                 userCodeClass = file.Substring(userCodeClassStartIndex, userCodeClassEndIndex - userCodeClassStartIndex + 18);
+            }
+
+            int userCodeEndStartIndex = file.IndexOf("#pragma region usercodeend");
+            if (userCodeEndStartIndex != -1)
+            {
+                int userCodeEndEndIndex = file.IndexOf("#pragma endregion", userCodeEndStartIndex);
+                userCodeEnd = file.Substring(userCodeEndStartIndex, userCodeEndEndIndex - userCodeEndStartIndex + 17);
             }
 
             StringBuilder hBuilder = new StringBuilder();
@@ -154,6 +162,11 @@ namespace IronParser.CodeGen
 
             hBuilder.Append("};\n\n")
                 .Append("ironEND_NAMESPACE");
+
+            if (!String.IsNullOrEmpty(userCodeEnd))
+            {
+                hBuilder.Append("\n\n").Append(userCodeEnd);
+            }
 
             File.WriteAllText(m_FilePath.Replace(".iron", ".h"), hBuilder.ToString());
         }
