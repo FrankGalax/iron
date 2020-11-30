@@ -9,14 +9,14 @@ namespace IronParser.Parsing.Syntax
     { 
         public string Value { get; private set; }
 
-        public StringDeclaration(string name, string value, bool isPointer, bool isArray) :
-            base(name, "std::string", isPointer, isArray)
+        public StringDeclaration(string name, string value, TypeInfo typeInfo) :
+            base(name, "std::string", typeInfo)
         {
             Value = value;
         }
 
-        public StringDeclaration(string name, bool isPointer, bool isArray) :
-            this(name, "", isPointer, isArray)
+        public StringDeclaration(string name, TypeInfo typeInfo) :
+            this(name, "", typeInfo)
         {
 
         }

@@ -111,7 +111,7 @@ namespace IronParser.CodeGen
             bool needConstructor = false;
             foreach (Declaration declaration in m_Class.Declarations)
             {
-                if (declaration.NeedConstructor)
+                if (!declaration.HasAttribute("ConstructorIgnore"))
                 {
                     needConstructor = true;
                 }

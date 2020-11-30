@@ -73,7 +73,8 @@ namespace IronParser.CodeGen.Visitors
             }
             m_IsFirst = false;
 
-            m_Builder.Append(declaration.CppType)
+            m_Builder.Append(declaration.IsConst ? "const " : "")
+                .Append(declaration.CppType)
                 .Append(declaration.IsPointer ? "* " : " ")
                 .Append(declaration.Name.ToLowerCamelCase());
         }

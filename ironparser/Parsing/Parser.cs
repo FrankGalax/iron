@@ -102,7 +102,10 @@ namespace IronParser.Parsing
         {
             List<Declaration> declarations = new List<Declaration>();
 
-            while (m_Look.Tag == (int)TagType.Basic || m_Look.Tag == (int)TagType.Id || m_Look.Tag == '[')
+            while (m_Look.Tag == (int)TagType.Const ||
+                m_Look.Tag == (int)TagType.Basic || 
+                m_Look.Tag == (int)TagType.Id || 
+                m_Look.Tag == '[')
             {
                 Declaration decl = Declaration();
                 Match(';');
@@ -120,19 +123,25 @@ namespace IronParser.Parsing
                 attrs.AddRange(fieldAttributes);
             }
 
+            TypeInfo typeInfo = new TypeInfo();
+
+            if (m_Look.Tag == (int)TagType.Const)
+            {
+                typeInfo.IsConst = true;
+                Match(TagType.Const);
+            }
+
             CType t = Type();
 
-            bool isPointer = false;
             if (m_Look.Tag == '*')
             {
-                isPointer = true;
+                typeInfo.IsPointer = true;
                 Match('*');
             }
 
-            bool isArray = false;
             if (m_Look.Tag == '[')
             {
-                isArray = true;
+                typeInfo.IsArray = true;
                 Match('[');
                 Match(']');
             }
@@ -143,17 +152,17 @@ namespace IronParser.Parsing
 
             if (m_Look.Tag == '=')
             {
-                decl = InitializedDeclaration(t, word.Lexeme, isPointer, isArray);
+                decl = InitializedDeclaration(t, word.Lexeme, typeInfo);
             }
             else
             {
                 if (t.Tag == (int)TagType.Custom)
                 {
-                    decl = new CustomDeclaration(word.Lexeme, t.Lexeme, isPointer, isArray);
+                    decl = new CustomDeclaration(word.Lexeme, t.Lexeme, typeInfo);
                 }
                 else
                 {
-                    decl = UninitializedDeclaration(t, word.Lexeme, isPointer, isArray);
+                    decl = UninitializedDeclaration(t, word.Lexeme, typeInfo);
                 }
             }
 
@@ -184,44 +193,44 @@ namespace IronParser.Parsing
             return declarationAttributes;
         }
 
-        private Declaration InitializedDeclaration(CType t, string name, bool isPointer, bool isArray)
+        private Declaration InitializedDeclaration(CType t, string name, TypeInfo typeInfo)
         {
             Match('=');
             if (t == CType.Bool)
             {
-                return InitializedBool(name, isPointer, isArray);
+                return InitializedBool(name, typeInfo);
             }
             else if (t == CType.Int)
             {
-                return InitializedInt(name, isPointer, isArray);
+                return InitializedInt(name, typeInfo);
             }
             else if (t == CType.Float)
             {
-                return InitializedFloat(name, isPointer, isArray);
+                return InitializedFloat(name, typeInfo);
             }
             else if (t == CType.Vector2f)
             {
-                return InitializedVector2f(name, isPointer, isArray);
+                return InitializedVector2f(name, typeInfo);
             }
             else if (t == CType.String)
             {
-                return InitializedString(name, isPointer, isArray);
+                return InitializedString(name, typeInfo);
             }
             return null;
         }
 
-        private BoolDeclaration InitializedBool(string name, bool isPointer, bool isArray)
+        private BoolDeclaration InitializedBool(string name, TypeInfo typeInfo)
         {
             if (m_Look.Tag == (int)TagType.True)
             {
                 Match(TagType.True);
-                return new BoolDeclaration(name, true, isArray);
+                return new BoolDeclaration(name, true, typeInfo);
             }
             Match(TagType.False);
-            return new BoolDeclaration(name, false, isArray);
+            return new BoolDeclaration(name, false, typeInfo);
         }
 
-        private IntDeclaration InitializedInt(string name, bool isPointer, bool isArray)
+        private IntDeclaration InitializedInt(string name, TypeInfo typeInfo)
         {
             bool negate = false;
             if (m_Look.Tag == '-')
@@ -231,10 +240,10 @@ namespace IronParser.Parsing
             }
             Num token = (Num)m_Look;
             Match(TagType.Num);
-            return new IntDeclaration(name, negate ? -token.Value : token.Value, isPointer, isArray);
+            return new IntDeclaration(name, negate ? -token.Value : token.Value, typeInfo);
         }
 
-        private FloatDeclaration InitializedFloat(string name, bool isPointer, bool isArray)
+        private FloatDeclaration InitializedFloat(string name, TypeInfo typeInfo)
         {
             bool negate = false;
             if (m_Look.Tag == '-')
@@ -244,49 +253,49 @@ namespace IronParser.Parsing
             }
             Real token = (Real)m_Look;
             Match(TagType.Real);
-            return new FloatDeclaration(name, negate ? -token.Value : token.Value, isPointer, isArray);
+            return new FloatDeclaration(name, negate ? -token.Value : token.Value, typeInfo);
         }
 
-        private Vector2fDeclaration InitializedVector2f(string name, bool isPointer, bool isArray)
+        private Vector2fDeclaration InitializedVector2f(string name, TypeInfo typeInfo)
         {
             Real xToken = (Real)m_Look;
             Match(TagType.Real);
             Match(',');
             Real yToken = (Real)m_Look;
             Match(TagType.Real);
-            return new Vector2fDeclaration(name, xToken.Value, yToken.Value, isPointer, isArray);
+            return new Vector2fDeclaration(name, xToken.Value, yToken.Value, typeInfo);
         }
 
-        private StringDeclaration InitializedString(string name, bool isPointer, bool isArray)
+        private StringDeclaration InitializedString(string name, TypeInfo typeInfo)
         {
             Match('"');
             string value = ((Word)m_Look).Lexeme;
             Match(TagType.Id);
             Match('"');
-            return new StringDeclaration(name, value, isPointer, isArray);
+            return new StringDeclaration(name, value, typeInfo);
         }
 
-        private Declaration UninitializedDeclaration(CType t, string name, bool isPointer, bool isArray)
+        private Declaration UninitializedDeclaration(CType t, string name, TypeInfo typeInfo)
         {
             if (t == CType.Bool)
             {
-                return new BoolDeclaration(name, isPointer, isArray);
+                return new BoolDeclaration(name, typeInfo);
             }
             else if (t == CType.Int)
             {
-                return new IntDeclaration(name, isPointer, isArray);
+                return new IntDeclaration(name, typeInfo);
             }
             else if (t == CType.Float)
             {
-                return new FloatDeclaration(name, isPointer, isArray);
+                return new FloatDeclaration(name, typeInfo);
             }
             else if (t == CType.Vector2f)
             {
-                return new Vector2fDeclaration(name, isPointer, isArray);
+                return new Vector2fDeclaration(name, typeInfo);
             }
             else if (t == CType.String)
             {
-                return new StringDeclaration(name, isPointer, isArray);
+                return new StringDeclaration(name, typeInfo);
             }
 
             return null;

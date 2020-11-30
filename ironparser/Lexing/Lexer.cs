@@ -20,6 +20,7 @@ namespace IronParser.Lexing
             m_Words = new Dictionary<string, Word>();
             Reserve(new Word("true", TagType.True));
             Reserve(new Word("false", TagType.False));
+            Reserve(new Word("const", TagType.Const));
             Reserve(CType.Int);
             Reserve(CType.Bool);
             Reserve(CType.Float);

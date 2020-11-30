@@ -12,6 +12,7 @@ namespace IronParser.Lexing
         Num,
         Real,
         True,
+        Const,
         Custom
     }
 }

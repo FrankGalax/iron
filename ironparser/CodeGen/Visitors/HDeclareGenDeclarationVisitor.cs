@@ -50,6 +50,11 @@ namespace IronParser.CodeGen.Visitors
         {
             m_Builder.Tab();
 
+            if (declaration.IsConst)
+            {
+                m_Builder.Append("const ");
+            }
+
             if (declaration.IsArray)
             {
                 m_Builder.Append("std::vector<");

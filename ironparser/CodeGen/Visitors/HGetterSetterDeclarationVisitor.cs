@@ -87,7 +87,7 @@ namespace IronParser.CodeGen.Visitors
                 m_Builder.Tab()
                     .Append("void Set")
                     .Append(declaration.Name)
-                    .Append("(")
+                    .Append(declaration.IsConst ? "(const " : "(")
                     .Append(declaration.CppType)
                     .Append(declaration.IsPointer ? "* " : " ")
                     .Append(declaration.Name.ToLowerCamelCase())

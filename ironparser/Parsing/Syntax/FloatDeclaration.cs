@@ -6,14 +6,14 @@ namespace IronParser.Parsing.Syntax
     {
         public float Value { get; private set; }
 
-        public FloatDeclaration(string name, float value, bool isPointer, bool isArray) :
-            base(name, "float", isPointer, isArray)
+        public FloatDeclaration(string name, float value, TypeInfo typeInfo) :
+            base(name, "float", typeInfo)
         {
             Value = value;
         }
 
-        public FloatDeclaration(string name, bool isPointer, bool isArray) :
-            this(name, 0.0f, isPointer, isArray)
+        public FloatDeclaration(string name, TypeInfo typeInfo) :
+            this(name, 0.0f, typeInfo)
         {
 
         }
