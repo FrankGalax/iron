@@ -105,7 +105,7 @@ namespace IronParser.CodeGen
 
             if (m_Class.HasAttribute("Virtual"))
             {
-                hBuilder.Tab().Append("virtual ~").Append(m_Class.Name).Append("() {}\n");
+                hBuilder.Tab().Append("virtual ~").Append(m_Class.Name).Append("() {}\n\n");
             }
 
             bool needConstructor = false;
@@ -143,10 +143,8 @@ namespace IronParser.CodeGen
                 ApplyVisitor(new HConstructorParamsDeclarationVisitor(hBuilder, !isDefault));
                 hBuilder.Append(") : ");
                 ApplyVisitor(new HConstructorParamsInitDeclarationVisitor(hBuilder, !isDefault));
-                hBuilder.Append(" {}\n");
+                hBuilder.Append(" {}\n\n");
             }
-
-            hBuilder.Append("\n");
 
             // Getters and setters
             ApplyVisitor(new HGetterSetterDeclarationVisitor(hBuilder));
