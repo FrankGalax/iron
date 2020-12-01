@@ -157,6 +157,7 @@
     <ClInclude Include="src\ecs\world.h" />
     <ClInclude Include="src\graphics\animationcomponent.h" />
     <ClInclude Include="src\graphics\animationsystem.h" />
+    <ClInclude Include="src\movement\movementenum.h" />
     <ClInclude Include="src\ui\button.h" />
     <ClInclude Include="src\graphics\sfmlspritecomponent.h" />
     <ClInclude Include="src\graphics\spritecomponent.h" />
@@ -200,7 +201,12 @@
     <None Include="src\item\inventorycomponent.iron" />
     <None Include="src\item\resourcecomponent.iron" />
     <None Include="src\movement\beltcomponent.iron" />
+    <None Include="src\movement\insertercomponent.iron" />
+    <None Include="src\movement\onbeltcomponent.iron" />
     <None Include="src\movement\positioncomponent.iron" />
+    <None Include="src\ui\uibuttoncomponent.iron" />
+    <None Include="src\ui\uispritecomponent.iron" />
+    <None Include="src\ui\uitextcomponent.iron" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

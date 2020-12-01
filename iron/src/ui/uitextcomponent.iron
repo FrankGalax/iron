@@ -1,0 +1,9 @@
+class UITextComponent : Component
+{
+	[ReadOnly]
+	string String;
+	[ReadOnly]
+	color Color;
+	[ReadOnly]
+	int Size = 20;
+}

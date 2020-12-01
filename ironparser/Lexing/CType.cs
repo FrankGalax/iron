@@ -8,7 +8,8 @@ namespace IronParser.Lexing
             Float = new CType("float", TagType.Basic),
             Bool = new CType("bool", TagType.Basic),
             Vector2f = new CType("Vector2f", TagType.Basic),
-            String = new CType("string", TagType.Basic);
+            String = new CType("string", TagType.Basic),
+            Color = new CType("color", TagType.Basic);
 
         public CType(String lexeme, TagType tag) :
             base(lexeme, tag)

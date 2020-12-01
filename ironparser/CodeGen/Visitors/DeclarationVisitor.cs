@@ -9,6 +9,7 @@ namespace IronParser.CodeGen.Visitors
         public abstract void VisitFloatDeclaration(FloatDeclaration floatDeclaration);
         public abstract void VisitVector2fDeclaration(Vector2fDeclaration vector2fDeclaration);
         public abstract void VisitStringDeclaration(StringDeclaration stringDeclaration);
+        public abstract void VisitColorDeclaration(ColorDeclaration colorDeclaration);
         public abstract void VisitCustomDeclaration(CustomDeclaration customDeclaration);
     }
 }

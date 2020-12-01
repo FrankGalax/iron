@@ -191,6 +191,9 @@
     <ClInclude Include="src\ui\button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\movement\movementenum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\movement\positioncomponent.iron" />
@@ -204,5 +207,10 @@
     <None Include="src\item\inventorycomponent.iron" />
     <None Include="src\item\resourcecomponent.iron" />
     <None Include="src\movement\beltcomponent.iron" />
+    <None Include="src\movement\insertercomponent.iron" />
+    <None Include="src\movement\onbeltcomponent.iron" />
+    <None Include="src\ui\uibuttoncomponent.iron" />
+    <None Include="src\ui\uispritecomponent.iron" />
+    <None Include="src\ui\uitextcomponent.iron" />
   </ItemGroup>
 </Project>

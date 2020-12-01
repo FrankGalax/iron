@@ -7,14 +7,15 @@ namespace IronParser.CodeGen.Visitors
 {
     class HForwardDeclareDeclarationVisitor : DeclarationVisitor
     {
-        public bool DeclaredAtLeastOne { get; private set; }
+        public bool DeclaredAtLeastOne { get { return m_AddedDeclares.Count > 0; } }
 
         private StringBuilder m_Builder;
+        private List<string> m_AddedDeclares;
 
         public HForwardDeclareDeclarationVisitor(StringBuilder builder)
         {
             m_Builder = builder;
-            DeclaredAtLeastOne = false;
+            m_AddedDeclares = new List<string>();
         }
 
         public override void VisitBoolDeclaration(BoolDeclaration boolDeclaration)
@@ -37,13 +38,32 @@ namespace IronParser.CodeGen.Visitors
         {
         }
 
+        public override void VisitColorDeclaration(ColorDeclaration colorDeclaration)
+        {
+        }
+
         public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
         {
-            if (customDeclaration.IsPointer && !customDeclaration.HasAttribute("ForwardDeclareIgnore"))
+            if (customDeclaration.IsPointer && 
+                !customDeclaration.HasAttribute("ForwardDeclareIgnore") && 
+                !IsAlreadyAdded(customDeclaration.CppType))
             {
                 m_Builder.Append("class ").Append(customDeclaration.CppType).Append(";\n");
-                DeclaredAtLeastOne = true;
+                m_AddedDeclares.Add(customDeclaration.CppType);
             }
+        }
+
+        private bool IsAlreadyAdded(string declare)
+        {
+            foreach (string addedDeclare in m_AddedDeclares)
+            {
+                if (addedDeclare.Equals(declare))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

@@ -57,6 +57,11 @@ namespace IronParser.CodeGen.Visitors
             throw new NotImplementedException();
         }
 
+        public override void VisitColorDeclaration(ColorDeclaration colorDeclaration)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
         {
             throw new NotImplementedException();

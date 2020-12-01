@@ -41,6 +41,11 @@ namespace IronParser.CodeGen.Visitors
             VisitDeclaration(stringDeclaration, null);
         }
 
+        public override void VisitColorDeclaration(ColorDeclaration colorDeclaration)
+        {
+            VisitDeclaration(colorDeclaration, null);
+        }
+
         public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
         {
             VisitDeclaration(customDeclaration, null);

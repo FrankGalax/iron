@@ -76,6 +76,7 @@ namespace IronParser.Parsing
             bool addedVector = false;
             bool addedString = false;
             bool addedStdVector = false;
+            bool addedSFMLGraphics = false;
             foreach (Declaration declaration in c.Declarations)
             {
                 if (declaration is Vector2fDeclaration && !addedVector)
@@ -93,6 +94,13 @@ namespace IronParser.Parsing
                 if (declaration.IsArray && !addedStdVector)
                 {
                     c.Includes.Add("vector");
+                    addedStdVector = true;
+                }
+
+                if (declaration is ColorDeclaration && !addedSFMLGraphics)
+                {
+                    c.Includes.Add("SFML/Graphics.hpp");
+                    addedSFMLGraphics = true;
                 }
             }
             return c;
@@ -216,6 +224,10 @@ namespace IronParser.Parsing
             {
                 return InitializedString(name, typeInfo);
             }
+            else if (t == CType.Color)
+            {
+                return InitializedColor(name, typeInfo);
+            }
             return null;
         }
 
@@ -275,6 +287,19 @@ namespace IronParser.Parsing
             return new StringDeclaration(name, value, typeInfo);
         }
 
+        private ColorDeclaration InitializedColor(string name, TypeInfo typeInfo)
+        {
+            Real rToken = (Real)m_Look;
+            Match(TagType.Real);
+            Match(',');
+            Real gToken = (Real)m_Look;
+            Match(TagType.Real);
+            Match(',');
+            Real bToken = (Real)m_Look;
+            Match(TagType.Real);
+            return new ColorDeclaration(name, rToken.Value, gToken.Value, bToken.Value, typeInfo);
+        }
+
         private Declaration UninitializedDeclaration(CType t, string name, TypeInfo typeInfo)
         {
             if (t == CType.Bool)
@@ -296,6 +321,10 @@ namespace IronParser.Parsing
             else if (t == CType.String)
             {
                 return new StringDeclaration(name, typeInfo);
+            }
+            else if (t == CType.Color)
+            {
+                return new ColorDeclaration(name, typeInfo);
             }
 
             return null;

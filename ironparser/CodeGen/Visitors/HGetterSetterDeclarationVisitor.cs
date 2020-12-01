@@ -44,6 +44,11 @@ namespace IronParser.CodeGen.Visitors
             VisitReferenceDeclaration(stringDeclaration);
         }
 
+        public override void VisitColorDeclaration(ColorDeclaration colorDeclaration)
+        {
+            VisitReferenceDeclaration(colorDeclaration);
+        }
+
         public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
         {
             if ((customDeclaration.IsPointer || customDeclaration.HasAttribute("Enum")) && !customDeclaration.IsArray)

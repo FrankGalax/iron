@@ -1,0 +1,11 @@
+class UISpriteComponent : Component
+{
+	int SpriteSheetX;
+    int SpriteSheetY;
+    [ReadOnly]
+    float ScaleX = 1.f;
+    [ReadOnly]
+    float ScaleY = 1.f;
+    [ReadOnly]
+    int Priority;
+}

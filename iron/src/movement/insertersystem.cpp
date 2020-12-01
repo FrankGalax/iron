@@ -23,7 +23,7 @@ void InserterSystem::Update(float deltaTime)
 
     for (InserterSystemTuple& tuple : m_Tuples)
     {
-        if (tuple.m_InserterComponent->GetInserterType() == InserterComponent::InserterType::Insertable)
+        if (tuple.m_InserterComponent->GetInserterType() == InserterType::Insertable)
         {
             insertables.push_back(&tuple);
         }

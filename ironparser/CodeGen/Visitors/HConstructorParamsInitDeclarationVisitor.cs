@@ -125,6 +125,32 @@ namespace IronParser.CodeGen.Visitors
                 VisitDeclaration(stringDeclaration);
             }
         }
+        public override void VisitColorDeclaration(ColorDeclaration colorDeclaration)
+        {
+            if (!CanVisit(colorDeclaration))
+            {
+                return;
+            }
+
+            Prefix();
+
+            if (m_IsDefault && !colorDeclaration.HasDefaultValue())
+            {
+                m_Builder.Append("m_")
+                    .Append(colorDeclaration.Name)
+                    .Append("(")
+                    .Append(colorDeclaration.R.ToString("0.0f").Replace(",", "."))
+                    .Append(", ")
+                    .Append(colorDeclaration.G.ToString("0.0f").Replace(",", "."))
+                    .Append(", ")
+                    .Append(colorDeclaration.B.ToString("0.0f").Replace(",", "."))
+                    .Append(")");
+            }
+            else
+            {
+                VisitDeclaration(colorDeclaration);
+            }
+        }
 
         public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
         {

@@ -24,7 +24,7 @@ void EntityBuilder::BuildFurnace(Entity* entity, const Vector2f& position)
     entity->SetName("furnace");
     entity->AddComponent(new SpriteComponent(12, 2, 2.f, 2.f, 0.f, 0));
     entity->AddComponent(new PositionComponent(position, Vector2f(2.f, 2.f)));
-    entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Insertable));
+    entity->AddComponent(new InserterComponent(InserterType::Insertable));
     CrafterComponent* furnaceCrafterComponent = new CrafterComponent();
     std::vector<Recipe>& recipes = furnaceCrafterComponent->GetRecipes();
     {
@@ -46,22 +46,22 @@ void EntityBuilder::BuildInserter(Entity* entity, const Vector2f& position, cons
     if (direction.Equals(Vector2f::Down))
     {
         entity->AddComponent(new SpriteComponent(18, 11, 1.f, 1.f, 0.f, 0));
-        entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Inserter, Vector2f(0.5f, -0.02f), Vector2f(0.5f, 1.5f)));
+        entity->AddComponent(new InserterComponent(InserterType::Inserter, Vector2f(0.5f, -0.02f), Vector2f(0.5f, 1.5f)));
     }
     else if (direction.Equals(Vector2f::Right))
     {
         entity->AddComponent(new SpriteComponent(18, 11, 1.f, 1.f, 270.f, 0));
-        entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Inserter, Vector2f(-0.02f, 0.5f), Vector2f(1.5f, 0.5f)));
+        entity->AddComponent(new InserterComponent(InserterType::Inserter, Vector2f(-0.02f, 0.5f), Vector2f(1.5f, 0.5f)));
     }
     else if (direction.Equals(Vector2f::Up))
     {
         entity->AddComponent(new SpriteComponent(18, 11, 1.f, 1.f, 180.f, 0));
-        entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Inserter, Vector2f(0.5f, 1.02f), Vector2f(0.5f, -0.5f)));
+        entity->AddComponent(new InserterComponent(InserterType::Inserter, Vector2f(0.5f, 1.02f), Vector2f(0.5f, -0.5f)));
     }
     else if (direction.Equals(Vector2f::Left))
     {
         entity->AddComponent(new SpriteComponent(18, 11, 1.f, 1.f, 90.f, 0));
-        entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Inserter, Vector2f(1.02f, 0.5f), Vector2f(-0.5f, 0.5f)));
+        entity->AddComponent(new InserterComponent(InserterType::Inserter, Vector2f(1.02f, 0.5f), Vector2f(-0.5f, 0.5f)));
     }
 
     entity->AddComponent(new PositionComponent(position));
@@ -74,7 +74,7 @@ void EntityBuilder::BuildIronOre(Entity* entity, const Vector2f& position)
     BuildSpriteInfoFromResource(spriteInfo, ResourceType::IronOre);
     entity->AddComponent(new SpriteComponent(spriteInfo));
     entity->AddComponent(new PositionComponent(position));
-    entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Insertable));
+    entity->AddComponent(new InserterComponent(InserterType::Insertable));
     entity->AddComponent(new ResourceComponent(ResourceType::IronOre));
 }
 
@@ -85,7 +85,7 @@ void EntityBuilder::BuildIronIngot(Entity* entity, const Vector2f& position)
     BuildSpriteInfoFromResource(spriteInfo, ResourceType::IronIngot);
     entity->AddComponent(new SpriteComponent(spriteInfo));
     entity->AddComponent(new PositionComponent(position));
-    entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Insertable));
+    entity->AddComponent(new InserterComponent(InserterType::Insertable));
     entity->AddComponent(new ResourceComponent(ResourceType::IronIngot));
 }
 
@@ -105,7 +105,7 @@ void EntityBuilder::BuildBelt(Entity* entity, const Vector2f& position, const Ve
     BeltComponent* beltComponent = new BeltComponent();
     beltComponent->SetDirection(direction);
     entity->AddComponent(beltComponent);
-    InserterComponent* inserterComponent = new InserterComponent(InserterComponent::InserterType::Insertable);
+    InserterComponent* inserterComponent = new InserterComponent(InserterType::Insertable);
     inserterComponent->SetIsInsertableOutOnly(true);
     entity->AddComponent(inserterComponent);
     
@@ -153,7 +153,7 @@ void EntityBuilder::BuildChest(Entity* entity, const Vector2f& position)
     entity->SetName("chest");
     entity->AddComponent(new SpriteComponent(21, 5, 1.f, 1.f, 0.f, 0));
     entity->AddComponent(new PositionComponent(position));
-    entity->AddComponent(new InserterComponent(InserterComponent::InserterType::Insertable));
+    entity->AddComponent(new InserterComponent(InserterType::Insertable));
     entity->AddComponent(new InventoryComponent());
 }
 

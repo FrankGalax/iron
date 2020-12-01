@@ -1,0 +1,15 @@
+class InserterComponent : Component
+{
+    [Enum, ReadOnly]
+    InserterType InserterType;
+    [ConstructorIgnore]
+    Entity* In;
+    [ConstructorIgnore]
+    Entity* Out;
+    [ReadOnly]
+    Vector2f InOffset;
+    [ReadOnly]
+    Vector2f OutOffset;
+    [ConstructorIgnore]
+    bool IsInsertableOutOnly;
+}
