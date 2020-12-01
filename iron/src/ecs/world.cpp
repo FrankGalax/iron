@@ -1,5 +1,6 @@
 #include <ecs/world.h>
-#include <ecs/component.h>
+
+#pragma region usercode
 #include <ecs/entity.h>
 #include <ecs/system.h>
 #include <graphics/animationsystem.h>
@@ -12,9 +13,11 @@
 #include <item/inventorysystem.h>
 #include <movement/beltsystem.h>
 #include <movement/insertersystem.h>
+#pragma endregion
 
 ironBEGIN_NAMESPACE
 
+#pragma region usercodenamespace
 World::~World()
 {
     for (System* system : m_UpdateSystems)
@@ -124,5 +127,6 @@ void World::UnregisterEntity(Entity* entity)
         system->UnregisterEntity(entity);
     }
 }
+#pragma endregion
 
 ironEND_NAMESPACE

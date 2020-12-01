@@ -89,7 +89,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\iron\extern\sfml\include;..\iron\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\iron\src;..\iron\extern\sfml\include;..\iron\extern\nlohmann\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\iron\extern\sfml\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -129,12 +129,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\data\entitybuilder.cpp" />
+    <ClCompile Include="src\ecs\component.cpp" />
     <ClCompile Include="src\ecs\entity.cpp" />
     <ClCompile Include="src\ecs\system.cpp" />
     <ClCompile Include="src\ecs\world.cpp" />
+    <ClCompile Include="src\graphics\animationcomponent.cpp" />
     <ClCompile Include="src\graphics\animationsystem.cpp" />
+    <ClCompile Include="src\graphics\spritecomponent.cpp" />
     <ClCompile Include="src\graphics\spriterendersystem.cpp" />
     <ClCompile Include="src\graphics\spritesheetmanager.cpp" />
+    <ClCompile Include="src\input\inputcomponent.cpp" />
+    <ClCompile Include="src\item\craftercomponent.cpp" />
+    <ClCompile Include="src\item\inventorycomponent.cpp" />
+    <ClCompile Include="src\item\resourcecomponent.cpp" />
+    <ClCompile Include="src\movement\beltcomponent.cpp" />
+    <ClCompile Include="src\movement\insertercomponent.cpp" />
+    <ClCompile Include="src\movement\onbeltcomponent.cpp" />
+    <ClCompile Include="src\movement\positioncomponent.cpp" />
+    <ClCompile Include="src\ui\uibuttoncomponent.cpp" />
     <ClCompile Include="src\ui\uirendersystem.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
     <ClCompile Include="src\input\inputsystem.cpp" />
@@ -144,6 +156,8 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\math\vector.cpp" />
     <ClCompile Include="src\movement\insertersystem.cpp" />
+    <ClCompile Include="src\ui\uispritecomponent.cpp" />
+    <ClCompile Include="src\ui\uitextcomponent.cpp" />
     <ClCompile Include="src\ui\uitextrendersystem.cpp" />
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>

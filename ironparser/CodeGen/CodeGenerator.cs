@@ -21,7 +21,7 @@ namespace IronParser.CodeGen
         public void Generate()
         {
             H();
-            //Cpp();
+            Cpp();
         }
 
         private void H()
@@ -171,28 +171,47 @@ namespace IronParser.CodeGen
 
         private void Cpp()
         {
+            string file = File.ReadAllText(m_FilePath.Replace(".iron", ".cpp")).Replace("\r", "");
+
+            string userCode = "";
+            string userCodeNameSpace = "";
+
+            int userCodeStartIndex = file.IndexOf("#pragma region usercode\n");
+            if (userCodeStartIndex != -1)
+            {
+                int userCodeEndIndex = file.IndexOf("#pragma endregion", userCodeStartIndex);
+                userCode = file.Substring(userCodeStartIndex, userCodeEndIndex - userCodeStartIndex + 18);
+            }
+
+            int userCodeNamespaceStartIndex = file.IndexOf("#pragma region usercodenamespace");
+            if (userCodeNamespaceStartIndex != -1)
+            {
+                int userCodeNamespaceEndIndex = file.IndexOf("#pragma endregion", userCodeNamespaceStartIndex);
+                userCodeNameSpace = file.Substring(userCodeNamespaceStartIndex, userCodeNamespaceEndIndex - userCodeNamespaceStartIndex + 18);
+            }
+
             StringBuilder cppBuilder = new StringBuilder();
 
+            string includePath = m_FilePath.Substring(21).Replace("\\", "/").Replace(".iron", ".h");
             cppBuilder.Append("#include <")
-                .Append(m_Class.Name.ToLower())
-                .Append(".h>\n\n")
-            // Constructor
-                .CppClassPrefix(m_Class.Name)
-                .Append(m_Class.Name);
+                .Append(includePath)
+                .Append(">\n\n");
 
-            if (m_Class.Declarations.Count > 0)
+            if (!String.IsNullOrEmpty(userCode))
             {
-                cppBuilder.Append("() : \n");
-                ApplyVisitor(new ConstructorDeclarationVisitor(cppBuilder));
+                cppBuilder.Append(userCode).Append("\n");
             }
-            cppBuilder.Append("{\n}\n\n")
-            // Destructors
-                .CppClassPrefix(m_Class.Name)
-                .Append("~")
-                .Append(m_Class.Name)
-                .Append("();\n{\n}");
+            
+            cppBuilder.Append("ironBEGIN_NAMESPACE\n\n");
 
-            File.WriteAllText(m_Class.Name.ToLower() + ".cpp", cppBuilder.ToString());
+            if (!String.IsNullOrEmpty(userCodeNameSpace))
+            {
+                cppBuilder.Append(userCodeNameSpace).Append("\n");
+            }
+
+            cppBuilder.Append("ironEND_NAMESPACE");
+
+            File.WriteAllText(m_FilePath.Replace(".iron", ".cpp"), cppBuilder.ToString());
         }
 
         private void ApplyVisitor(DeclarationVisitor visitor)

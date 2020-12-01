@@ -1,9 +1,13 @@
 #include <ecs/entity.h>
+
+#pragma region usercode
 #include <ecs/component.h>
 #include <movement/positioncomponent.h>
+#pragma endregion
 
 ironBEGIN_NAMESPACE
 
+#pragma region usercodenamespace
 Entity::~Entity()
 {
     for (Component* component : m_Components)
@@ -35,5 +39,6 @@ const PositionComponent* Entity::GetPositionComponent() const
 {
     return m_PositionComponentCache.GetComponent(this);
 }
+#pragma endregion
 
 ironEND_NAMESPACE
