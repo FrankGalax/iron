@@ -1,4 +1,5 @@
 #include <ecs/entity.h>
+#include <json.h>
 
 #pragma region usercode
 #include <ecs/component.h>
@@ -6,6 +7,17 @@
 #pragma endregion
 
 ironBEGIN_NAMESPACE
+
+void Entity::ToJSON(JSON* json)
+{
+    nlohmann::json& j = json->GetJ();
+    for (Component* component : m_Components)
+    {
+        JSON subJSON;
+        component->ToJSON(&subJSON);
+        j["components"].push_back(subJSON.GetJ());
+    }
+}
 
 #pragma region usercodenamespace
 Entity::~Entity()

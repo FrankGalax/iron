@@ -9,6 +9,7 @@
 
 ironBEGIN_NAMESPACE
 
+class JSON;
 class Entity;
 
 #pragma region usercodenamespace
@@ -20,6 +21,8 @@ class World
 {
 public:
     const std::vector<Entity*>& GetEntities() const { return m_Entities; }
+
+    void ToJSON(JSON* j);
 
 private:
     std::vector<Entity*> m_Entities;

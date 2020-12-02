@@ -10,6 +10,8 @@
 
 ironBEGIN_NAMESPACE
 
+class JSON;
+
 class SpriteComponent : public Component
 {
 public:
@@ -23,6 +25,8 @@ public:
     float GetScaleY() const { return m_ScaleY; }
     float GetRotation() const { return m_Rotation; }
     int GetPriority() const { return m_Priority; }
+
+    void ToJSON(JSON* j);
 
 private:
     int m_SpriteSheetX = 0;

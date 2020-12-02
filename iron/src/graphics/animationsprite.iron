@@ -1,0 +1,5 @@
+class AnimationSprite
+{
+    int SpriteSheetX;
+    int SpriteSheetY;
+};

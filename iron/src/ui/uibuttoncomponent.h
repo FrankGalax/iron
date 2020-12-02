@@ -9,12 +9,16 @@
 
 ironBEGIN_NAMESPACE
 
+class JSON;
+
 class UIButtonComponent : public Component
 {
 public:
     UIButtonComponent(ButtonType buttonType) : m_ButtonType(buttonType) {}
 
     ButtonType GetButtonType() const { return m_ButtonType; }
+
+    void ToJSON(JSON* j);
 
 private:
     ButtonType m_ButtonType;

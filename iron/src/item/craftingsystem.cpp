@@ -31,9 +31,9 @@ void CraftingSystem::CheckPendingRecipe(CraftingSystemTuple& tuple)
     {
         for (const InventoryItem& inventoryItem : inventoryItems)
         {
-            for (const InventoryItem& ingredient : recipe.m_RecipeIngredients)
+            for (const InventoryItem& ingredient : recipe.GetRecipeIngredients())
             {
-                if (ingredient.m_ResourceType == inventoryItem.m_ResourceType && ingredient.m_Quantity <= inventoryItem.m_Quantity)
+                if (ingredient.GetResourceType() == inventoryItem.GetResourceType() && ingredient.GetQuantity() <= inventoryItem.GetQuantity())
                 {
                     tuple.m_CrafterComponent->SetActiveRecipe(&recipe);
                     return;
@@ -58,13 +58,13 @@ void CraftingSystem::CheckActiveRecipe(CraftingSystemTuple& tuple)
 
     bool inventoryComplete = true;
     const std::vector<InventoryItem>& inventoryItems = tuple.m_InventoryComponent->GetItems();
-    for (const InventoryItem& ingredient : recipe->m_RecipeIngredients)
+    for (const InventoryItem& ingredient : recipe->GetRecipeIngredients())
     {
         bool itemFound = false;
         for (const InventoryItem& inventoryItem : inventoryItems)
         {
-            if (inventoryItem.m_ResourceType == ingredient.m_ResourceType &&
-                inventoryItem.m_Quantity >= ingredient.m_Quantity)
+            if (inventoryItem.GetResourceType() == ingredient.GetResourceType() &&
+                inventoryItem.GetQuantity() >= ingredient.GetQuantity())
             {
                 itemFound = true;
                 break;
@@ -84,7 +84,7 @@ void CraftingSystem::CheckActiveRecipe(CraftingSystemTuple& tuple)
     }
 
     std::vector<InventoryItem>& pendingRemoveItems = tuple.m_InventoryComponent->GetPendingRemoveItems();
-    for (const InventoryItem& ingredient : recipe->m_RecipeIngredients)
+    for (const InventoryItem& ingredient : recipe->GetRecipeIngredients())
     {
         pendingRemoveItems.push_back(ingredient);
     }
@@ -103,16 +103,16 @@ void CraftingSystem::CheckCrafting(CraftingSystemTuple& tuple, float deltaTime)
     tuple.m_CrafterComponent->SetCraftingTime(craftingTime);
 
     const Recipe* activeRecipe = tuple.m_CrafterComponent->GetActiveRecipe();
-    if (craftingTime >= activeRecipe->m_Time)
+    if (craftingTime >= activeRecipe->GetTime())
     {
-        InventoryItem product = activeRecipe->m_Product;
-        product.m_IsOutput = true;
+        InventoryItem product = activeRecipe->GetProduct();
+        product.SetIsOutput(true);
         tuple.m_InventoryComponent->GetPendingAddItems().push_back(product);
         tuple.m_CrafterComponent->SetCraftingTime(0.f);
         tuple.m_CrafterComponent->SetIsCrafting(false);
         tuple.m_CrafterComponent->SetActiveRecipe(nullptr);
 
-        std::cout << "Crafted " << Utils::GetRessourceName(product.m_ResourceType) << " in " << tuple.m_Entity->GetName().c_str() << std::endl;
+        std::cout << "Crafted " << Utils::GetRessourceName(product.GetResourceType()) << " in " << tuple.m_Entity->GetName().c_str() << std::endl;
     }
 }
 

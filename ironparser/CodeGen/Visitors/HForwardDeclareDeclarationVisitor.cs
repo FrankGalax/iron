@@ -7,8 +7,6 @@ namespace IronParser.CodeGen.Visitors
 {
     class HForwardDeclareDeclarationVisitor : DeclarationVisitor
     {
-        public bool DeclaredAtLeastOne { get { return m_AddedDeclares.Count > 0; } }
-
         private StringBuilder m_Builder;
         private List<string> m_AddedDeclares;
 

@@ -10,6 +10,8 @@
 
 ironBEGIN_NAMESPACE
 
+class JSON;
+
 class CrafterComponent : public Component
 {
 public:
@@ -21,6 +23,8 @@ public:
     void SetIsCrafting(bool isCrafting) { m_IsCrafting = isCrafting; }
     float GetCraftingTime() const { return m_CraftingTime; }
     void SetCraftingTime(float craftingTime) { m_CraftingTime = craftingTime; }
+
+    void ToJSON(JSON* j);
 
 private:
     std::vector<Recipe> m_Recipes;

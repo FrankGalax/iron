@@ -5,6 +5,7 @@
 
 ironBEGIN_NAMESPACE
 
+class JSON;
 class Entity;
 class Window;
 
@@ -22,6 +23,8 @@ public:
     void SetWasLeftMouseButtonPressed(bool wasLeftMouseButtonPressed) { m_WasLeftMouseButtonPressed = wasLeftMouseButtonPressed; }
     const Window* GetWindow() const { return m_Window; }
     void SetWindow(const Window* window) { m_Window = window; }
+
+    void ToJSON(JSON* j);
 
 private:
     Entity* m_ClickedEntity = nullptr;

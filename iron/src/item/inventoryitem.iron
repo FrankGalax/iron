@@ -1,0 +1,7 @@
+class InventoryItem
+{
+    [Enum]
+    ResourceType ResourceType;
+    int Quantity;
+    bool IsOutput;
+};

@@ -1,9 +1,9 @@
-#include <ecs/component.h>
+#include <item/inventoryitem.h>
 #include <json.h>
 
 ironBEGIN_NAMESPACE
 
-void Component::ToJSON(JSON* json)
+void InventoryItem::ToJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
 }

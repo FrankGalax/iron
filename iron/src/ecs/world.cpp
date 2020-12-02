@@ -1,4 +1,5 @@
 #include <ecs/world.h>
+#include <json.h>
 
 #pragma region usercode
 #include <ecs/entity.h>
@@ -16,6 +17,17 @@
 #pragma endregion
 
 ironBEGIN_NAMESPACE
+
+void World::ToJSON(JSON* json)
+{
+    nlohmann::json& j = json->GetJ();
+    for (Entity* entitie : m_Entities)
+    {
+        JSON subJSON;
+        entitie->ToJSON(&subJSON);
+        j["entities"].push_back(subJSON.GetJ());
+    }
+}
 
 #pragma region usercodenamespace
 World::~World()

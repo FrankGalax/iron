@@ -10,6 +10,7 @@
 
 ironBEGIN_NAMESPACE
 
+class JSON;
 class World;
 class Component;
 
@@ -28,6 +29,8 @@ public:
     const std::string& GetName() const { return m_Name; }
     void SetName(const std::string& name) { m_Name = name; }
     const std::vector<Component*>& GetComponents() const { return m_Components; }
+
+    void ToJSON(JSON* j);
 
 private:
     int m_Id = 0;

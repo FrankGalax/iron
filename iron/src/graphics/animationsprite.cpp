@@ -1,9 +1,9 @@
-#include <ecs/component.h>
+#include <graphics/animationsprite.h>
 #include <json.h>
 
 ironBEGIN_NAMESPACE
 
-void Component::ToJSON(JSON* json)
+void AnimationSprite::ToJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
 }

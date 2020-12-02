@@ -11,11 +11,15 @@
 
 ironBEGIN_NAMESPACE
 
+class JSON;
+
 class InventoryComponent : public Component
 {
 public:
     std::vector<InventoryItem>& GetItems() { return m_Items; }
     const std::vector<InventoryItem>& GetItems() const { return m_Items; }
+
+    void ToJSON(JSON* j);
 
 private:
     std::vector<InventoryItem> m_Items;

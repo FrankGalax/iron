@@ -10,6 +10,7 @@
 
 ironBEGIN_NAMESPACE
 
+class JSON;
 class Entity;
 
 class InserterComponent : public Component
@@ -26,6 +27,8 @@ public:
     const Vector2f& GetOutOffset() const { return m_OutOffset; }
     bool GetIsInsertableOutOnly() const { return m_IsInsertableOutOnly; }
     void SetIsInsertableOutOnly(bool isInsertableOutOnly) { m_IsInsertableOutOnly = isInsertableOutOnly; }
+
+    void ToJSON(JSON* j);
 
 private:
     InserterType m_InserterType;

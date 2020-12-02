@@ -78,12 +78,10 @@ namespace IronParser.CodeGen
             hBuilder.Append("\n")
                 .Append("ironBEGIN_NAMESPACE\n\n");
 
-            HForwardDeclareDeclarationVisitor forwardDeclareVisitor = new HForwardDeclareDeclarationVisitor(hBuilder);
-            ApplyVisitor(forwardDeclareVisitor);
-            if (forwardDeclareVisitor.DeclaredAtLeastOne)
-            {
-                hBuilder.Append("\n");
-            }
+            hBuilder.Append("class JSON;\n");
+            ApplyVisitor(new HForwardDeclareDeclarationVisitor(hBuilder));
+
+            hBuilder.Append("\n");
 
             if (!String.IsNullOrEmpty(userCodeNameSpace))
             {
@@ -149,6 +147,8 @@ namespace IronParser.CodeGen
             // Getters and setters
             ApplyVisitor(new HGetterSetterDeclarationVisitor(hBuilder));
 
+            hBuilder.Append("\n").Tab().Append("void ToJSON(JSON* j);\n");
+
             // private
             hBuilder.Append("\nprivate:\n");
             ApplyVisitor(new HDeclareGenDeclarationVisitor(hBuilder));
@@ -195,7 +195,9 @@ namespace IronParser.CodeGen
             string includePath = m_FilePath.Substring(21).Replace("\\", "/").Replace(".iron", ".h");
             cppBuilder.Append("#include <")
                 .Append(includePath)
-                .Append(">\n\n");
+                .Append(">\n")
+                .Append("#include <json.h>\n")
+                .Append("\n");
 
             if (!String.IsNullOrEmpty(userCode))
             {
@@ -203,6 +205,13 @@ namespace IronParser.CodeGen
             }
             
             cppBuilder.Append("ironBEGIN_NAMESPACE\n\n");
+
+            cppBuilder.Append("void ").Append(m_Class.Name).Append("::ToJSON(JSON* json)\n").Append("{\n");
+
+            cppBuilder.Tab().Append("nlohmann::json& j = json->GetJ();\n");
+            ApplyVisitor(new CPPJSONDeclarationVisitor(cppBuilder));
+
+            cppBuilder.Append("}\n\n");
 
             if (!String.IsNullOrEmpty(userCodeNameSpace))
             {

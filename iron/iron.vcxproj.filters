@@ -111,6 +111,15 @@
     <ClCompile Include="src\ui\uitextcomponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\graphics\animationsprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\item\inventoryitem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\item\recipe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ecs\world.h">
@@ -236,6 +245,12 @@
     <ClInclude Include="src\movement\movementenum.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\json.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\animationsprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\movement\positioncomponent.iron" />
@@ -254,5 +269,8 @@
     <None Include="src\ui\uibuttoncomponent.iron" />
     <None Include="src\ui\uispritecomponent.iron" />
     <None Include="src\ui\uitextcomponent.iron" />
+    <None Include="src\graphics\animationsprite.iron" />
+    <None Include="src\item\inventoryitem.iron" />
+    <None Include="src\item\recipe.iron" />
   </ItemGroup>
 </Project>

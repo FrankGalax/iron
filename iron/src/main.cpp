@@ -9,10 +9,13 @@
 #include <item/craftercomponent.h>
 #include <item/inventorycomponent.h>
 #include <item/resourcecomponent.h>
+#include <json.h>
 #include <movement/beltcomponent.h>
 #include <movement/onbeltcomponent.h>
 #include <movement/positioncomponent.h>
 #include <movement/insertercomponent.h>
+#include <fstream>
+#include <iomanip>
 
 using namespace iron;
 
@@ -134,6 +137,11 @@ int main()
     world.CreateSystems();
 
     InitEntities(world, window);
+
+    JSON json;
+    world.ToJSON(&json);
+    std::ofstream o("pretty.json");
+    o << std::setw(4) << json.GetJ() << std::endl;
 
     sf::Clock clock;
     

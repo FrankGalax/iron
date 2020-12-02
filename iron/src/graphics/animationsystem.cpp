@@ -17,14 +17,14 @@ void AnimationSystem::Update(float deltaTime)
         {
             const std::vector<AnimationSprite>& animationSprites = tuple.m_AnimationComponent->GetAnimationSprites();
             
-            const int index = (tuple.m_AnimationComponent->GetAnimationSpriteIndex() + 1) % animationSprites.size();
+            const int index = ((size_t)tuple.m_AnimationComponent->GetAnimationSpriteIndex() + 1) % animationSprites.size();
             tuple.m_AnimationComponent->SetAnimationSpriteIndex(index);
 
             tuple.m_AnimationComponent->SetTimer(timer + tuple.m_AnimationComponent->GetTime());
 
             const AnimationSprite& animationSprite = animationSprites[index];
-            const int x = animationSprite.m_SpriteSheetX;
-            const int y = animationSprite.m_SpriteSheetY;
+            const int x = animationSprite.GetSpriteSheetX();
+            const int y = animationSprite.GetSpriteSheetY();
             tuple.m_SpriteComponent->SetSpriteSheetX(x);
             tuple.m_SpriteComponent->SetSpriteSheetY(y);
 

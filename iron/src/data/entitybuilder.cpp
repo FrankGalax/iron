@@ -6,6 +6,7 @@
 #include <input/inputcomponent.h>
 #include <item/craftercomponent.h>
 #include <item/inventorycomponent.h>
+#include <item/recipe.h>
 #include <item/resourcecomponent.h>
 #include <movement/insertercomponent.h>
 #include <movement/positioncomponent.h>
@@ -28,12 +29,10 @@ void EntityBuilder::BuildFurnace(Entity* entity, const Vector2f& position)
     CrafterComponent* furnaceCrafterComponent = new CrafterComponent();
     std::vector<Recipe>& recipes = furnaceCrafterComponent->GetRecipes();
     {
-        Recipe recipe;
-        recipe.m_Time = 2.f;
-        recipe.m_Product.m_Quantity = 1;
-        recipe.m_Product.m_ResourceType = ResourceType::IronIngot;
+        InventoryItem product(ResourceType::IronIngot);
+        Recipe recipe(product, 2.f);
         InventoryItem recipeIngredient(ResourceType::IronOre, 1);
-        recipe.m_RecipeIngredients.push_back(recipeIngredient);
+        recipe.GetRecipeIngredients().push_back(recipeIngredient);
         recipes.push_back(recipe);
     }
     entity->AddComponent(furnaceCrafterComponent);

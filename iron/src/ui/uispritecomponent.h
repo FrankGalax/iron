@@ -10,6 +10,8 @@
 
 ironBEGIN_NAMESPACE
 
+class JSON;
+
 class UISpriteComponent : public Component
 {
 public:
@@ -23,6 +25,8 @@ public:
     float GetScaleX() const { return m_ScaleX; }
     float GetScaleY() const { return m_ScaleY; }
     int GetPriority() const { return m_Priority; }
+
+    void ToJSON(JSON* j);
 
 private:
     int m_SpriteSheetX = 0;

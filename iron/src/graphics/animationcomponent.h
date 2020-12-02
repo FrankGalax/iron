@@ -4,16 +4,13 @@
 #include <ecs/component.h>
 #include <vector>
 
+#pragma region usercode
+#include <graphics/animationsprite.h>
+#pragma endregion
+
 ironBEGIN_NAMESPACE
 
-#pragma region usercodenamespace
-struct AnimationSprite
-{
-    void SetSpriteSheetXY(int x, int y) { m_SpriteSheetX = x; m_SpriteSheetY = y; }
-    int m_SpriteSheetX;
-    int m_SpriteSheetY;
-};
-#pragma endregion
+class JSON;
 
 class AnimationComponent : public Component
 {
@@ -26,6 +23,8 @@ public:
     void SetTime(float time) { m_Time = time; }
     float GetTimer() const { return m_Timer; }
     void SetTimer(float timer) { m_Timer = timer; }
+
+    void ToJSON(JSON* j);
 
 private:
     std::vector<AnimationSprite> m_AnimationSprites;

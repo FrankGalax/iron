@@ -6,6 +6,8 @@
 
 ironBEGIN_NAMESPACE
 
+class JSON;
+
 class BeltComponent : public Component
 {
 public:
@@ -14,6 +16,8 @@ public:
     float GetSpeed() const { return m_Speed; }
     const Vector2f& GetDirection() const { return m_Direction; }
     void SetDirection(const Vector2f& direction) { m_Direction = direction; }
+
+    void ToJSON(JSON* j);
 
 private:
     BeltComponent* m_NextBelt = nullptr;

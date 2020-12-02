@@ -9,12 +9,16 @@
 
 ironBEGIN_NAMESPACE
 
+class JSON;
+
 class ResourceComponent : public Component
 {
 public:
     ResourceComponent(ResourceType resourceType) : m_ResourceType(resourceType) {}
 
     ResourceType GetResourceType() const { return m_ResourceType; }
+
+    void ToJSON(JSON* j);
 
 private:
     ResourceType m_ResourceType;

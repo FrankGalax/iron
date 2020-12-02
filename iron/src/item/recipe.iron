@@ -1,0 +1,7 @@
+class Recipe
+{
+	InventoryItem Product;
+	[NonConstGetter]
+	InventoryItem[] RecipeIngredients;
+	float Time;
+};

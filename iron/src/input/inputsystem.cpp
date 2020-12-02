@@ -163,8 +163,8 @@ void InputSystem::AddCrafterUI(World* world, const CrafterComponent* crafterComp
 
 	if (const Recipe* recipe = crafterComponent->GetActiveRecipe())
 	{
-		AddUIInventoryEntity(world, topLeftX + midSizeX - 1.f, topLeftY + midSizeY, recipe->m_RecipeIngredients[0]);
-		AddUIInventoryEntity(world, topLeftX + midSizeX + 1.f, topLeftY + midSizeY, recipe->m_Product);
+		AddUIInventoryEntity(world, topLeftX + midSizeX - 1.f, topLeftY + midSizeY, recipe->GetRecipeIngredients()[0]);
+		AddUIInventoryEntity(world, topLeftX + midSizeX + 1.f, topLeftY + midSizeY, recipe->GetProduct());
 	}
 }
 
@@ -211,11 +211,11 @@ void InputSystem::AddUIInventoryEntity(World* world, float x, float y, const Inv
 	Entity* entity = world->CreateEntity();
 	entity->AddComponent(new PositionComponent(Vector2f(x, y)));
 	SpriteInfo spriteInfo;
-	EntityBuilder::BuildSpriteInfoFromResource(spriteInfo, item.m_ResourceType);
+	EntityBuilder::BuildSpriteInfoFromResource(spriteInfo, item.GetResourceType());
 	entity->AddComponent(new UISpriteComponent(spriteInfo));
 
 	float offset = 0.f;
-	if (item.m_Quantity >= 10)
+	if (item.GetQuantity() >= 10)
 	{
 		offset = 0.45f;
 	}
@@ -223,7 +223,7 @@ void InputSystem::AddUIInventoryEntity(World* world, float x, float y, const Inv
 	{
 		offset = 0.7f;
 	}
-	AddUITextEntity(world, x + offset, y + 0.45f, std::to_string(item.m_Quantity), sf::Color::White, 14);
+	AddUITextEntity(world, x + offset, y + 0.45f, std::to_string(item.GetQuantity()), sf::Color::White, 14);
 }
 
 void InputSystem::AddUITextEntity(World* world, float x, float y, const std::string& string, const sf::Color& color, int size) const

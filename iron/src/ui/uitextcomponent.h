@@ -7,6 +7,8 @@
 
 ironBEGIN_NAMESPACE
 
+class JSON;
+
 class UITextComponent : public Component
 {
 public:
@@ -16,6 +18,8 @@ public:
     const std::string& GetString() const { return m_String; }
     const sf::Color& GetColor() const { return m_Color; }
     int GetSize() const { return m_Size; }
+
+    void ToJSON(JSON* j);
 
 private:
     std::string m_String;

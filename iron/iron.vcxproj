@@ -134,6 +134,7 @@
     <ClCompile Include="src\ecs\system.cpp" />
     <ClCompile Include="src\ecs\world.cpp" />
     <ClCompile Include="src\graphics\animationcomponent.cpp" />
+    <ClCompile Include="src\graphics\animationsprite.cpp" />
     <ClCompile Include="src\graphics\animationsystem.cpp" />
     <ClCompile Include="src\graphics\spritecomponent.cpp" />
     <ClCompile Include="src\graphics\spriterendersystem.cpp" />
@@ -141,6 +142,8 @@
     <ClCompile Include="src\input\inputcomponent.cpp" />
     <ClCompile Include="src\item\craftercomponent.cpp" />
     <ClCompile Include="src\item\inventorycomponent.cpp" />
+    <ClCompile Include="src\item\inventoryitem.cpp" />
+    <ClCompile Include="src\item\recipe.cpp" />
     <ClCompile Include="src\item\resourcecomponent.cpp" />
     <ClCompile Include="src\movement\beltcomponent.cpp" />
     <ClCompile Include="src\movement\insertercomponent.cpp" />
@@ -170,7 +173,9 @@
     <ClInclude Include="src\ecs\system.h" />
     <ClInclude Include="src\ecs\world.h" />
     <ClInclude Include="src\graphics\animationcomponent.h" />
+    <ClInclude Include="src\graphics\animationsprite.h" />
     <ClInclude Include="src\graphics\animationsystem.h" />
+    <ClInclude Include="src\json.h" />
     <ClInclude Include="src\movement\movementenum.h" />
     <ClInclude Include="src\ui\button.h" />
     <ClInclude Include="src\graphics\sfmlspritecomponent.h" />
@@ -209,10 +214,13 @@
     <None Include="src\ecs\entity.iron" />
     <None Include="src\ecs\world.iron" />
     <None Include="src\graphics\animationcomponent.iron" />
+    <None Include="src\graphics\animationsprite.iron" />
     <None Include="src\graphics\spritecomponent.iron" />
     <None Include="src\input\inputcomponent.iron" />
+    <None Include="src\item\recipe.iron" />
     <None Include="src\item\craftercomponent.iron" />
     <None Include="src\item\inventorycomponent.iron" />
+    <None Include="src\item\inventoryitem.iron" />
     <None Include="src\item\resourcecomponent.iron" />
     <None Include="src\movement\beltcomponent.iron" />
     <None Include="src\movement\insertercomponent.iron" />

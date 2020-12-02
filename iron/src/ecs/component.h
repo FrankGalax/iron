@@ -8,6 +8,7 @@
 
 ironBEGIN_NAMESPACE
 
+class JSON;
 class Entity;
 
 #pragma region usercodenamespace
@@ -22,6 +23,8 @@ public:
     Entity* GetOwner() { return m_Owner; }
     const Entity* GetOwner() const { return m_Owner; }
     void SetOwner(Entity* owner) { m_Owner = owner; }
+
+    void ToJSON(JSON* j);
 
 private:
     Entity* m_Owner = nullptr;

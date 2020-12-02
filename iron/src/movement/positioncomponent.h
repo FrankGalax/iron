@@ -6,6 +6,8 @@
 
 ironBEGIN_NAMESPACE
 
+class JSON;
+
 class PositionComponent : public Component
 {
 public:
@@ -15,6 +17,8 @@ public:
     Vector2f& GetPosition() { return m_Position; }
     const Vector2f& GetPosition() const { return m_Position; }
     const Vector2f& GetSize() const { return m_Size; }
+
+    void ToJSON(JSON* j);
 
 private:
     Vector2f m_Position;

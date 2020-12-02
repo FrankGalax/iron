@@ -19,9 +19,9 @@ void InventorySystem::Update(float deltaTime)
                 bool found = false;
                 for (InventoryItem& item : inventoryItems)
                 {
-                    if (item.m_ResourceType == pendingAddItem.m_ResourceType)
+                    if (item.GetResourceType() == pendingAddItem.GetResourceType())
                     {
-                        item.m_Quantity++;
+                        item.SetQuantity(item.GetQuantity() + 1);
                         found = true;
                         break;
                     }
@@ -47,9 +47,9 @@ void InventorySystem::Update(float deltaTime)
 
                 for (const InventoryItem& pendingRemoveItem : pendingRemoveItems)
                 {
-                    if (pendingRemoveItem.m_ResourceType == inventoryItem.m_ResourceType)
+                    if (pendingRemoveItem.GetResourceType() == inventoryItem.GetResourceType())
                     {
-                        assert(inventoryItem.m_Quantity >= pendingRemoveItem.m_Quantity);
+                        assert(inventoryItem.GetQuantity() >= pendingRemoveItem.GetQuantity());
                         foundPendingRemoveItem = &pendingRemoveItem;
                         break;
                     }
@@ -57,8 +57,8 @@ void InventorySystem::Update(float deltaTime)
 
                 if (foundPendingRemoveItem != nullptr)
                 {
-                    inventoryItem.m_Quantity -= foundPendingRemoveItem->m_Quantity;
-                    if (inventoryItem.m_Quantity == 0)
+                    inventoryItem.SetQuantity(inventoryItem.GetQuantity() - foundPendingRemoveItem->GetQuantity());
+                    if (inventoryItem.GetQuantity() == 0)
                     {
                         InventoryItem temp = inventoryItems[i];
                         inventoryItems[i] = inventoryItems[inventoryItems.size() - 1];
