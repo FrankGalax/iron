@@ -18,7 +18,7 @@ public:
     const Vector2f& GetPosition() const { return m_Position; }
     const Vector2f& GetSize() const { return m_Size; }
 
-    void ToJSON(JSON* j);
+    virtual void ToJSON(JSON* j) override;
 
 private:
     Vector2f m_Position;

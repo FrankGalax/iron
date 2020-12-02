@@ -12,6 +12,9 @@ void AnimationComponent::ToJSON(JSON* json)
         animationSprite.ToJSON(&subJSON);
         j["animationSprites"].push_back(subJSON.GetJ());
     }
+    j["animationSpriteIndex"] = m_AnimationSpriteIndex;
+    j["time"] = m_Time;
+    j["timer"] = m_Timer;
 }
 
 ironEND_NAMESPACE

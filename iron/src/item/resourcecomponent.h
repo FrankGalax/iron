@@ -18,7 +18,7 @@ public:
 
     ResourceType GetResourceType() const { return m_ResourceType; }
 
-    void ToJSON(JSON* j);
+    virtual void ToJSON(JSON* j) override;
 
 private:
     ResourceType m_ResourceType;

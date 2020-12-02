@@ -138,11 +138,6 @@ int main()
 
     InitEntities(world, window);
 
-    JSON json;
-    world.ToJSON(&json);
-    std::ofstream o("pretty.json");
-    o << std::setw(4) << json.GetJ() << std::endl;
-
     sf::Clock clock;
     
     /*sf::Time accumulator = sf::Time::Zero;
@@ -227,6 +222,11 @@ int main()
 
         window.Display();
     }
+
+    JSON json;
+    world.ToJSON(&json);
+    std::ofstream o("pretty.json");
+    o << std::setw(4) << json.GetJ() << std::endl;
 
     return 0;
 }

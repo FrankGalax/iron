@@ -11,6 +11,8 @@ ironBEGIN_NAMESPACE
 void Entity::ToJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    j["id"] = m_Id;
+    j["name"] = m_Name;
     for (Component* component : m_Components)
     {
         JSON subJSON;

@@ -26,7 +26,7 @@ public:
     float GetScaleY() const { return m_ScaleY; }
     int GetPriority() const { return m_Priority; }
 
-    void ToJSON(JSON* j);
+    virtual void ToJSON(JSON* j) override;
 
 private:
     int m_SpriteSheetX = 0;

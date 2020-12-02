@@ -12,6 +12,8 @@ void CrafterComponent::ToJSON(JSON* json)
         recipe.ToJSON(&subJSON);
         j["recipes"].push_back(subJSON.GetJ());
     }
+    j["isCrafting"] = m_IsCrafting;
+    j["craftingTime"] = m_CraftingTime;
 }
 
 ironEND_NAMESPACE

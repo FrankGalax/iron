@@ -24,7 +24,7 @@ public:
     const Entity* GetOwner() const { return m_Owner; }
     void SetOwner(Entity* owner) { m_Owner = owner; }
 
-    void ToJSON(JSON* j);
+    virtual void ToJSON(JSON* j) = 0;
 
 private:
     Entity* m_Owner = nullptr;

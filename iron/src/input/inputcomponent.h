@@ -24,7 +24,7 @@ public:
     const Window* GetWindow() const { return m_Window; }
     void SetWindow(const Window* window) { m_Window = window; }
 
-    void ToJSON(JSON* j);
+    virtual void ToJSON(JSON* j) override;
 
 private:
     Entity* m_ClickedEntity = nullptr;

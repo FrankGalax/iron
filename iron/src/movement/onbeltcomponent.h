@@ -14,7 +14,7 @@ public:
     const BeltComponent* GetBelt() const { return m_Belt; }
     void SetBelt(const BeltComponent* belt) { m_Belt = belt; }
 
-    void ToJSON(JSON* j);
+    virtual void ToJSON(JSON* j) override;
 
 private:
     const BeltComponent* m_Belt = nullptr;

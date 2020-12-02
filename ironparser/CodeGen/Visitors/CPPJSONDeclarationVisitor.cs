@@ -20,6 +20,8 @@ namespace IronParser.CodeGen.Visitors
             {
                 return;
             }
+
+            VisitDeclaration(boolDeclaration);
         }
 
         public override void VisitColorDeclaration(ColorDeclaration colorDeclaration)
@@ -44,6 +46,8 @@ namespace IronParser.CodeGen.Visitors
             {
                 return;
             }
+
+            VisitDeclaration(floatDeclaration);
         }
 
         public override void VisitIntDeclaration(IntDeclaration intDeclaration)
@@ -52,6 +56,8 @@ namespace IronParser.CodeGen.Visitors
             {
                 return;
             }
+
+            VisitDeclaration(intDeclaration);
         }
 
         public override void VisitStringDeclaration(StringDeclaration stringDeclaration)
@@ -60,6 +66,8 @@ namespace IronParser.CodeGen.Visitors
             {
                 return;
             }
+
+            VisitDeclaration(stringDeclaration);
         }
 
         public override void VisitVector2fDeclaration(Vector2fDeclaration vector2fDeclaration)
@@ -68,6 +76,14 @@ namespace IronParser.CodeGen.Visitors
             {
                 return;
             }
+
+            string variableName = vector2fDeclaration.Name.ToLowerCamelCase();
+            m_Builder.Tab().Append("JSON ").Append(variableName).Append("Json;\n")
+                .Tab().Append("nlohmann::json& ").Append(variableName).Append("J = ").Append(variableName).Append("Json.GetJ();\n")
+                .Tab().Append(variableName).Append("J[\"x\"] = m_").Append(vector2fDeclaration.Name).Append(".GetX();\n")
+                .Tab().Append(variableName).Append("J[\"y\"] = m_").Append(vector2fDeclaration.Name).Append(".GetY();\n")
+                .Tab().Append("j[\"").Append(variableName).Append("\"] = ")
+                .Append(variableName).Append("J;\n");
         }
 
         private bool HandleDeclaration(Declaration declaration)
@@ -95,6 +111,13 @@ namespace IronParser.CodeGen.Visitors
                 return true;
             }
             return false;
+        }
+
+        private void VisitDeclaration(Declaration declaration)
+        {
+            m_Builder.Tab().Append("j[\"").Append(declaration.Name.ToLowerCamelCase()).Append("\"] = ")
+                .Append("m_").Append(declaration.Name)
+                .Append(";\n");
         }
     }
 }

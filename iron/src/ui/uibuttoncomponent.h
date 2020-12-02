@@ -18,7 +18,7 @@ public:
 
     ButtonType GetButtonType() const { return m_ButtonType; }
 
-    void ToJSON(JSON* j);
+    virtual void ToJSON(JSON* j) override;
 
 private:
     ButtonType m_ButtonType;

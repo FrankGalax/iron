@@ -12,6 +12,7 @@ void Recipe::ToJSON(JSON* json)
         recipeIngredient.ToJSON(&subJSON);
         j["recipeIngredients"].push_back(subJSON.GetJ());
     }
+    j["time"] = m_Time;
 }
 
 ironEND_NAMESPACE

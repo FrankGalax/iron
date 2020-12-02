@@ -147,7 +147,26 @@ namespace IronParser.CodeGen
             // Getters and setters
             ApplyVisitor(new HGetterSetterDeclarationVisitor(hBuilder));
 
-            hBuilder.Append("\n").Tab().Append("void ToJSON(JSON* j);\n");
+            hBuilder.Append("\n");
+
+            hBuilder.Tab();
+
+            if (!String.IsNullOrEmpty(m_Class.ParentClassName) || m_Class.HasAttribute("Virtual"))
+            {
+                hBuilder.Append("virtual ");
+            }
+
+            hBuilder.Append("void ToJSON(JSON* j)");
+
+            if (!String.IsNullOrEmpty(m_Class.ParentClassName))
+            {
+                hBuilder.Append(" override");
+            }
+            else if(m_Class.HasAttribute("Virtual"))
+            {
+                hBuilder.Append(" = 0");
+            }
+            hBuilder.Append(";\n");
 
             // private
             hBuilder.Append("\nprivate:\n");

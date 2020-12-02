@@ -17,7 +17,7 @@ public:
     const Vector2f& GetDirection() const { return m_Direction; }
     void SetDirection(const Vector2f& direction) { m_Direction = direction; }
 
-    void ToJSON(JSON* j);
+    virtual void ToJSON(JSON* j) override;
 
 private:
     BeltComponent* m_NextBelt = nullptr;

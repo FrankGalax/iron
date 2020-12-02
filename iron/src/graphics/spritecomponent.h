@@ -26,7 +26,7 @@ public:
     float GetRotation() const { return m_Rotation; }
     int GetPriority() const { return m_Priority; }
 
-    void ToJSON(JSON* j);
+    virtual void ToJSON(JSON* j) override;
 
 private:
     int m_SpriteSheetX = 0;

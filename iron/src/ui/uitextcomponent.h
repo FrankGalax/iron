@@ -19,7 +19,7 @@ public:
     const sf::Color& GetColor() const { return m_Color; }
     int GetSize() const { return m_Size; }
 
-    void ToJSON(JSON* j);
+    virtual void ToJSON(JSON* j) override;
 
 private:
     std::string m_String;
