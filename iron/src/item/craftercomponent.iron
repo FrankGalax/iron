@@ -2,10 +2,10 @@ class CrafterComponent : Component
 {
     [ConstructorIgnore, NonConstGetter]
     Recipe[] Recipes;
-    [ConstructorIgnore, ForwardDeclareIgnore]
+    [ConstructorIgnore, ForwardDeclareIgnore, Transient]
     const Recipe* ActiveRecipe;
-    [ConstructorIgnore]
+    [ConstructorIgnore, Transient]
     bool IsCrafting;
-    [ConstructorIgnore]
+    [ConstructorIgnore, Transient]
     float CraftingTime;
 }

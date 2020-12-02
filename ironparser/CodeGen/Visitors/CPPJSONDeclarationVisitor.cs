@@ -88,6 +88,11 @@ namespace IronParser.CodeGen.Visitors
 
         private bool HandleDeclaration(Declaration declaration)
         {
+            if (declaration.HasAttribute("Transient"))
+            {
+                return true;
+            }
+
             if (declaration.IsArray)
             {
                 string lowerName = declaration.Name.ToLowerCamelCase();
@@ -110,6 +115,7 @@ namespace IronParser.CodeGen.Visitors
                 m_Builder.Tab().Append("}\n");
                 return true;
             }
+
             return false;
         }
 

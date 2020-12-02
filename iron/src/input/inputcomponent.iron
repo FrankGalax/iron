@@ -1,10 +1,11 @@
 class InputComponent : Component
 {
-	[ConstructorIgnore, NonConstGetter]
+	[ConstructorIgnore, NonConstGetter, Transient]
 	Entity* ClickedEntity;
-	[ConstructorIgnore]
+	[ConstructorIgnore, Transient]
 	bool IsLeftMouseButtonPressed;
-	[ConstructorIgnore]
+	[ConstructorIgnore, Transient]
 	bool WasLeftMouseButtonPressed;
+	[Transient]
 	const Window* Window;
 }

@@ -6,6 +6,6 @@ class AnimationComponent : Component
     int AnimationSpriteIndex;
     [ConstructorIgnore]
     float Time;
-    [ConstructorIgnore]
+    [ConstructorIgnore, Transient]
     float Timer;
 }

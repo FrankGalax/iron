@@ -14,7 +14,6 @@ void AnimationComponent::ToJSON(JSON* json)
     }
     j["animationSpriteIndex"] = m_AnimationSpriteIndex;
     j["time"] = m_Time;
-    j["timer"] = m_Timer;
 }
 
 ironEND_NAMESPACE

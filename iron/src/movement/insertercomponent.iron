@@ -2,9 +2,9 @@ class InserterComponent : Component
 {
     [Enum, ReadOnly]
     InserterType InserterType;
-    [ConstructorIgnore]
+    [ConstructorIgnore, Transient]
     Entity* In;
-    [ConstructorIgnore]
+    [ConstructorIgnore, Transient]
     Entity* Out;
     [ReadOnly]
     Vector2f InOffset;
