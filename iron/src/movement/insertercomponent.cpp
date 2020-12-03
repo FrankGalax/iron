@@ -6,6 +6,7 @@ ironBEGIN_NAMESPACE
 void InserterComponent::ToJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    j["inserterType"] = (int)m_InserterType;
     JSON inOffsetJson;
     nlohmann::json& inOffsetJ = inOffsetJson.GetJ();
     inOffsetJ["x"] = m_InOffset.GetX();

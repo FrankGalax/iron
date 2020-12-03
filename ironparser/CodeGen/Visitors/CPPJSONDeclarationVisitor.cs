@@ -30,6 +30,16 @@ namespace IronParser.CodeGen.Visitors
             {
                 return;
             }
+
+            string variableName = colorDeclaration.Name.ToLowerCamelCase();
+            m_Builder.Tab().Append("JSON ").Append(variableName).Append("Json;\n")
+                .Tab().Append("nlohmann::json& ").Append(variableName).Append("J = ").Append(variableName).Append("Json.GetJ();\n")
+                .Tab().Append(variableName).Append("J[\"r\"] = m_").Append(colorDeclaration.Name).Append(".r;\n")
+                .Tab().Append(variableName).Append("J[\"g\"] = m_").Append(colorDeclaration.Name).Append(".g;\n")
+                .Tab().Append(variableName).Append("J[\"b\"] = m_").Append(colorDeclaration.Name).Append(".b;\n")
+                .Tab().Append(variableName).Append("J[\"a\"] = m_").Append(colorDeclaration.Name).Append(".a;\n")
+                .Tab().Append("j[\"").Append(variableName).Append("\"] = ")
+                .Append(variableName).Append("J;\n");
         }
 
         public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
@@ -113,6 +123,14 @@ namespace IronParser.CodeGen.Visitors
                     .Tab().Tab().Append("j[\"").Append(lowerName).Append("\"].push_back(subJSON.GetJ());\n");
 
                 m_Builder.Tab().Append("}\n");
+                return true;
+            }
+
+            if (declaration.HasAttribute("Enum"))
+            {
+                m_Builder.Tab().Append("j[\"").Append(declaration.Name.ToLowerCamelCase()).Append("\"] = ")
+                    .Append("(int)m_").Append(declaration.Name)
+                    .Append(";\n");
                 return true;
             }
 
