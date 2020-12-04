@@ -54,7 +54,7 @@ namespace IronParser.CodeGen.Visitors
             {
                 if (customDeclaration.CppType.EndsWith("Component"))
                 {
-                    int hash = customDeclaration.CppType.GetHashCode();
+                    int hash = customDeclaration.CppType.GetStableHashCode();
                     m_Builder.Tab().Append("JSON ").Append(variableName).Append("Json;\n")
                         .Tab().Append("nlohmann::json& ").Append(variableName).Append("J = ").Append(variableName).Append("Json.GetJ();\n")
                         .Tab().Append("const int ").Append(variableName).Append("EntityId = m_").Append(customDeclaration.Name).Append(" != nullptr ? ")

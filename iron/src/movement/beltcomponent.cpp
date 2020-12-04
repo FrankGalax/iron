@@ -10,12 +10,12 @@ ironBEGIN_NAMESPACE
 void BeltComponent::ToJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
-    j["class"] = 1004248632;
+    j["class"] = 817766642;
     JSON nextBeltJson;
     nlohmann::json& nextBeltJ = nextBeltJson.GetJ();
     const int nextBeltEntityId = m_NextBelt != nullptr ? m_NextBelt->GetOwner()->GetId() : -1;
     nextBeltJ["entityId"] = nextBeltEntityId;
-    nextBeltJ["class"] = 1004248632;
+    nextBeltJ["class"] = 817766642;
     j["nextBelt"] = nextBeltJ;
     j["speed"] = m_Speed;
     JSON directionJson;

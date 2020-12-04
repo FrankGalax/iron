@@ -6,7 +6,7 @@ ironBEGIN_NAMESPACE
 void InventoryComponent::ToJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
-    j["class"] = 1315981302;
+    j["class"] = -308782219;
     for (InventoryItem& item : m_Items)
     {
         JSON subJSON;

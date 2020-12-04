@@ -21,19 +21,19 @@ Component* ComponentBuilder::BuildComponent(int classHash)
 {
     switch (classHash)
     {
-    case -1740904409 : return new AnimationComponent();
-    case 1309780063 : return new SpriteComponent();
-    case 475433204 : return new InputComponent();
-    case 1448254106 : return new CrafterComponent();
-    case 1315981302 : return new InventoryComponent();
-    case -524183048 : return new ResourceComponent();
-    case 1004248632 : return new BeltComponent();
-    case 1842238107 : return new InserterComponent();
-    case 1075717333 : return new OnBeltComponent();
-    case -562460899 : return new PositionComponent();
-    case -38539479 : return new UIButtonComponent();
-    case -473184632 : return new UISpriteComponent();
-    case 1343411703 : return new UITextComponent();
+    case 757536853 : return new AnimationComponent();
+    case -120479234 : return new SpriteComponent();
+    case -1831897379 : return new InputComponent();
+    case 1338292626 : return new CrafterComponent();
+    case -308782219 : return new InventoryComponent();
+    case 1835672005 : return new ResourceComponent();
+    case 817766642 : return new BeltComponent();
+    case 570334859 : return new InserterComponent();
+    case 2124386125 : return new OnBeltComponent();
+    case -110003308 : return new PositionComponent();
+    case 164764677 : return new UIButtonComponent();
+    case -651037376 : return new UISpriteComponent();
+    case -615737482 : return new UITextComponent();
     }
     return nullptr;
 }

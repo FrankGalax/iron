@@ -57,7 +57,7 @@ namespace IronParser
             {
                 if (classPath.Name.EndsWith("Component") && !classPath.Name.Equals("Component"))
                 {
-                    builder.Tab().Append("case ").Append(classPath.Name.GetHashCode()).Append(" : return new ").Append(classPath.Name).Append("();\n");
+                    builder.Tab().Append("case ").Append(classPath.Name.GetStableHashCode()).Append(" : return new ").Append(classPath.Name).Append("();\n");
                 }
             }
 

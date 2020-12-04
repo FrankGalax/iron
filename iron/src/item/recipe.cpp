@@ -6,7 +6,7 @@ ironBEGIN_NAMESPACE
 void Recipe::ToJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
-    j["class"] = -281982081;
+    j["class"] = 1590435104;
     JSON productJson;
     m_Product.ToJSON(&productJson);
     j["product"] = productJson.GetJ();

@@ -6,7 +6,7 @@ ironBEGIN_NAMESPACE
 void AnimationComponent::ToJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
-    j["class"] = -1740904409;
+    j["class"] = 757536853;
     for (AnimationSprite& animationSprite : m_AnimationSprites)
     {
         JSON subJSON;

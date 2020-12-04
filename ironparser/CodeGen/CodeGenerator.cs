@@ -187,7 +187,11 @@ namespace IronParser.CodeGen
                 hBuilder.Append("\n\n").Append(userCodeEnd);
             }
 
-            File.WriteAllText(m_FilePath.Replace(".iron", ".h"), hBuilder.ToString());
+            string str = hBuilder.ToString();
+            if (!str.Equals(file))
+            {
+                File.WriteAllText(m_FilePath.Replace(".iron", ".h"), str);
+            }
         }
 
         private void Cpp()
@@ -230,7 +234,7 @@ namespace IronParser.CodeGen
             cppBuilder.Append("void ").Append(m_Class.Name).Append("::ToJSON(JSON* json)\n").Append("{\n");
 
             cppBuilder.Tab().Append("nlohmann::json& j = json->GetJ();\n");
-            cppBuilder.Tab().Append("j[\"class\"] = ").Append(m_Class.Name.GetHashCode()).Append(";\n");
+            cppBuilder.Tab().Append("j[\"class\"] = ").Append(m_Class.Name.GetStableHashCode()).Append(";\n");
             ApplyVisitor(new CPPJSONDeclarationVisitor(cppBuilder));
 
             cppBuilder.Append("}\n\n");
@@ -242,7 +246,11 @@ namespace IronParser.CodeGen
 
             cppBuilder.Append("ironEND_NAMESPACE");
 
-            File.WriteAllText(m_FilePath.Replace(".iron", ".cpp"), cppBuilder.ToString());
+            string str = cppBuilder.ToString();
+            if (!str.Equals(file))
+            {
+                File.WriteAllText(m_FilePath.Replace(".iron", ".cpp"), str);
+            }
         }
 
         private void ApplyVisitor(DeclarationVisitor visitor)

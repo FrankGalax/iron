@@ -6,7 +6,7 @@ ironBEGIN_NAMESPACE
 void CrafterComponent::ToJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
-    j["class"] = 1448254106;
+    j["class"] = 1338292626;
     for (Recipe& recipe : m_Recipes)
     {
         JSON subJSON;

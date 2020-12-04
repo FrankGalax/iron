@@ -6,7 +6,7 @@ ironBEGIN_NAMESPACE
 void SpriteComponent::ToJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
-    j["class"] = 1309780063;
+    j["class"] = -120479234;
     j["spriteSheetX"] = m_SpriteSheetX;
     j["spriteSheetY"] = m_SpriteSheetY;
     j["scaleX"] = m_ScaleX;

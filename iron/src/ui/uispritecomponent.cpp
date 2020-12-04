@@ -6,7 +6,7 @@ ironBEGIN_NAMESPACE
 void UISpriteComponent::ToJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
-    j["class"] = -473184632;
+    j["class"] = -651037376;
     j["spriteSheetX"] = m_SpriteSheetX;
     j["spriteSheetY"] = m_SpriteSheetY;
     j["scaleX"] = m_ScaleX;
