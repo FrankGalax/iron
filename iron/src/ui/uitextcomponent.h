@@ -12,6 +12,7 @@ class JSON;
 class UITextComponent : public Component
 {
 public:
+    UITextComponent() {}
     UITextComponent(const std::string& string, const sf::Color& color) : m_String(string), m_Color(color), m_Size(20) {}
     UITextComponent(const std::string& string, const sf::Color& color, int size) : m_String(string), m_Color(color), m_Size(size) {}
 

@@ -6,6 +6,7 @@ ironBEGIN_NAMESPACE
 void PositionComponent::ToJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    j["class"] = -562460899;
     JSON positionJson;
     nlohmann::json& positionJ = positionJson.GetJ();
     positionJ["x"] = m_Position.GetX();

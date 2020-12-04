@@ -15,6 +15,7 @@ class JSON;
 class SpriteComponent : public Component
 {
 public:
+    SpriteComponent() {}
     SpriteComponent(int spriteSheetX, int spriteSheetY, float scaleX, float scaleY, float rotation, int priority) : m_SpriteSheetX(spriteSheetX), m_SpriteSheetY(spriteSheetY), m_ScaleX(scaleX), m_ScaleY(scaleY), m_Rotation(rotation), m_Priority(priority) {}
 
     int GetSpriteSheetX() const { return m_SpriteSheetX; }

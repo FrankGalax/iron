@@ -15,6 +15,7 @@ class JSON;
 class UISpriteComponent : public Component
 {
 public:
+    UISpriteComponent() {}
     UISpriteComponent(int spriteSheetX, int spriteSheetY, int priority) : m_SpriteSheetX(spriteSheetX), m_SpriteSheetY(spriteSheetY), m_ScaleX(1.0f), m_ScaleY(1.0f), m_Priority(priority) {}
     UISpriteComponent(int spriteSheetX, int spriteSheetY, float scaleX, float scaleY, int priority) : m_SpriteSheetX(spriteSheetX), m_SpriteSheetY(spriteSheetY), m_ScaleX(scaleX), m_ScaleY(scaleY), m_Priority(priority) {}
 

@@ -15,6 +15,7 @@ class JSON;
 class CrafterComponent : public Component
 {
 public:
+    CrafterComponent() {}
     std::vector<Recipe>& GetRecipes() { return m_Recipes; }
     const std::vector<Recipe>& GetRecipes() const { return m_Recipes; }
     const Recipe* GetActiveRecipe() const { return m_ActiveRecipe; }

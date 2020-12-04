@@ -6,6 +6,7 @@ ironBEGIN_NAMESPACE
 
 enum class InserterType
 {
+	None,
 	Insertable,
 	Inserter
 };

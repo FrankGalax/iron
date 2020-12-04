@@ -82,6 +82,10 @@ namespace IronParser.CodeGen.Visitors
                 {
                     m_Builder.Append(" = nullptr");
                 }
+                else if (declaration.HasAttribute("Enum"))
+                {
+                    m_Builder.Append(" = ").Append(declaration.CppType).Append("::None");
+                }
                 else if (valueString != null)
                 {
                     m_Builder.Append(" = ").Append(valueString);

@@ -11,6 +11,7 @@ class BeltComponent;
 class OnBeltComponent : public Component
 {
 public:
+    OnBeltComponent() {}
     const BeltComponent* GetBelt() const { return m_Belt; }
     void SetBelt(const BeltComponent* belt) { m_Belt = belt; }
 

@@ -11,6 +11,7 @@ class JSON;
 class BeltComponent : public Component
 {
 public:
+    BeltComponent() {}
     const BeltComponent* GetNextBelt() const { return m_NextBelt; }
     void SetNextBelt(BeltComponent* nextBelt) { m_NextBelt = nextBelt; }
     float GetSpeed() const { return m_Speed; }

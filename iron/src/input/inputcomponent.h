@@ -12,6 +12,7 @@ class Window;
 class InputComponent : public Component
 {
 public:
+    InputComponent() {}
     InputComponent(const Window* window) : m_Window(window) {}
 
     Entity* GetClickedEntity() { return m_ClickedEntity; }

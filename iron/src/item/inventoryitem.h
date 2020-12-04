@@ -13,6 +13,7 @@ class JSON;
 class InventoryItem
 {
 public:
+    InventoryItem() {}
     InventoryItem(ResourceType resourceType, int quantity, bool isOutput) : m_ResourceType(resourceType), m_Quantity(quantity), m_IsOutput(isOutput) {}
 
     ResourceType GetResourceType() const { return m_ResourceType; }
@@ -25,7 +26,7 @@ public:
     void ToJSON(JSON* j);
 
 private:
-    ResourceType m_ResourceType;
+    ResourceType m_ResourceType = ResourceType::None;
     int m_Quantity = 0;
     bool m_IsOutput = false;
 

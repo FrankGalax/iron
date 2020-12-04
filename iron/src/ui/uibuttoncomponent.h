@@ -14,6 +14,7 @@ class JSON;
 class UIButtonComponent : public Component
 {
 public:
+    UIButtonComponent() {}
     UIButtonComponent(ButtonType buttonType) : m_ButtonType(buttonType) {}
 
     ButtonType GetButtonType() const { return m_ButtonType; }
@@ -21,7 +22,7 @@ public:
     virtual void ToJSON(JSON* j) override;
 
 private:
-    ButtonType m_ButtonType;
+    ButtonType m_ButtonType = ButtonType::None;
 };
 
 ironEND_NAMESPACE

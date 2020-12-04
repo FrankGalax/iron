@@ -14,6 +14,7 @@ class JSON;
 class ResourceComponent : public Component
 {
 public:
+    ResourceComponent() {}
     ResourceComponent(ResourceType resourceType) : m_ResourceType(resourceType) {}
 
     ResourceType GetResourceType() const { return m_ResourceType; }
@@ -21,7 +22,7 @@ public:
     virtual void ToJSON(JSON* j) override;
 
 private:
-    ResourceType m_ResourceType;
+    ResourceType m_ResourceType = ResourceType::None;
 };
 
 ironEND_NAMESPACE

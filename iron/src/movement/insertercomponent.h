@@ -16,6 +16,7 @@ class Entity;
 class InserterComponent : public Component
 {
 public:
+    InserterComponent() {}
     InserterComponent(InserterType inserterType, const Vector2f& inOffset, const Vector2f& outOffset) : m_InserterType(inserterType), m_InOffset(inOffset), m_OutOffset(outOffset) {}
 
     InserterType GetInserterType() const { return m_InserterType; }
@@ -31,7 +32,7 @@ public:
     virtual void ToJSON(JSON* j) override;
 
 private:
-    InserterType m_InserterType;
+    InserterType m_InserterType = InserterType::None;
     Entity* m_In = nullptr;
     Entity* m_Out = nullptr;
     Vector2f m_InOffset;

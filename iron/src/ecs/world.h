@@ -20,6 +20,7 @@ class Window;
 class World
 {
 public:
+    World() {}
     const std::vector<Entity*>& GetEntities() const { return m_Entities; }
 
     void ToJSON(JSON* j);

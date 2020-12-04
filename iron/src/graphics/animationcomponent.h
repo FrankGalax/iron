@@ -15,6 +15,7 @@ class JSON;
 class AnimationComponent : public Component
 {
 public:
+    AnimationComponent() {}
     std::vector<AnimationSprite>& GetAnimationSprites() { return m_AnimationSprites; }
     const std::vector<AnimationSprite>& GetAnimationSprites() const { return m_AnimationSprites; }
     int GetAnimationSpriteIndex() const { return m_AnimationSpriteIndex; }

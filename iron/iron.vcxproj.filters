@@ -120,6 +120,9 @@
     <ClCompile Include="src\item\recipe.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\data\componentbuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ecs\world.h">
@@ -249,6 +252,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\graphics\animationsprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\data\componentbuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

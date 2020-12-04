@@ -106,6 +106,8 @@ namespace IronParser.CodeGen
                 hBuilder.Tab().Append("virtual ~").Append(m_Class.Name).Append("() {}\n\n");
             }
 
+            hBuilder.Tab().Append(m_Class.Name).Append("() {}\n");
+
             bool needConstructor = false;
             foreach (Declaration declaration in m_Class.Declarations)
             {
@@ -228,6 +230,7 @@ namespace IronParser.CodeGen
             cppBuilder.Append("void ").Append(m_Class.Name).Append("::ToJSON(JSON* json)\n").Append("{\n");
 
             cppBuilder.Tab().Append("nlohmann::json& j = json->GetJ();\n");
+            cppBuilder.Tab().Append("j[\"class\"] = ").Append(m_Class.Name.GetHashCode()).Append(";\n");
             ApplyVisitor(new CPPJSONDeclarationVisitor(cppBuilder));
 
             cppBuilder.Append("}\n\n");

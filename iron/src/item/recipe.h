@@ -14,6 +14,7 @@ class JSON;
 class Recipe
 {
 public:
+    Recipe() {}
     Recipe(const InventoryItem& product, float time) : m_Product(product), m_Time(time) {}
 
     const InventoryItem& GetProduct() const { return m_Product; }

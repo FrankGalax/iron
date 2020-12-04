@@ -16,6 +16,7 @@ class JSON;
 class InventoryComponent : public Component
 {
 public:
+    InventoryComponent() {}
     std::vector<InventoryItem>& GetItems() { return m_Items; }
     const std::vector<InventoryItem>& GetItems() const { return m_Items; }
 

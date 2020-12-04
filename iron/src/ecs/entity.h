@@ -21,6 +21,7 @@ class PositionComponent;
 class Entity
 {
 public:
+    Entity() {}
     Entity(int id, World* world) : m_Id(id), m_World(world) {}
 
     int GetId() const { return m_Id; }

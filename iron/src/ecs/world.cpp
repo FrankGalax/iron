@@ -21,6 +21,7 @@ ironBEGIN_NAMESPACE
 void World::ToJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    j["class"] = -1655988442;
     for (Entity* entitie : m_Entities)
     {
         JSON subJSON;

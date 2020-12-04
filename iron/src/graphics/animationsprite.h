@@ -9,6 +9,7 @@ class JSON;
 class AnimationSprite
 {
 public:
+    AnimationSprite() {}
     AnimationSprite(int spriteSheetX, int spriteSheetY) : m_SpriteSheetX(spriteSheetX), m_SpriteSheetY(spriteSheetY) {}
 
     int GetSpriteSheetX() const { return m_SpriteSheetX; }
@@ -24,7 +25,6 @@ private:
 
 #pragma region usercodeclass
 public:
-    AnimationSprite() : m_SpriteSheetX(0), m_SpriteSheetY(0) {}
     void SetSpriteSheetXY(int spriteSheetX, int spriteSheetY) { m_SpriteSheetX = spriteSheetX; m_SpriteSheetY = spriteSheetY; }
 #pragma endregion
 };

@@ -20,6 +20,7 @@ class Component
 public:
     virtual ~Component() {}
 
+    Component() {}
     Entity* GetOwner() { return m_Owner; }
     const Entity* GetOwner() const { return m_Owner; }
     void SetOwner(Entity* owner) { m_Owner = owner; }

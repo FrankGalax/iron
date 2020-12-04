@@ -48,6 +48,32 @@ namespace IronParser.CodeGen.Visitors
             {
                 return;
             }
+
+            string variableName = customDeclaration.Name.ToLowerCamelCase();
+            if (customDeclaration.IsPointer)
+            {
+                if (customDeclaration.CppType.EndsWith("Component"))
+                {
+                    int hash = customDeclaration.CppType.GetHashCode();
+                    m_Builder.Tab().Append("JSON ").Append(variableName).Append("Json;\n")
+                        .Tab().Append("nlohmann::json& ").Append(variableName).Append("J = ").Append(variableName).Append("Json.GetJ();\n")
+                        .Tab().Append("const int ").Append(variableName).Append("EntityId = m_").Append(customDeclaration.Name).Append(" != nullptr ? ")
+                            .Append("m_").Append(customDeclaration.Name).Append("->GetOwner()->GetId() : -1;\n")
+                        .Tab().Append(variableName).Append("J[\"entityId\"] = ").Append(variableName).Append("EntityId;\n")
+                        .Tab().Append(variableName).Append("J[\"class\"] = ").Append(hash).Append(";\n")
+                        .Tab().Append("j[\"").Append(variableName).Append("\"] = ").Append(variableName).Append("J;\n");
+                }
+                else
+                {
+                    m_Builder.Append("Error\n");
+                }
+            }
+            else
+            {
+                m_Builder.Tab().Append("JSON ").Append(variableName).Append("Json;\n")
+                    .Tab().Append("m_").Append(customDeclaration.Name).Append(".ToJSON(&").Append(variableName).Append("Json);\n")
+                    .Tab().Append("j[\"").Append(variableName).Append("\"] = ").Append(variableName).Append("Json.GetJ();\n");
+            }
         }
 
         public override void VisitFloatDeclaration(FloatDeclaration floatDeclaration)

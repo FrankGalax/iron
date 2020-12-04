@@ -11,6 +11,7 @@ class JSON;
 class PositionComponent : public Component
 {
 public:
+    PositionComponent() {}
     PositionComponent(const Vector2f& position) : m_Position(position), m_Size(1.0f, 1.0f) {}
     PositionComponent(const Vector2f& position, const Vector2f& size) : m_Position(position), m_Size(size) {}
 
