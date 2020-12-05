@@ -32,6 +32,7 @@ public:
     const std::vector<Component*>& GetComponents() const { return m_Components; }
 
     void ToJSON(JSON* j);
+    void FromJSON(JSON* j);
 
 private:
     int m_Id = 0;

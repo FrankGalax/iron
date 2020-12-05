@@ -10,4 +10,8 @@ void UIButtonComponent::ToJSON(JSON* json)
     j["buttonType"] = (int)m_ButtonType;
 }
 
+void UIButtonComponent::FromJSON(JSON* json)
+{
+}
+
 ironEND_NAMESPACE

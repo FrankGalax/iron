@@ -25,6 +25,7 @@ public:
     void SetTime(float time) { m_Time = time; }
 
     void ToJSON(JSON* j);
+    void FromJSON(JSON* j);
 
 private:
     InventoryItem m_Product;

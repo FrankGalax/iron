@@ -9,4 +9,8 @@ void Component::ToJSON(JSON* json)
     j["class"] = 1948514967;
 }
 
+void Component::FromJSON(JSON* json)
+{
+}
+
 ironEND_NAMESPACE

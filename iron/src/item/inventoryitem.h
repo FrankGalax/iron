@@ -24,6 +24,7 @@ public:
     void SetIsOutput(bool isOutput) { m_IsOutput = isOutput; }
 
     void ToJSON(JSON* j);
+    void FromJSON(JSON* j);
 
 private:
     ResourceType m_ResourceType = ResourceType::None;

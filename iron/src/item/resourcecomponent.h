@@ -20,6 +20,7 @@ public:
     ResourceType GetResourceType() const { return m_ResourceType; }
 
     virtual void ToJSON(JSON* j) override;
+    virtual void FromJSON(JSON* j) override;
 
 private:
     ResourceType m_ResourceType = ResourceType::None;

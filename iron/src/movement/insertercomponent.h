@@ -30,6 +30,7 @@ public:
     void SetIsInsertableOutOnly(bool isInsertableOutOnly) { m_IsInsertableOutOnly = isInsertableOutOnly; }
 
     virtual void ToJSON(JSON* j) override;
+    virtual void FromJSON(JSON* j) override;
 
 private:
     InserterType m_InserterType = InserterType::None;

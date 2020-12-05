@@ -30,7 +30,10 @@ void InputSystem::Update(float deltaTime)
 		}
 	}
 
-	assert(inputComponent != nullptr);
+	if (inputComponent == nullptr)
+	{
+		return;
+	}
 
 	Entity* currentClickedEntity = inputComponent->GetClickedEntity();
 	if (currentClickedEntity != nullptr)
@@ -101,6 +104,22 @@ void InputSystem::Update(float deltaTime)
 
 	inputComponent->SetWasLeftMouseButtonPressed(wasLeftMouseButtonPressed);
 	inputComponent->SetIsLeftMouseButtonPressed(isLeftMouseButtonPressed);
+
+	const bool isSPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S);
+	const bool isLPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L);
+
+	if (isSPressed && !inputComponent->GetIsSPressed())
+	{
+		inputComponent->GetOwner()->GetWorld()->SetSaveGame(true);
+	}
+
+	if (isLPressed && !inputComponent->GetIsLPressed())
+	{
+		inputComponent->GetOwner()->GetWorld()->SetLoadGame(true);
+	}
+
+	inputComponent->SetIsSPressed(isSPressed);
+	inputComponent->SetIsLPressed(isLPressed);
 }
 
 void InputSystem::GetUITopLeft(const InputComponent* inputComponent, int sizeX, int sizeY, float& topLeftX, float& topLeftY) const

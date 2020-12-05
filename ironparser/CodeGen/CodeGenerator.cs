@@ -101,7 +101,8 @@ namespace IronParser.CodeGen
             // public
                 .Append("public:\n");
 
-            if (m_Class.HasAttribute("Virtual"))
+            bool isVirtual = m_Class.HasAttribute("Virtual");
+            if (isVirtual)
             {
                 hBuilder.Tab().Append("virtual ~").Append(m_Class.Name).Append("() {}\n\n");
             }
@@ -151,20 +152,41 @@ namespace IronParser.CodeGen
 
             hBuilder.Append("\n");
 
+            // JSON
             hBuilder.Tab();
 
-            if (!String.IsNullOrEmpty(m_Class.ParentClassName) || m_Class.HasAttribute("Virtual"))
+            bool hasParentClass = !String.IsNullOrEmpty(m_Class.ParentClassName);
+            if (hasParentClass || isVirtual)
             {
                 hBuilder.Append("virtual ");
             }
 
             hBuilder.Append("void ToJSON(JSON* j)");
 
-            if (!String.IsNullOrEmpty(m_Class.ParentClassName))
+            if (hasParentClass)
             {
                 hBuilder.Append(" override");
             }
-            else if(m_Class.HasAttribute("Virtual"))
+            else if(isVirtual)
+            {
+                hBuilder.Append(" = 0");
+            }
+            hBuilder.Append(";\n");
+
+            hBuilder.Tab();
+
+            if (hasParentClass || isVirtual)
+            {
+                hBuilder.Append("virtual ");
+            }
+
+            hBuilder.Append("void FromJSON(JSON* j)");
+
+            if (hasParentClass)
+            {
+                hBuilder.Append(" override");
+            }
+            else if (isVirtual)
             {
                 hBuilder.Append(" = 0");
             }
@@ -235,7 +257,13 @@ namespace IronParser.CodeGen
 
             cppBuilder.Tab().Append("nlohmann::json& j = json->GetJ();\n");
             cppBuilder.Tab().Append("j[\"class\"] = ").Append(m_Class.Name.GetStableHashCode()).Append(";\n");
-            ApplyVisitor(new CPPJSONDeclarationVisitor(cppBuilder));
+            ApplyVisitor(new CPPToJSONDeclarationVisitor(cppBuilder));
+
+            cppBuilder.Append("}\n\n");
+
+            cppBuilder.Append("void ").Append(m_Class.Name).Append("::FromJSON(JSON* json)\n").Append("{\n");
+
+            ApplyVisitor(new CPPFromJSONDeclarationVisitor(cppBuilder));
 
             cppBuilder.Append("}\n\n");
 

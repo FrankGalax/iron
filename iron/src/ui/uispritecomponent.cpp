@@ -14,4 +14,8 @@ void UISpriteComponent::ToJSON(JSON* json)
     j["priority"] = m_Priority;
 }
 
+void UISpriteComponent::FromJSON(JSON* json)
+{
+}
+
 ironEND_NAMESPACE

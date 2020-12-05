@@ -15,4 +15,8 @@ void SpriteComponent::ToJSON(JSON* json)
     j["priority"] = m_Priority;
 }
 
+void SpriteComponent::FromJSON(JSON* json)
+{
+}
+
 ironEND_NAMESPACE

@@ -19,4 +19,8 @@ void Recipe::ToJSON(JSON* json)
     j["time"] = m_Time;
 }
 
+void Recipe::FromJSON(JSON* json)
+{
+}
+
 ironEND_NAMESPACE

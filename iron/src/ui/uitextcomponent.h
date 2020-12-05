@@ -21,6 +21,7 @@ public:
     int GetSize() const { return m_Size; }
 
     virtual void ToJSON(JSON* j) override;
+    virtual void FromJSON(JSON* j) override;
 
 private:
     std::string m_String;

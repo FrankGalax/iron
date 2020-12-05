@@ -28,6 +28,7 @@ public:
     int GetPriority() const { return m_Priority; }
 
     virtual void ToJSON(JSON* j) override;
+    virtual void FromJSON(JSON* j) override;
 
 private:
     int m_SpriteSheetX = 0;

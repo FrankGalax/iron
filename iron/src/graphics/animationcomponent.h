@@ -26,6 +26,7 @@ public:
     void SetTimer(float timer) { m_Timer = timer; }
 
     virtual void ToJSON(JSON* j) override;
+    virtual void FromJSON(JSON* j) override;
 
 private:
     std::vector<AnimationSprite> m_AnimationSprites;

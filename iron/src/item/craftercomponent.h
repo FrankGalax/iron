@@ -26,6 +26,7 @@ public:
     void SetCraftingTime(float craftingTime) { m_CraftingTime = craftingTime; }
 
     virtual void ToJSON(JSON* j) override;
+    virtual void FromJSON(JSON* j) override;
 
 private:
     std::vector<Recipe> m_Recipes;

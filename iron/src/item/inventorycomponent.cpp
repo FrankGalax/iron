@@ -15,4 +15,8 @@ void InventoryComponent::ToJSON(JSON* json)
     }
 }
 
+void InventoryComponent::FromJSON(JSON* json)
+{
+}
+
 ironEND_NAMESPACE

@@ -19,4 +19,8 @@ void PositionComponent::ToJSON(JSON* json)
     j["size"] = sizeJ;
 }
 
+void PositionComponent::FromJSON(JSON* json)
+{
+}
+
 ironEND_NAMESPACE

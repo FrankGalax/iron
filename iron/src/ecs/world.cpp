@@ -14,6 +14,9 @@
 #include <item/inventorysystem.h>
 #include <movement/beltsystem.h>
 #include <movement/insertersystem.h>
+#include <json.h>
+#include <fstream>
+#include <iomanip>
 #pragma endregion
 
 ironBEGIN_NAMESPACE
@@ -28,6 +31,10 @@ void World::ToJSON(JSON* json)
         entitie->ToJSON(&subJSON);
         j["entities"].push_back(subJSON.GetJ());
     }
+}
+
+void World::FromJSON(JSON* json)
+{
 }
 
 #pragma region usercodenamespace
@@ -76,6 +83,32 @@ void World::DestroyEntity(Entity* entity)
 
 void World::Update(float deltaTime)
 {
+    if (m_SaveGame)
+    {
+        JSON json;
+        ToJSON(&json);
+        std::ofstream o("save.json");
+        o << std::setw(4) << json.GetJ() << std::endl;
+        m_SaveGame = false;
+    }
+
+    if (m_LoadGame)
+    {
+        for (Entity* entity : m_Entities)
+        {
+            UnregisterEntity(entity);
+            delete entity;
+        }
+        m_Entities.clear();
+
+        std::ifstream i("save.json");
+        JSON json;
+        i >> json.GetJ();
+        FromJSON(&json);
+
+        m_LoadGame = false;
+    }
+
     for (Entity* pendingEntity : m_PendingRemoveEntities)
     {
         for (int i = 0; i < m_Entities.size(); ++i)

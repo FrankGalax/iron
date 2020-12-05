@@ -6,6 +6,10 @@ class InputComponent : Component
 	bool IsLeftMouseButtonPressed;
 	[ConstructorIgnore, Transient]
 	bool WasLeftMouseButtonPressed;
+	[ConstructorIgnore, Transient]
+	bool IsSPressed;
+	[ConstructorIgnore, Transient]
+	bool IsLPressed;
 	[Transient]
 	const Window* Window;
 }

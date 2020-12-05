@@ -22,6 +22,10 @@ void Entity::ToJSON(JSON* json)
     }
 }
 
+void Entity::FromJSON(JSON* json)
+{
+}
+
 #pragma region usercodenamespace
 Entity::~Entity()
 {

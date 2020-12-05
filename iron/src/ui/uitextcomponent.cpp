@@ -18,4 +18,8 @@ void UITextComponent::ToJSON(JSON* json)
     j["size"] = m_Size;
 }
 
+void UITextComponent::FromJSON(JSON* json)
+{
+}
+
 ironEND_NAMESPACE

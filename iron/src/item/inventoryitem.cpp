@@ -12,4 +12,8 @@ void InventoryItem::ToJSON(JSON* json)
     j["isOutput"] = m_IsOutput;
 }
 
+void InventoryItem::FromJSON(JSON* json)
+{
+}
+
 ironEND_NAMESPACE

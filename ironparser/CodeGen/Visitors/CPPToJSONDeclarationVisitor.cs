@@ -5,11 +5,11 @@ using System.Text;
 
 namespace IronParser.CodeGen.Visitors
 {
-    class CPPJSONDeclarationVisitor : DeclarationVisitor
+    class CPPToJSONDeclarationVisitor : DeclarationVisitor
     {
         StringBuilder m_Builder;
 
-        public CPPJSONDeclarationVisitor(StringBuilder builder)
+        public CPPToJSONDeclarationVisitor(StringBuilder builder)
         {
             m_Builder = builder;
         }

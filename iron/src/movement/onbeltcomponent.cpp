@@ -20,4 +20,8 @@ void OnBeltComponent::ToJSON(JSON* json)
     j["belt"] = beltJ;
 }
 
+void OnBeltComponent::FromJSON(JSON* json)
+{
+}
+
 ironEND_NAMESPACE

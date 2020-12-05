@@ -21,6 +21,7 @@ public:
     const std::vector<InventoryItem>& GetItems() const { return m_Items; }
 
     virtual void ToJSON(JSON* j) override;
+    virtual void FromJSON(JSON* j) override;
 
 private:
     std::vector<InventoryItem> m_Items;

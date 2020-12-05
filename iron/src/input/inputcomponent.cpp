@@ -9,4 +9,8 @@ void InputComponent::ToJSON(JSON* json)
     j["class"] = -1831897379;
 }
 
+void InputComponent::FromJSON(JSON* json)
+{
+}
+
 ironEND_NAMESPACE

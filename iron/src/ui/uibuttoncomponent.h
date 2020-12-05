@@ -20,6 +20,7 @@ public:
     ButtonType GetButtonType() const { return m_ButtonType; }
 
     virtual void ToJSON(JSON* j) override;
+    virtual void FromJSON(JSON* j) override;
 
 private:
     ButtonType m_ButtonType = ButtonType::None;

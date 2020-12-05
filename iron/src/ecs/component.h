@@ -26,6 +26,7 @@ public:
     void SetOwner(Entity* owner) { m_Owner = owner; }
 
     virtual void ToJSON(JSON* j) = 0;
+    virtual void FromJSON(JSON* j) = 0;
 
 private:
     Entity* m_Owner = nullptr;

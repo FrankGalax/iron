@@ -17,4 +17,8 @@ void AnimationComponent::ToJSON(JSON* json)
     j["time"] = m_Time;
 }
 
+void AnimationComponent::FromJSON(JSON* json)
+{
+}
+
 ironEND_NAMESPACE

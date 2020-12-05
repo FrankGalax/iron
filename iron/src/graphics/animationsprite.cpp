@@ -11,4 +11,8 @@ void AnimationSprite::ToJSON(JSON* json)
     j["spriteSheetY"] = m_SpriteSheetY;
 }
 
+void AnimationSprite::FromJSON(JSON* json)
+{
+}
+
 ironEND_NAMESPACE

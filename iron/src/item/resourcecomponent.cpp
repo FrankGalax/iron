@@ -10,4 +10,8 @@ void ResourceComponent::ToJSON(JSON* json)
     j["resourceType"] = (int)m_ResourceType;
 }
 
+void ResourceComponent::FromJSON(JSON* json)
+{
+}
+
 ironEND_NAMESPACE

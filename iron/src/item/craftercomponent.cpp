@@ -15,4 +15,8 @@ void CrafterComponent::ToJSON(JSON* json)
     }
 }
 
+void CrafterComponent::FromJSON(JSON* json)
+{
+}
+
 ironEND_NAMESPACE

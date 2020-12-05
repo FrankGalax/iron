@@ -20,6 +20,7 @@ public:
     const Vector2f& GetSize() const { return m_Size; }
 
     virtual void ToJSON(JSON* j) override;
+    virtual void FromJSON(JSON* j) override;
 
 private:
     Vector2f m_Position;

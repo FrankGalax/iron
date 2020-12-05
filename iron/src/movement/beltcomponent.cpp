@@ -25,4 +25,8 @@ void BeltComponent::ToJSON(JSON* json)
     j["direction"] = directionJ;
 }
 
+void BeltComponent::FromJSON(JSON* json)
+{
+}
+
 ironEND_NAMESPACE

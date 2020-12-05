@@ -21,4 +21,8 @@ void InserterComponent::ToJSON(JSON* json)
     j["isInsertableOutOnly"] = m_IsInsertableOutOnly;
 }
 
+void InserterComponent::FromJSON(JSON* json)
+{
+}
+
 ironEND_NAMESPACE

@@ -18,6 +18,7 @@ public:
     void SetSpriteSheetY(int spriteSheetY) { m_SpriteSheetY = spriteSheetY; }
 
     void ToJSON(JSON* j);
+    void FromJSON(JSON* j);
 
 private:
     int m_SpriteSheetX = 0;
