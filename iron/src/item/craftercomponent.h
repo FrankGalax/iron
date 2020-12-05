@@ -27,6 +27,7 @@ public:
 
     virtual void ToJSON(JSON* j) override;
     virtual void FromJSON(JSON* j) override;
+    virtual void FromJSONResolve(JSON* j) override;
 
 private:
     std::vector<Recipe> m_Recipes;

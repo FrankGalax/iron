@@ -25,6 +25,7 @@ public:
 
     void ToJSON(JSON* j);
     void FromJSON(JSON* j);
+    void FromJSONResolve(JSON* j);
 
 private:
     ResourceType m_ResourceType = ResourceType::None;

@@ -26,4 +26,9 @@ void PositionComponent::FromJSON(JSON* json)
     m_Size = Vector2f(j["size"]["x"], j["size"]["y"]);
 }
 
+void PositionComponent::FromJSONResolve(JSON* json)
+{
+    nlohmann::json& j = json->GetJ();
+}
+
 ironEND_NAMESPACE

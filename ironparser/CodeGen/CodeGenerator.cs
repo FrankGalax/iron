@@ -192,6 +192,25 @@ namespace IronParser.CodeGen
             }
             hBuilder.Append(";\n");
 
+            hBuilder.Tab();
+
+            if (hasParentClass || isVirtual)
+            {
+                hBuilder.Append("virtual ");
+            }
+
+            hBuilder.Append("void FromJSONResolve(JSON* j)");
+
+            if (hasParentClass)
+            {
+                hBuilder.Append(" override");
+            }
+            else if (isVirtual)
+            {
+                hBuilder.Append(" = 0");
+            }
+            hBuilder.Append(";\n");
+
             // private
             hBuilder.Append("\nprivate:\n");
             ApplyVisitor(new HDeclareGenDeclarationVisitor(hBuilder));
@@ -265,6 +284,13 @@ namespace IronParser.CodeGen
                 .Tab().Append("nlohmann::json& j = json->GetJ();\n");
 
             ApplyVisitor(new CPPFromJSONDeclarationVisitor(cppBuilder));
+
+            cppBuilder.Append("}\n\n");
+
+            cppBuilder.Append("void ").Append(m_Class.Name).Append("::FromJSONResolve(JSON* json)\n").Append("{\n")
+                .Tab().Append("nlohmann::json& j = json->GetJ();\n");
+
+            ApplyVisitor(new CPPFromJSONResolveDeclarationVisitor(cppBuilder));
 
             cppBuilder.Append("}\n\n");
 

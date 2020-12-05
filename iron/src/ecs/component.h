@@ -27,6 +27,7 @@ public:
 
     virtual void ToJSON(JSON* j) = 0;
     virtual void FromJSON(JSON* j) = 0;
+    virtual void FromJSONResolve(JSON* j) = 0;
 
 private:
     Entity* m_Owner = nullptr;

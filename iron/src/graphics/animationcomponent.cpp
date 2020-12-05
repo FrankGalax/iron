@@ -31,4 +31,14 @@ void AnimationComponent::FromJSON(JSON* json)
     m_Time = j["time"];
 }
 
+void AnimationComponent::FromJSONResolve(JSON* json)
+{
+    nlohmann::json& j = json->GetJ();
+    for (int i = 0; i < m_AnimationSprites.size(); ++i)
+    {
+        JSON animationSpriteJSON(j["animationSprites"][i]);
+        m_AnimationSprites[i].FromJSONResolve(&animationSpriteJSON);
+    }
+}
+
 ironEND_NAMESPACE

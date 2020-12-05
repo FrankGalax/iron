@@ -36,7 +36,8 @@ namespace IronParser
 
             StringBuilder builder = new StringBuilder();
             builder.Append("#include<data/componentbuilder.h>\n\n")
-                .Append("#include <iron.h>\n");
+                .Append("#include <iron.h>\n")
+                .Append("#include <ecs/entity.h>\n");
 
             foreach (ClassPath classPath in classPaths)
             {
@@ -63,8 +64,26 @@ namespace IronParser
 
             builder.Tab().Append("}\n")
                 .Tab().Append("return nullptr;\n")
-                .Append("}\n\n")
-                .Append("ironEND_NAMESPACE");
+                .Append("}\n\n");
+
+            builder.Append("Component* ComponentBuilder::GetComponent(Entity* entity, int classHash)\n")
+                .Append("{\n")
+                .Tab().Append("switch (classHash)\n")
+                .Tab().Append("{\n");
+
+            foreach (ClassPath classPath in classPaths)
+            {
+                if (classPath.Name.EndsWith("Component") && !classPath.Name.Equals("Component"))
+                {
+                    builder.Tab().Append("case ").Append(classPath.Name.GetStableHashCode()).Append(" : return entity->GetComponent<").Append(classPath.Name).Append(">();\n");
+                }
+            }
+
+            builder.Tab().Append("}\n")
+                .Tab().Append("return nullptr;\n")
+                .Append("}\n\n");
+
+            builder.Append("ironEND_NAMESPACE");
 
             File.WriteAllText("../../../../iron/src/data/componentbuilder.cpp", builder.ToString());
         }

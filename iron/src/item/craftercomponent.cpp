@@ -27,4 +27,14 @@ void CrafterComponent::FromJSON(JSON* json)
     }
 }
 
+void CrafterComponent::FromJSONResolve(JSON* json)
+{
+    nlohmann::json& j = json->GetJ();
+    for (int i = 0; i < m_Recipes.size(); ++i)
+    {
+        JSON recipeJSON(j["recipes"][i]);
+        m_Recipes[i].FromJSONResolve(&recipeJSON);
+    }
+}
+
 ironEND_NAMESPACE

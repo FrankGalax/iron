@@ -45,6 +45,16 @@ void World::FromJSON(JSON* json)
     }
 }
 
+void World::FromJSONResolve(JSON* json)
+{
+    nlohmann::json& j = json->GetJ();
+    for (int i = 0; i < m_Entities.size(); ++i)
+    {
+        JSON entitieJSON(j["entities"][i]);
+        m_Entities[i]->FromJSONResolve(&entitieJSON);
+    }
+}
+
 #pragma region usercodenamespace
 World::~World()
 {
@@ -113,6 +123,7 @@ void World::Update(float deltaTime)
         JSON json;
         i >> json.GetJ();
         FromJSON(&json);
+        FromJSONResolve(&json);
 
         for (Entity* entity : m_Entities)
         {

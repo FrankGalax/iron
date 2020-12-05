@@ -20,4 +20,9 @@ void InventoryItem::FromJSON(JSON* json)
     m_IsOutput = j["isOutput"];
 }
 
+void InventoryItem::FromJSONResolve(JSON* json)
+{
+    nlohmann::json& j = json->GetJ();
+}
+
 ironEND_NAMESPACE

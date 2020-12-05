@@ -32,4 +32,9 @@ void BeltComponent::FromJSON(JSON* json)
     m_Direction = Vector2f(j["direction"]["x"], j["direction"]["y"]);
 }
 
+void BeltComponent::FromJSONResolve(JSON* json)
+{
+    nlohmann::json& j = json->GetJ();
+}
+
 ironEND_NAMESPACE

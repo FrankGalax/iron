@@ -26,6 +26,7 @@ public:
 
     void ToJSON(JSON* j);
     void FromJSON(JSON* j);
+    void FromJSONResolve(JSON* j);
 
 private:
     InventoryItem m_Product;

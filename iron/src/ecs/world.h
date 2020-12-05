@@ -25,6 +25,7 @@ public:
 
     void ToJSON(JSON* j);
     void FromJSON(JSON* j);
+    void FromJSONResolve(JSON* j);
 
 private:
     std::vector<Entity*> m_Entities;

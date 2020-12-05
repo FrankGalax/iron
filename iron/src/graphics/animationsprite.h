@@ -19,6 +19,7 @@ public:
 
     void ToJSON(JSON* j);
     void FromJSON(JSON* j);
+    void FromJSONResolve(JSON* j);
 
 private:
     int m_SpriteSheetX = 0;

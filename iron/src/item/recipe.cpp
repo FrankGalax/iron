@@ -34,4 +34,14 @@ void Recipe::FromJSON(JSON* json)
     m_Time = j["time"];
 }
 
+void Recipe::FromJSONResolve(JSON* json)
+{
+    nlohmann::json& j = json->GetJ();
+    for (int i = 0; i < m_RecipeIngredients.size(); ++i)
+    {
+        JSON recipeIngredientJSON(j["recipeIngredients"][i]);
+        m_RecipeIngredients[i].FromJSONResolve(&recipeIngredientJSON);
+    }
+}
+
 ironEND_NAMESPACE

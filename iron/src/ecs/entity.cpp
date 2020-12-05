@@ -38,6 +38,16 @@ void Entity::FromJSON(JSON* json)
     }
 }
 
+void Entity::FromJSONResolve(JSON* json)
+{
+    nlohmann::json& j = json->GetJ();
+    for (int i = 0; i < m_Components.size(); ++i)
+    {
+        JSON componentJSON(j["components"][i]);
+        m_Components[i]->FromJSONResolve(&componentJSON);
+    }
+}
+
 #pragma region usercodenamespace
 Entity::~Entity()
 {

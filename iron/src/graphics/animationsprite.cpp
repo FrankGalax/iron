@@ -18,4 +18,9 @@ void AnimationSprite::FromJSON(JSON* json)
     m_SpriteSheetY = j["spriteSheetY"];
 }
 
+void AnimationSprite::FromJSONResolve(JSON* json)
+{
+    nlohmann::json& j = json->GetJ();
+}
+
 ironEND_NAMESPACE

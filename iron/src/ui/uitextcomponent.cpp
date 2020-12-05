@@ -26,4 +26,9 @@ void UITextComponent::FromJSON(JSON* json)
     m_Size = j["size"];
 }
 
+void UITextComponent::FromJSONResolve(JSON* json)
+{
+    nlohmann::json& j = json->GetJ();
+}
+
 ironEND_NAMESPACE

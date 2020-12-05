@@ -24,4 +24,9 @@ void UISpriteComponent::FromJSON(JSON* json)
     m_Priority = j["priority"];
 }
 
+void UISpriteComponent::FromJSONResolve(JSON* json)
+{
+    nlohmann::json& j = json->GetJ();
+}
+
 ironEND_NAMESPACE

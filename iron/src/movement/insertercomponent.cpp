@@ -30,4 +30,9 @@ void InserterComponent::FromJSON(JSON* json)
     m_IsInsertableOutOnly = j["isInsertableOutOnly"];
 }
 
+void InserterComponent::FromJSONResolve(JSON* json)
+{
+    nlohmann::json& j = json->GetJ();
+}
+
 ironEND_NAMESPACE

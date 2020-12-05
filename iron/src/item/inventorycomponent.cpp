@@ -27,4 +27,14 @@ void InventoryComponent::FromJSON(JSON* json)
     }
 }
 
+void InventoryComponent::FromJSONResolve(JSON* json)
+{
+    nlohmann::json& j = json->GetJ();
+    for (int i = 0; i < m_Items.size(); ++i)
+    {
+        JSON itemJSON(j["items"][i]);
+        m_Items[i].FromJSONResolve(&itemJSON);
+    }
+}
+
 ironEND_NAMESPACE
