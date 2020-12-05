@@ -22,6 +22,14 @@ void Recipe::ToJSON(JSON* json)
 void Recipe::FromJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    for (nlohmann::json& recipeIngredientJ : j["recipeIngredients"])
+    {
+        InventoryItem recipeIngredient;
+        JSON recipeIngredientJSON(recipeIngredientJ);
+        recipeIngredient.FromJSON(&recipeIngredientJSON);
+        m_RecipeIngredients.push_back(recipeIngredient);
+    }
+    m_Time = j["time"];
 }
 
 ironEND_NAMESPACE

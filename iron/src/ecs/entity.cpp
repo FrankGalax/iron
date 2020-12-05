@@ -26,6 +26,8 @@ void Entity::ToJSON(JSON* json)
 void Entity::FromJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    m_Id = j["id"];
+    m_Name = j["name"];
     for (nlohmann::json& componentJ : j["components"])
     {
         Component* component = ComponentBuilder::BuildComponent(componentJ["class"]);

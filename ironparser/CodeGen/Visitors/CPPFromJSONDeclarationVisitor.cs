@@ -20,6 +20,8 @@ namespace IronParser.CodeGen.Visitors
             {
                 return;
             }
+
+            VisitDeclaration(boolDeclaration);
         }
 
         public override void VisitColorDeclaration(ColorDeclaration colorDeclaration)
@@ -28,6 +30,11 @@ namespace IronParser.CodeGen.Visitors
             {
                 return;
             }
+
+            string variableName = colorDeclaration.Name.ToLowerCamelCase();
+            m_Builder.Tab().Append("m_").Append(colorDeclaration.Name).Append(" = sf::Color(j[\"").Append(variableName).Append("\"][\"r\"], j[\"")
+                .Append(variableName).Append("\"][\"g\"], j[\"").Append(variableName).Append("\"][\"b\"], j[\"").Append(variableName)
+                .Append("\"][\"a\"]);\n");
         }
 
         public override void VisitCustomDeclaration(CustomDeclaration customDeclaration)
@@ -44,6 +51,8 @@ namespace IronParser.CodeGen.Visitors
             {
                 return;
             }
+
+            VisitDeclaration(floatDeclaration);
         }
 
         public override void VisitIntDeclaration(IntDeclaration intDeclaration)
@@ -52,6 +61,8 @@ namespace IronParser.CodeGen.Visitors
             {
                 return;
             }
+
+            VisitDeclaration(intDeclaration);
         }
 
         public override void VisitStringDeclaration(StringDeclaration stringDeclaration)
@@ -60,6 +71,8 @@ namespace IronParser.CodeGen.Visitors
             {
                 return;
             }
+
+            VisitDeclaration(stringDeclaration);
         }
 
         public override void VisitVector2fDeclaration(Vector2fDeclaration vector2fDeclaration)
@@ -68,6 +81,10 @@ namespace IronParser.CodeGen.Visitors
             {
                 return;
             }
+
+            string variableName = vector2fDeclaration.Name.ToLowerCamelCase();
+            m_Builder.Tab().Append("m_").Append(vector2fDeclaration.Name).Append(" = Vector2f(j[\"").Append(variableName).Append("\"][\"x\"], j[\"")
+                .Append(variableName).Append("\"][\"y\"]);\n");
         }
 
         private bool HandleDeclaration(Declaration declaration)
@@ -79,13 +96,13 @@ namespace IronParser.CodeGen.Visitors
 
             if (declaration.IsArray)
             {
+                string lowerName = declaration.Name.ToLowerCamelCase();
+                string variableName = lowerName.Substring(0, lowerName.Length - 1);
+                m_Builder.Tab().Append("for (nlohmann::json& ").Append(variableName).Append("J : j[\"").Append(lowerName).Append("\"])\n")
+                    .Tab().Append("{\n");
+
                 if (declaration.IsPointer)
                 {
-                    string lowerName = declaration.Name.ToLowerCamelCase();
-                    string variableName = lowerName.Substring(0, lowerName.Length - 1);
-                    m_Builder.Tab().Append("for (nlohmann::json& ").Append(variableName).Append("J : j[\"").Append(lowerName).Append("\"])\n")
-                        .Tab().Append("{\n");
-
                     if (declaration.CppType.Equals("Entity"))
                     {
                         m_Builder.Tab().Tab().Append("Entity* ").Append(variableName).Append(" = new Entity();\n");
@@ -99,12 +116,35 @@ namespace IronParser.CodeGen.Visitors
                     m_Builder.Tab().Tab().Append("JSON ").Append(variableName).Append("JSON(").Append(variableName).Append("J);\n")
                         .Tab().Tab().Append(variableName).Append("->FromJSON(&").Append(variableName).Append("JSON);\n")
                         .Tab().Tab().Append("m_").Append(declaration.Name).Append(".push_back(").Append(variableName).Append(");\n");
-                    m_Builder.Tab().Append("}\n");
                 }
+                else
+                {
+                    m_Builder.Tab().Tab().Append(declaration.CppType).Append(" ").Append(variableName).Append(";\n")
+                        .Tab().Tab().Append("JSON ").Append(variableName).Append("JSON(").Append(variableName).Append("J);\n")
+                        .Tab().Tab().Append(variableName).Append(".FromJSON(&").Append(variableName).Append("JSON);\n")
+                        .Tab().Tab().Append("m_").Append(declaration.Name).Append(".push_back(").Append(variableName).Append(");\n");
+                }
+
+                m_Builder.Tab().Append("}\n");
 
                 return true;
             }
+
+            if (declaration.HasAttribute("Enum"))
+            {
+                string variableName = declaration.Name.ToLowerCamelCase();
+                m_Builder.Tab().Append("m_").Append(declaration.Name).Append(" = static_cast<").Append(declaration.CppType)
+                    .Append(">(").Append("j[\"").Append(variableName).Append("\"]);\n");
+                return true;
+            }
+
             return false;
+        }
+
+        private void VisitDeclaration(Declaration declaration)
+        {
+            string variableName = declaration.Name.ToLowerCamelCase();
+            m_Builder.Tab().Append("m_").Append(declaration.Name).Append(" = j[\"").Append(variableName).Append("\"];\n");
         }
     }
 }

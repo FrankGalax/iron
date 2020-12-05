@@ -15,6 +15,9 @@ void InventoryItem::ToJSON(JSON* json)
 void InventoryItem::FromJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    m_ResourceType = static_cast<ResourceType>(j["resourceType"]);
+    m_Quantity = j["quantity"];
+    m_IsOutput = j["isOutput"];
 }
 
 ironEND_NAMESPACE

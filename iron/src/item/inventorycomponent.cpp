@@ -18,6 +18,13 @@ void InventoryComponent::ToJSON(JSON* json)
 void InventoryComponent::FromJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    for (nlohmann::json& itemJ : j["items"])
+    {
+        InventoryItem item;
+        JSON itemJSON(itemJ);
+        item.FromJSON(&itemJSON);
+        m_Items.push_back(item);
+    }
 }
 
 ironEND_NAMESPACE

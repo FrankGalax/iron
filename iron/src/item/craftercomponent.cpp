@@ -18,6 +18,13 @@ void CrafterComponent::ToJSON(JSON* json)
 void CrafterComponent::FromJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    for (nlohmann::json& recipeJ : j["recipes"])
+    {
+        Recipe recipe;
+        JSON recipeJSON(recipeJ);
+        recipe.FromJSON(&recipeJSON);
+        m_Recipes.push_back(recipe);
+    }
 }
 
 ironEND_NAMESPACE

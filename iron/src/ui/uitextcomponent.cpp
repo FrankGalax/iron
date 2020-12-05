@@ -21,6 +21,9 @@ void UITextComponent::ToJSON(JSON* json)
 void UITextComponent::FromJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    m_String = j["string"];
+    m_Color = sf::Color(j["color"]["r"], j["color"]["g"], j["color"]["b"], j["color"]["a"]);
+    m_Size = j["size"];
 }
 
 ironEND_NAMESPACE

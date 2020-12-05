@@ -17,6 +17,11 @@ void UISpriteComponent::ToJSON(JSON* json)
 void UISpriteComponent::FromJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    m_SpriteSheetX = j["spriteSheetX"];
+    m_SpriteSheetY = j["spriteSheetY"];
+    m_ScaleX = j["scaleX"];
+    m_ScaleY = j["scaleY"];
+    m_Priority = j["priority"];
 }
 
 ironEND_NAMESPACE

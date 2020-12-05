@@ -20,6 +20,15 @@ void AnimationComponent::ToJSON(JSON* json)
 void AnimationComponent::FromJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    for (nlohmann::json& animationSpriteJ : j["animationSprites"])
+    {
+        AnimationSprite animationSprite;
+        JSON animationSpriteJSON(animationSpriteJ);
+        animationSprite.FromJSON(&animationSpriteJSON);
+        m_AnimationSprites.push_back(animationSprite);
+    }
+    m_AnimationSpriteIndex = j["animationSpriteIndex"];
+    m_Time = j["time"];
 }
 
 ironEND_NAMESPACE

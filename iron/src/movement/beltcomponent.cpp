@@ -28,6 +28,8 @@ void BeltComponent::ToJSON(JSON* json)
 void BeltComponent::FromJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    m_Speed = j["speed"];
+    m_Direction = Vector2f(j["direction"]["x"], j["direction"]["y"]);
 }
 
 ironEND_NAMESPACE

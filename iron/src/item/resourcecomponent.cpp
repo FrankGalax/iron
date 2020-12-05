@@ -13,6 +13,7 @@ void ResourceComponent::ToJSON(JSON* json)
 void ResourceComponent::FromJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    m_ResourceType = static_cast<ResourceType>(j["resourceType"]);
 }
 
 ironEND_NAMESPACE

@@ -18,6 +18,12 @@ void SpriteComponent::ToJSON(JSON* json)
 void SpriteComponent::FromJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    m_SpriteSheetX = j["spriteSheetX"];
+    m_SpriteSheetY = j["spriteSheetY"];
+    m_ScaleX = j["scaleX"];
+    m_ScaleY = j["scaleY"];
+    m_Rotation = j["rotation"];
+    m_Priority = j["priority"];
 }
 
 ironEND_NAMESPACE

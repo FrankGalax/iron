@@ -13,6 +13,7 @@ void UIButtonComponent::ToJSON(JSON* json)
 void UIButtonComponent::FromJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    m_ButtonType = static_cast<ButtonType>(j["buttonType"]);
 }
 
 ironEND_NAMESPACE

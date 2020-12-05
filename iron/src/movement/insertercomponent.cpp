@@ -24,6 +24,10 @@ void InserterComponent::ToJSON(JSON* json)
 void InserterComponent::FromJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    m_InserterType = static_cast<InserterType>(j["inserterType"]);
+    m_InOffset = Vector2f(j["inOffset"]["x"], j["inOffset"]["y"]);
+    m_OutOffset = Vector2f(j["outOffset"]["x"], j["outOffset"]["y"]);
+    m_IsInsertableOutOnly = j["isInsertableOutOnly"];
 }
 
 ironEND_NAMESPACE
