@@ -17,6 +17,7 @@ void SpriteComponent::ToJSON(JSON* json)
 
 void SpriteComponent::FromJSON(JSON* json)
 {
+    nlohmann::json& j = json->GetJ();
 }
 
 ironEND_NAMESPACE

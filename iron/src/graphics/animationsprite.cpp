@@ -13,6 +13,7 @@ void AnimationSprite::ToJSON(JSON* json)
 
 void AnimationSprite::FromJSON(JSON* json)
 {
+    nlohmann::json& j = json->GetJ();
 }
 
 ironEND_NAMESPACE

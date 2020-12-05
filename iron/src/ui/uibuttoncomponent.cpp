@@ -12,6 +12,7 @@ void UIButtonComponent::ToJSON(JSON* json)
 
 void UIButtonComponent::FromJSON(JSON* json)
 {
+    nlohmann::json& j = json->GetJ();
 }
 
 ironEND_NAMESPACE

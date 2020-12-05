@@ -17,6 +17,7 @@ void CrafterComponent::ToJSON(JSON* json)
 
 void CrafterComponent::FromJSON(JSON* json)
 {
+    nlohmann::json& j = json->GetJ();
 }
 
 ironEND_NAMESPACE

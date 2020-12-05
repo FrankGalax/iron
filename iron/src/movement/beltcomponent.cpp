@@ -27,6 +27,7 @@ void BeltComponent::ToJSON(JSON* json)
 
 void BeltComponent::FromJSON(JSON* json)
 {
+    nlohmann::json& j = json->GetJ();
 }
 
 ironEND_NAMESPACE

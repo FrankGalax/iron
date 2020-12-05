@@ -35,6 +35,14 @@ void World::ToJSON(JSON* json)
 
 void World::FromJSON(JSON* json)
 {
+    nlohmann::json& j = json->GetJ();
+    for (nlohmann::json& entitieJ : j["entities"])
+    {
+        Entity* entitie = new Entity();
+        JSON entitieJSON(entitieJ);
+        entitie->FromJSON(&entitieJSON);
+        m_Entities.push_back(entitie);
+    }
 }
 
 #pragma region usercodenamespace

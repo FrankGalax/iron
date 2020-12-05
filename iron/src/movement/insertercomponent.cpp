@@ -23,6 +23,7 @@ void InserterComponent::ToJSON(JSON* json)
 
 void InserterComponent::FromJSON(JSON* json)
 {
+    nlohmann::json& j = json->GetJ();
 }
 
 ironEND_NAMESPACE

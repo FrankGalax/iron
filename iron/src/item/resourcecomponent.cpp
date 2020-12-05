@@ -12,6 +12,7 @@ void ResourceComponent::ToJSON(JSON* json)
 
 void ResourceComponent::FromJSON(JSON* json)
 {
+    nlohmann::json& j = json->GetJ();
 }
 
 ironEND_NAMESPACE

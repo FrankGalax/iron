@@ -79,6 +79,29 @@ namespace IronParser.CodeGen.Visitors
 
             if (declaration.IsArray)
             {
+                if (declaration.IsPointer)
+                {
+                    string lowerName = declaration.Name.ToLowerCamelCase();
+                    string variableName = lowerName.Substring(0, lowerName.Length - 1);
+                    m_Builder.Tab().Append("for (nlohmann::json& ").Append(variableName).Append("J : j[\"").Append(lowerName).Append("\"])\n")
+                        .Tab().Append("{\n");
+
+                    if (declaration.CppType.Equals("Entity"))
+                    {
+                        m_Builder.Tab().Tab().Append("Entity* ").Append(variableName).Append(" = new Entity();\n");
+                    }
+                    else if (declaration.CppType.EndsWith("Component"))
+                    {
+                        m_Builder.Tab().Tab().Append("Component* ").Append(variableName).Append(" = ComponentBuilder::BuildComponent(")
+                            .Append(variableName).Append("J[\"class\"]);\n");
+                    }
+
+                    m_Builder.Tab().Tab().Append("JSON ").Append(variableName).Append("JSON(").Append(variableName).Append("J);\n")
+                        .Tab().Tab().Append(variableName).Append("->FromJSON(&").Append(variableName).Append("JSON);\n")
+                        .Tab().Tab().Append("m_").Append(declaration.Name).Append(".push_back(").Append(variableName).Append(");\n");
+                    m_Builder.Tab().Append("}\n");
+                }
+
                 return true;
             }
             return false;

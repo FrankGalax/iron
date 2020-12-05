@@ -21,6 +21,7 @@ void Recipe::ToJSON(JSON* json)
 
 void Recipe::FromJSON(JSON* json)
 {
+    nlohmann::json& j = json->GetJ();
 }
 
 ironEND_NAMESPACE

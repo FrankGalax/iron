@@ -2,6 +2,7 @@
 #include <json.h>
 
 #pragma region usercode
+#include <data/componentbuilder.h>
 #include <ecs/component.h>
 #include <movement/positioncomponent.h>
 #pragma endregion
@@ -24,6 +25,14 @@ void Entity::ToJSON(JSON* json)
 
 void Entity::FromJSON(JSON* json)
 {
+    nlohmann::json& j = json->GetJ();
+    for (nlohmann::json& componentJ : j["components"])
+    {
+        Component* component = ComponentBuilder::BuildComponent(componentJ["class"]);
+        JSON componentJSON(componentJ);
+        component->FromJSON(&componentJSON);
+        m_Components.push_back(component);
+    }
 }
 
 #pragma region usercodenamespace

@@ -20,6 +20,7 @@ void UITextComponent::ToJSON(JSON* json)
 
 void UITextComponent::FromJSON(JSON* json)
 {
+    nlohmann::json& j = json->GetJ();
 }
 
 ironEND_NAMESPACE

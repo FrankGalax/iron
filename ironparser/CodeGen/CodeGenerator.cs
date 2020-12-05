@@ -261,7 +261,8 @@ namespace IronParser.CodeGen
 
             cppBuilder.Append("}\n\n");
 
-            cppBuilder.Append("void ").Append(m_Class.Name).Append("::FromJSON(JSON* json)\n").Append("{\n");
+            cppBuilder.Append("void ").Append(m_Class.Name).Append("::FromJSON(JSON* json)\n").Append("{\n")
+                .Tab().Append("nlohmann::json& j = json->GetJ();\n");
 
             ApplyVisitor(new CPPFromJSONDeclarationVisitor(cppBuilder));
 

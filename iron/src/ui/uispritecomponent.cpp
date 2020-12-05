@@ -16,6 +16,7 @@ void UISpriteComponent::ToJSON(JSON* json)
 
 void UISpriteComponent::FromJSON(JSON* json)
 {
+    nlohmann::json& j = json->GetJ();
 }
 
 ironEND_NAMESPACE

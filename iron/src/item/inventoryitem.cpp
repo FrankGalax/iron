@@ -14,6 +14,7 @@ void InventoryItem::ToJSON(JSON* json)
 
 void InventoryItem::FromJSON(JSON* json)
 {
+    nlohmann::json& j = json->GetJ();
 }
 
 ironEND_NAMESPACE

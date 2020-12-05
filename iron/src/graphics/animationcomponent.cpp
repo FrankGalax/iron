@@ -19,6 +19,7 @@ void AnimationComponent::ToJSON(JSON* json)
 
 void AnimationComponent::FromJSON(JSON* json)
 {
+    nlohmann::json& j = json->GetJ();
 }
 
 ironEND_NAMESPACE
