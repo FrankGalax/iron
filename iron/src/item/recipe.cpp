@@ -22,6 +22,8 @@ void Recipe::ToJSON(JSON* json)
 void Recipe::FromJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    JSON productJSON(j["product"]);
+    m_Product.FromJSON(&productJSON);
     for (nlohmann::json& recipeIngredientJ : j["recipeIngredients"])
     {
         InventoryItem recipeIngredient;

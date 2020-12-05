@@ -43,6 +43,13 @@ namespace IronParser.CodeGen.Visitors
             {
                 return;
             }
+
+            if (!customDeclaration.IsPointer)
+            {
+                string variableName = customDeclaration.Name.ToLowerCamelCase();
+                m_Builder.Tab().Append("JSON ").Append(variableName).Append("JSON(j[\"").Append(variableName).Append("\"]);\n")
+                    .Tab().Append("m_").Append(customDeclaration.Name).Append(".FromJSON(&").Append(variableName).Append("JSON);\n");
+            }
         }
 
         public override void VisitFloatDeclaration(FloatDeclaration floatDeclaration)
@@ -105,12 +112,14 @@ namespace IronParser.CodeGen.Visitors
                 {
                     if (declaration.CppType.Equals("Entity"))
                     {
-                        m_Builder.Tab().Tab().Append("Entity* ").Append(variableName).Append(" = new Entity();\n");
+                        m_Builder.Tab().Tab().Append("Entity* ").Append(variableName).Append(" = new Entity(")
+                            .Append(variableName).Append("J[\"id\"], this);\n");
                     }
                     else if (declaration.CppType.EndsWith("Component"))
                     {
                         m_Builder.Tab().Tab().Append("Component* ").Append(variableName).Append(" = ComponentBuilder::BuildComponent(")
                             .Append(variableName).Append("J[\"class\"]);\n");
+                        m_Builder.Tab().Tab().Append(variableName).Append("->SetOwner(this);\n");
                     }
 
                     m_Builder.Tab().Tab().Append("JSON ").Append(variableName).Append("JSON(").Append(variableName).Append("J);\n")

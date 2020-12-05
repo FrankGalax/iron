@@ -20,7 +20,7 @@ void InitEntities(World& world, const Window& window)
 {
     Entity* inputEntity = world.CreateEntity();
     EntityBuilder::BuildInputEntity(inputEntity, &window);
-
+    /*
     Entity* inserterInTopBelt = world.CreateEntity();
     EntityBuilder::BuildInserter(inserterInTopBelt, Vector2f(6.f, 2.f), Vector2f::Down);
 
@@ -108,7 +108,7 @@ void InitEntities(World& world, const Window& window)
     EntityBuilder::BuildInserter(inserter2, Vector2f(9.f, 9.f), Vector2f::Down);
 
     Entity* chest = world.CreateEntity();
-    EntityBuilder::BuildChest(chest, Vector2f(9.f, 10.f));
+    EntityBuilder::BuildChest(chest, Vector2f(9.f, 10.f));*/
 }
 
 void ProcessEvents(Window& window)

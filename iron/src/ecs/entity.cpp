@@ -31,6 +31,7 @@ void Entity::FromJSON(JSON* json)
     for (nlohmann::json& componentJ : j["components"])
     {
         Component* component = ComponentBuilder::BuildComponent(componentJ["class"]);
+        component->SetOwner(this);
         JSON componentJSON(componentJ);
         component->FromJSON(&componentJSON);
         m_Components.push_back(component);

@@ -38,7 +38,7 @@ void World::FromJSON(JSON* json)
     nlohmann::json& j = json->GetJ();
     for (nlohmann::json& entitieJ : j["entities"])
     {
-        Entity* entitie = new Entity();
+        Entity* entitie = new Entity(entitieJ["id"], this);
         JSON entitieJSON(entitieJ);
         entitie->FromJSON(&entitieJSON);
         m_Entities.push_back(entitie);
@@ -113,6 +113,11 @@ void World::Update(float deltaTime)
         JSON json;
         i >> json.GetJ();
         FromJSON(&json);
+
+        for (Entity* entity : m_Entities)
+        {
+            RegisterEntity(entity);
+        }
 
         m_LoadGame = false;
     }
