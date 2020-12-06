@@ -85,7 +85,13 @@ namespace IronParser
 
             builder.Append("ironEND_NAMESPACE");
 
-            File.WriteAllText("../../../../iron/src/data/componentbuilder.cpp", builder.ToString());
+            string componentBuilderfilePath = "../../../../iron/src/data/componentbuilder.cpp";
+            string str = builder.ToString();
+            
+            if (!str.Equals(File.ReadAllText(componentBuilderfilePath)))
+            {
+                File.WriteAllText(componentBuilderfilePath, str);
+            }
         }
     }
 }
