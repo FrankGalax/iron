@@ -7,14 +7,11 @@ ironBEGIN_NAMESPACE
 
 class JSON;
 class Entity;
-class Window;
 
 class InputComponent : public Component
 {
 public:
     InputComponent() {}
-    InputComponent(const Window* window) : m_Window(window) {}
-
     Entity* GetClickedEntity() { return m_ClickedEntity; }
     const Entity* GetClickedEntity() const { return m_ClickedEntity; }
     void SetClickedEntity(Entity* clickedEntity) { m_ClickedEntity = clickedEntity; }
@@ -26,8 +23,6 @@ public:
     void SetIsSPressed(bool isSPressed) { m_IsSPressed = isSPressed; }
     bool GetIsLPressed() const { return m_IsLPressed; }
     void SetIsLPressed(bool isLPressed) { m_IsLPressed = isLPressed; }
-    const Window* GetWindow() const { return m_Window; }
-    void SetWindow(const Window* window) { m_Window = window; }
 
     virtual void ToJSON(JSON* j) override;
     virtual void FromJSON(JSON* j) override;
@@ -39,7 +34,6 @@ private:
     bool m_WasLeftMouseButtonPressed = false;
     bool m_IsSPressed = false;
     bool m_IsLPressed = false;
-    const Window* m_Window = nullptr;
 };
 
 ironEND_NAMESPACE

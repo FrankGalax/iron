@@ -16,10 +16,10 @@
 
 using namespace iron;
 
-void InitEntities(World& world, const Window& window)
+void InitEntities(World& world)
 {
     Entity* inputEntity = world.CreateEntity();
-    EntityBuilder::BuildInputEntity(inputEntity, &window);
+    EntityBuilder::BuildInputEntity(inputEntity);
     /*
     Entity* inserterInTopBelt = world.CreateEntity();
     EntityBuilder::BuildInserter(inserterInTopBelt, Vector2f(6.f, 2.f), Vector2f::Down);
@@ -128,12 +128,12 @@ void ProcessEvents(Window& window)
 int main()
 {
     Window window;
-    World world;
+    World world(&window);
     world.GetSpriteSheetManager().LoadSpriteSheet();
 
     world.CreateSystems();
 
-    InitEntities(world, window);
+    InitEntities(world);
 
     sf::Clock clock;
     
@@ -197,7 +197,7 @@ int main()
 
         world.Update(deltaTimeSeconds);
         window.Clear();
-        world.Render(&window);
+        world.Render();
 
         deltaTimeSum += deltaTimeSeconds;
         deltaTimeCount++;

@@ -162,12 +162,24 @@ void World::Update(float deltaTime)
     }
 }
 
-void World::Render(Window* window)
+void World::Render()
 {
     for (System* system : m_RenderSystems)
     {
-        system->Render(window);
+        system->Render(m_Window);
     }
+}
+
+Entity* World::GetEntityById(int entityId) const
+{
+    for (Entity* entity : m_Entities)
+    {
+        if (entity->GetId() == entityId)
+        {
+            return entity;
+        }
+    }
+    return nullptr;
 }
 
 void World::RegisterEntity(Entity* entity)

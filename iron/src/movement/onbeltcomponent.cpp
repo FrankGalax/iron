@@ -2,7 +2,9 @@
 #include <json.h>
 
 #pragma region usercode
+#include <data/componentbuilder.h>
 #include <ecs/entity.h>
+#include <ecs/world.h>
 #include <movement/beltcomponent.h>
 #pragma endregion
 
@@ -28,6 +30,10 @@ void OnBeltComponent::FromJSON(JSON* json)
 void OnBeltComponent::FromJSONResolve(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    if (Entity* beltEntity = GetOwner()->GetWorld()->GetEntityById(j["belt"]["entityId"]))
+    {
+        m_Belt = static_cast<BeltComponent*>(ComponentBuilder::GetComponent(beltEntity, j["belt"]["class"]));
+    }
 }
 
 ironEND_NAMESPACE

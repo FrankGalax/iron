@@ -32,6 +32,7 @@ private:
 
 #pragma region usercodeclass
 public:
+    World(Window* window) : m_Window(window) {}
     ~World();
 
     void CreateSystems();
@@ -39,17 +40,20 @@ public:
     void DestroyEntity(Entity* entity);
 
     void Update(float deltaTime);
-    void Render(Window* window);
+    void Render();
 
     SpriteSheetManager& GetSpriteSheetManager() { return m_SpriteSheetManager; }
     const SpriteSheetManager& GetSpriteSheetManager() const { return m_SpriteSheetManager; }
+    const Window* GetWindow() const { return m_Window; }
     void SetSaveGame(bool saveGame) { m_SaveGame = saveGame; }
     void SetLoadGame(bool loadGame) { m_LoadGame = loadGame; }
+    Entity* GetEntityById(int entityId) const;
 
 private:
     void RegisterEntity(Entity* entity);
     void UnregisterEntity(Entity* entity);
 
+    Window* m_Window = nullptr;
     std::vector<Entity*> m_PendingAddEntities;
     std::vector<Entity*> m_PendingRemoveEntities;
     std::vector<System*> m_UpdateSystems;

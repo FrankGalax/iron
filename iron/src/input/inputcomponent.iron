@@ -10,6 +10,4 @@ class InputComponent : Component
 	bool IsSPressed;
 	[ConstructorIgnore, Transient]
 	bool IsLPressed;
-	[Transient]
-	const Window* Window;
 }

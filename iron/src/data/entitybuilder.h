@@ -13,7 +13,7 @@ class Window;
 class EntityBuilder
 {
 public:
-    static void BuildInputEntity(Entity* entity, const Window* window);
+    static void BuildInputEntity(Entity* entity);
     static void BuildFurnace(Entity* entity, const Vector2f& position);
     static void BuildInserter(Entity* entity, const Vector2f& position, const Vector2f& direction);
     static void BuildIronOre(Entity* entity, const Vector2f& position);

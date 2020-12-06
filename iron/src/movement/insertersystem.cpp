@@ -49,7 +49,7 @@ void InserterSystem::Update(float deltaTime)
 				}
 			}
 
-			if (inserter->m_InserterComponent->GetOut() == nullptr)
+			if (inserter->m_InserterComponent->GetOut() == nullptr && insertable->m_Entity->GetOnBeltComponent() == nullptr)
 			{
 				const Vector2f testPosition = inserter->m_PositionComponent->GetPosition() + inserter->m_InserterComponent->GetOutOffset();
 				if (Utils::IsColliding(insertable->m_PositionComponent, testPosition, Vector2f::Zero))

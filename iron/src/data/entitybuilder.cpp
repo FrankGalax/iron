@@ -14,10 +14,10 @@
 
 ironBEGIN_NAMESPACE
 
-void EntityBuilder::BuildInputEntity(Entity* entity, const Window* window)
+void EntityBuilder::BuildInputEntity(Entity* entity)
 {
     entity->SetName("input");
-    entity->AddComponent(new InputComponent(window));
+    entity->AddComponent(new InputComponent());
 }
 
 void EntityBuilder::BuildFurnace(Entity* entity, const Vector2f& position)

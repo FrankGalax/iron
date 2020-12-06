@@ -39,7 +39,14 @@ namespace IronParser.CodeGen.Visitors
 
             if (customDeclaration.IsPointer)
             {
-
+                string variableName = customDeclaration.Name.ToLowerCamelCase();
+                m_Builder.Tab().Append("if (Entity* ").Append(variableName).Append("Entity = GetOwner()->GetWorld()->GetEntityById(j[\"")
+                    .Append(variableName).Append("\"][\"entityId\"]))\n")
+                    .Tab().Append("{\n")
+                    .Tab().Tab().Append("m_").Append(customDeclaration.Name).Append(" = static_cast<").Append(customDeclaration.CppType)
+                        .Append("*>(ComponentBuilder::GetComponent(").Append(variableName).Append("Entity, j[\"").Append(variableName)
+                        .Append("\"][\"class\"]));\n")
+                    .Tab().Append("}\n");
             }
         }
 

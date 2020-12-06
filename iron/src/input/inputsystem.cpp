@@ -58,7 +58,7 @@ void InputSystem::Update(float deltaTime)
 
 	if (isLeftMouseButtonPressed && !wasLeftMouseButtonPressed)
 	{
-		const sf::RenderWindow& window = inputComponent->GetWindow()->GetSFMLWindow();
+		const sf::RenderWindow& window = inputComponent->GetOwner()->GetWorld()->GetWindow()->GetSFMLWindow();
 		sf::Vector2i sfPosition = sf::Mouse::getPosition(window);
 		if (sfPosition.x >= 0 && sfPosition.x < (int)window.getSize().x && sfPosition.y >= 0 && sfPosition.y < (int)window.getSize().y)
 		{
@@ -124,7 +124,7 @@ void InputSystem::Update(float deltaTime)
 
 void InputSystem::GetUITopLeft(const InputComponent* inputComponent, int sizeX, int sizeY, float& topLeftX, float& topLeftY) const
 {
-	const sf::RenderWindow& window = inputComponent->GetWindow()->GetSFMLWindow();
+	const sf::RenderWindow& window = inputComponent->GetOwner()->GetWorld()->GetWindow()->GetSFMLWindow();
 	const float screenSizeX = window.getSize().x / (float)(GRID_SIZE * RENDER_SCALE);
 	const float screenSizeY = window.getSize().y / (float)(GRID_SIZE * RENDER_SCALE);
 	const int fullSizeX = sizeX + 2;

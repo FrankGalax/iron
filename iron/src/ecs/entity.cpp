@@ -4,6 +4,7 @@
 #pragma region usercode
 #include <data/componentbuilder.h>
 #include <ecs/component.h>
+#include <movement/onbeltcomponent.h>
 #include <movement/positioncomponent.h>
 #pragma endregion
 
@@ -79,6 +80,16 @@ PositionComponent* Entity::GetPositionComponent()
 const PositionComponent* Entity::GetPositionComponent() const
 {
     return m_PositionComponentCache.GetComponent(this);
+}
+
+OnBeltComponent* Entity::GetOnBeltComponent()
+{
+    return m_OnBeltComponentCache.GetComponent(this);
+}
+
+const OnBeltComponent* Entity::GetOnBeltComponent() const
+{
+    return m_OnBeltComponentCache.GetComponent(this);
 }
 #pragma endregion
 

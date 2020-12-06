@@ -2,7 +2,9 @@
 #include <json.h>
 
 #pragma region usercode
+#include <data/componentbuilder.h>
 #include <ecs/entity.h>
+#include <ecs/world.h>
 #pragma endregion
 
 ironBEGIN_NAMESPACE
@@ -35,6 +37,10 @@ void BeltComponent::FromJSON(JSON* json)
 void BeltComponent::FromJSONResolve(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
+    if (Entity* nextBeltEntity = GetOwner()->GetWorld()->GetEntityById(j["nextBelt"]["entityId"]))
+    {
+        m_NextBelt = static_cast<BeltComponent*>(ComponentBuilder::GetComponent(nextBeltEntity, j["nextBelt"]["class"]));
+    }
 }
 
 ironEND_NAMESPACE

@@ -16,6 +16,7 @@ class Component;
 
 #pragma region usercodenamespace
 class PositionComponent;
+class OnBeltComponent;
 #pragma endregion
 
 class Entity
@@ -50,6 +51,8 @@ public:
     void ResetComponentCaches();
     PositionComponent* GetPositionComponent();
     const PositionComponent* GetPositionComponent() const;
+    OnBeltComponent* GetOnBeltComponent();
+    const OnBeltComponent* GetOnBeltComponent() const;
 
     template <class T>
     T* GetComponent()
@@ -79,6 +82,7 @@ public:
 
 private:
     ComponentCache<PositionComponent> m_PositionComponentCache;
+    ComponentCache<OnBeltComponent> m_OnBeltComponentCache;
 #pragma endregion
 };
 
