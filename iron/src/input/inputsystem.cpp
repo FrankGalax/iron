@@ -107,6 +107,7 @@ void InputSystem::Update(float deltaTime)
 
 	const bool isSPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S);
 	const bool isLPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L);
+	const bool isCPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::C);
 
 	if (isSPressed && !inputComponent->GetIsSPressed())
 	{
@@ -118,8 +119,14 @@ void InputSystem::Update(float deltaTime)
 		inputComponent->GetOwner()->GetWorld()->SetLoadGame(true);
 	}
 
+	if (isCPressed && !inputComponent->GetIsCPressed())
+	{
+		inputComponent->GetOwner()->GetWorld()->SetClearGame(true);
+	}
+
 	inputComponent->SetIsSPressed(isSPressed);
 	inputComponent->SetIsLPressed(isLPressed);
+	inputComponent->SetIsCPressed(isCPressed);
 }
 
 void InputSystem::GetUITopLeft(const InputComponent* inputComponent, int sizeX, int sizeY, float& topLeftX, float& topLeftY) const

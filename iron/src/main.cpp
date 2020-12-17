@@ -20,7 +20,7 @@ void InitEntities(World& world)
 {
     Entity* inputEntity = world.CreateEntity();
     EntityBuilder::BuildInputEntity(inputEntity);
-    /*
+
     Entity* inserterInTopBelt = world.CreateEntity();
     EntityBuilder::BuildInserter(inserterInTopBelt, Vector2f(6.f, 2.f), Vector2f::Down);
 
@@ -108,7 +108,16 @@ void InitEntities(World& world)
     EntityBuilder::BuildInserter(inserter2, Vector2f(9.f, 9.f), Vector2f::Down);
 
     Entity* chest = world.CreateEntity();
-    EntityBuilder::BuildChest(chest, Vector2f(9.f, 10.f));*/
+    EntityBuilder::BuildChest(chest, Vector2f(9.f, 10.f));
+
+    Entity* minion = world.CreateEntity();
+    EntityBuilder::BuildMinion(minion, Vector2f(3.f, 10.f));
+
+    Entity* ironPatch = world.CreateEntity();
+    EntityBuilder::BuildOrePatch(ironPatch, Vector2f(2.f, 11.f), ResourceType::IronOre);
+
+    Entity* stockPile = world.CreateEntity();
+    EntityBuilder::BuildStockPile(stockPile, Vector2f(6.f, 1.f));
 }
 
 void ProcessEvents(Window& window)

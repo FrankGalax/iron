@@ -156,6 +156,33 @@ void EntityBuilder::BuildChest(Entity* entity, const Vector2f& position)
     entity->AddComponent(new InventoryComponent());
 }
 
+void EntityBuilder::BuildMinion(Entity* entity, const Vector2f& position)
+{
+    entity->SetName("minion");
+    entity->AddComponent(new SpriteComponent(20, 9, 1.f, 1.f, 0.f, 0));
+    entity->AddComponent(new PositionComponent(position));
+    entity->AddComponent(new InventoryComponent());
+}
+
+void EntityBuilder::BuildOrePatch(Entity* entity, const Vector2f& position, ResourceType resourceType)
+{
+    entity->SetName("orePatch");
+    entity->AddComponent(new SpriteComponent(1, 2, 2.f, 2.f, 0.f, 0));
+    entity->AddComponent(new PositionComponent(position, Vector2f(2.f, 2.f)));
+    entity->AddComponent(new ResourceComponent(resourceType));
+}
+
+void EntityBuilder::BuildStockPile(Entity* entity, const Vector2f& position)
+{
+    entity->SetName("stockPile");
+    entity->AddComponent(new SpriteComponent(5, 1, 1.f, 1.f, 0.f, 0));
+    entity->AddComponent(new PositionComponent(position));
+    InserterComponent* inserterComponent = new InserterComponent(InserterType::Insertable);
+    inserterComponent->SetIsInsertableOutOnly(true);
+    entity->AddComponent(inserterComponent);
+    entity->AddComponent(new InventoryComponent());
+}
+
 void EntityBuilder::BuildFromResource(Entity* entity, const Vector2f& position, ResourceType resourceType)
 {
     switch (resourceType)

@@ -47,6 +47,7 @@ public:
     const Window* GetWindow() const { return m_Window; }
     void SetSaveGame(bool saveGame) { m_SaveGame = saveGame; }
     void SetLoadGame(bool loadGame) { m_LoadGame = loadGame; }
+    void SetClearGame(bool clearGame) { m_ClearGame = clearGame; }
     Entity* GetEntityById(int entityId) const;
 
 private:
@@ -62,6 +63,7 @@ private:
     SpriteSheetManager m_SpriteSheetManager;
     bool m_SaveGame = false;
     bool m_LoadGame = false;
+    bool m_ClearGame = false;
 #pragma endregion
 };
 

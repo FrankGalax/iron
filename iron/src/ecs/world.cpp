@@ -9,6 +9,7 @@
 #include <ui/uirendersystem.h>
 #include <ui/uitextrendersystem.h>
 #include <graphics/window.h>
+#include <input/inputcomponent.h>
 #include <input/inputsystem.h>
 #include <item/craftingsystem.h>
 #include <item/inventorysystem.h>
@@ -101,6 +102,23 @@ void World::DestroyEntity(Entity* entity)
 
 void World::Update(float deltaTime)
 {
+    if (m_ClearGame)
+    {
+        for (int i = m_Entities.size() - 1; i >= 0; --i)
+        {
+            Entity* entity = m_Entities[i];
+            if (entity->GetComponent<InputComponent>() == nullptr)
+            {
+                UnregisterEntity(entity);
+                delete entity;
+                m_Entities[i] = m_Entities[m_Entities.size() - 1];
+                m_Entities.pop_back();
+            }
+        }
+
+        m_ClearGame = false;
+    }
+
     if (m_SaveGame)
     {
         JSON json;

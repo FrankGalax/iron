@@ -23,6 +23,8 @@ public:
     void SetIsSPressed(bool isSPressed) { m_IsSPressed = isSPressed; }
     bool GetIsLPressed() const { return m_IsLPressed; }
     void SetIsLPressed(bool isLPressed) { m_IsLPressed = isLPressed; }
+    bool GetIsCPressed() const { return m_IsCPressed; }
+    void SetIsCPressed(bool isCPressed) { m_IsCPressed = isCPressed; }
 
     virtual void ToJSON(JSON* j) override;
     virtual void FromJSON(JSON* j) override;
@@ -34,6 +36,7 @@ private:
     bool m_WasLeftMouseButtonPressed = false;
     bool m_IsSPressed = false;
     bool m_IsLPressed = false;
+    bool m_IsCPressed = false;
 };
 
 ironEND_NAMESPACE
