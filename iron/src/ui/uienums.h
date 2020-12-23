@@ -7,7 +7,16 @@ ironBEGIN_NAMESPACE
 enum class ButtonType
 {
 	None,
-	X
+	X,
+	Inventory,
+	Move
+};
+
+enum class UIState
+{
+	None,
+	Action,
+	Inventory
 };
 
 ironEND_NAMESPACE

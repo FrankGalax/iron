@@ -1,0 +1,5 @@
+class PathComponent : Component
+{
+    [NonConstGetter, ConstructorIgnore]
+    Vector2f Target;
+}

@@ -149,8 +149,12 @@
     <ClCompile Include="src\movement\beltcomponent.cpp" />
     <ClCompile Include="src\movement\insertercomponent.cpp" />
     <ClCompile Include="src\movement\onbeltcomponent.cpp" />
+    <ClCompile Include="src\movement\pathcomponent.cpp" />
+    <ClCompile Include="src\movement\pathsystem.cpp" />
+    <ClCompile Include="src\movement\pathtargetcomponent.cpp" />
     <ClCompile Include="src\movement\positioncomponent.cpp" />
     <ClCompile Include="src\ui\uibuttoncomponent.cpp" />
+    <ClCompile Include="src\ui\uicomponent.cpp" />
     <ClCompile Include="src\ui\uirendersystem.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
     <ClCompile Include="src\input\inputsystem.cpp" />
@@ -179,13 +183,17 @@
     <ClInclude Include="src\graphics\animationsystem.h" />
     <ClInclude Include="src\json.h" />
     <ClInclude Include="src\movement\movementenum.h" />
-    <ClInclude Include="src\ui\button.h" />
+    <ClInclude Include="src\movement\pathcomponent.h" />
+    <ClInclude Include="src\movement\pathsystem.h" />
+    <ClInclude Include="src\movement\pathtargetcomponent.h" />
     <ClInclude Include="src\graphics\sfmlspritecomponent.h" />
     <ClInclude Include="src\graphics\spritecomponent.h" />
     <ClInclude Include="src\graphics\spriteinfo.h" />
     <ClInclude Include="src\graphics\spriterendersystem.h" />
     <ClInclude Include="src\graphics\spritesheetmanager.h" />
     <ClInclude Include="src\ui\uibuttoncomponent.h" />
+    <ClInclude Include="src\ui\uicomponent.h" />
+    <ClInclude Include="src\ui\uienums.h" />
     <ClInclude Include="src\ui\uirendersystem.h" />
     <ClInclude Include="src\ui\uispritecomponent.h" />
     <ClInclude Include="src\ui\uitextcomponent.h" />
@@ -227,8 +235,11 @@
     <None Include="src\movement\beltcomponent.iron" />
     <None Include="src\movement\insertercomponent.iron" />
     <None Include="src\movement\onbeltcomponent.iron" />
+    <None Include="src\movement\pathcomponent.iron" />
+    <None Include="src\movement\pathtargetcomponent.iron" />
     <None Include="src\movement\positioncomponent.iron" />
     <None Include="src\ui\uibuttoncomponent.iron" />
+    <None Include="src\ui\uicomponent.iron" />
     <None Include="src\ui\uispritecomponent.iron" />
     <None Include="src\ui\uitextcomponent.iron" />
   </ItemGroup>

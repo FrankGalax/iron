@@ -11,8 +11,11 @@
 #include <movement/beltcomponent.h>
 #include <movement/insertercomponent.h>
 #include <movement/onbeltcomponent.h>
+#include <movement/pathcomponent.h>
+#include <movement/pathtargetcomponent.h>
 #include <movement/positioncomponent.h>
 #include <ui/uibuttoncomponent.h>
+#include <ui/uicomponent.h>
 #include <ui/uispritecomponent.h>
 #include <ui/uitextcomponent.h>
 
@@ -31,8 +34,11 @@ Component* ComponentBuilder::BuildComponent(int classHash)
     case 817766642 : return new BeltComponent();
     case 570334859 : return new InserterComponent();
     case 2124386125 : return new OnBeltComponent();
+    case -639674736 : return new PathComponent();
+    case -1243637833 : return new PathTargetComponent();
     case -110003308 : return new PositionComponent();
     case 164764677 : return new UIButtonComponent();
+    case -79879393 : return new UIComponent();
     case -651037376 : return new UISpriteComponent();
     case -615737482 : return new UITextComponent();
     }
@@ -52,8 +58,11 @@ Component* ComponentBuilder::GetComponent(Entity* entity, int classHash)
     case 817766642 : return entity->GetComponent<BeltComponent>();
     case 570334859 : return entity->GetComponent<InserterComponent>();
     case 2124386125 : return entity->GetComponent<OnBeltComponent>();
+    case -639674736 : return entity->GetComponent<PathComponent>();
+    case -1243637833 : return entity->GetComponent<PathTargetComponent>();
     case -110003308 : return entity->GetComponent<PositionComponent>();
     case 164764677 : return entity->GetComponent<UIButtonComponent>();
+    case -79879393 : return entity->GetComponent<UIComponent>();
     case -651037376 : return entity->GetComponent<UISpriteComponent>();
     case -615737482 : return entity->GetComponent<UITextComponent>();
     }

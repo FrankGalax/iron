@@ -3,7 +3,7 @@
 #include <iron.h>
 #include <ecs/system.h>
 #include <item/inventoryitem.h>
-#include <ui/button.h>
+#include <ui/uienums.h>
 #include <SFML/Graphics.hpp>
 
 ironBEGIN_NAMESPACE
@@ -15,11 +15,15 @@ class CrafterComponent;
 
 class InputSystem : public System
 {
-	IRON_SYSTEM_DECLARE_1(InputSystemTuple, InputComponent);
+	IRON_SYSTEM_DECLARE_2(InputSystemTuple, InputComponent, UIComponent);
 
 	virtual void Update(float deltaTime) override;
 
 private:
+	void HandleCurrentClickedEntity(const InputComponent* inputComponent, const UIComponent* uiComponent, Entity* clickedEntity) const;
+	void FindClickedEntity(InputComponent* inputComponent, UIComponent* uiComponent) const;
+	void HandleKeyPresses(InputComponent* inputComponent) const;
+	void AddActionUI(Entity* clickedEntity) const;
 	void GetUITopLeft(const InputComponent* inputComponent, int sizeX, int sizeY, float& topLeftX, float& topLeftY) const;
 	void AddEntityUI(World* world, const InputComponent* inputComponent, const InventoryComponent* inventoryComponent, const CrafterComponent* crafterComponent) const;
 	void AddTitleUI(World* world, const Entity* entity, float topLeftX, float topLeftY, int sizeX, int sizeY) const;

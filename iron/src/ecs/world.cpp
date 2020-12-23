@@ -15,6 +15,7 @@
 #include <item/inventorysystem.h>
 #include <movement/beltsystem.h>
 #include <movement/insertersystem.h>
+#include <movement/pathsystem.h>
 #include <json.h>
 #include <fstream>
 #include <iomanip>
@@ -82,6 +83,7 @@ void World::CreateSystems()
     m_UpdateSystems.push_back(new CraftingSystem());
     m_UpdateSystems.push_back(new InventorySystem());
     m_UpdateSystems.push_back(new BeltSystem());
+    m_UpdateSystems.push_back(new PathSystem());
     m_UpdateSystems.push_back(new AnimationSystem());
     m_RenderSystems.push_back(new SpriteRenderSystem());
     m_RenderSystems.push_back(new UIRenderSystem());
@@ -104,7 +106,7 @@ void World::Update(float deltaTime)
 {
     if (m_ClearGame)
     {
-        for (int i = m_Entities.size() - 1; i >= 0; --i)
+        for (int i = (int)m_Entities.size() - 1; i >= 0; --i)
         {
             Entity* entity = m_Entities[i];
             if (entity->GetComponent<InputComponent>() == nullptr)

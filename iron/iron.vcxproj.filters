@@ -123,6 +123,18 @@
     <ClCompile Include="src\data\componentbuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\movement\pathcomponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\movement\pathsystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\movement\pathtargetcomponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\uicomponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ecs\world.h">
@@ -242,9 +254,6 @@
     <ClInclude Include="src\ui\uibuttoncomponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ui\button.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\movement\movementenum.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -255,6 +264,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\data\componentbuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\movement\pathcomponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\movement\pathsystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\movement\pathtargetcomponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ui\uienums.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ui\uicomponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -278,5 +302,8 @@
     <None Include="src\graphics\animationsprite.iron" />
     <None Include="src\item\inventoryitem.iron" />
     <None Include="src\item\recipe.iron" />
+    <None Include="src\movement\pathcomponent.iron" />
+    <None Include="src\movement\pathtargetcomponent.iron" />
+    <None Include="src\ui\uicomponent.iron" />
   </ItemGroup>
 </Project>

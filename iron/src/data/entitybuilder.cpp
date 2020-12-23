@@ -9,7 +9,10 @@
 #include <item/recipe.h>
 #include <item/resourcecomponent.h>
 #include <movement/insertercomponent.h>
+#include <movement/pathcomponent.h>
+#include <movement/pathtargetcomponent.h>
 #include <movement/positioncomponent.h>
+#include <ui/uicomponent.h>
 #include <assert.h>
 
 ironBEGIN_NAMESPACE
@@ -18,6 +21,7 @@ void EntityBuilder::BuildInputEntity(Entity* entity)
 {
     entity->SetName("input");
     entity->AddComponent(new InputComponent());
+    entity->AddComponent(new UIComponent());
 }
 
 void EntityBuilder::BuildFurnace(Entity* entity, const Vector2f& position)
@@ -162,6 +166,7 @@ void EntityBuilder::BuildMinion(Entity* entity, const Vector2f& position)
     entity->AddComponent(new SpriteComponent(20, 9, 1.f, 1.f, 0.f, 0));
     entity->AddComponent(new PositionComponent(position));
     entity->AddComponent(new InventoryComponent());
+    entity->AddComponent(new PathComponent());
 }
 
 void EntityBuilder::BuildOrePatch(Entity* entity, const Vector2f& position, ResourceType resourceType)
@@ -181,6 +186,7 @@ void EntityBuilder::BuildStockPile(Entity* entity, const Vector2f& position)
     inserterComponent->SetIsInsertableOutOnly(true);
     entity->AddComponent(inserterComponent);
     entity->AddComponent(new InventoryComponent());
+    entity->AddComponent(new PathTargetComponent());
 }
 
 void EntityBuilder::BuildFromResource(Entity* entity, const Vector2f& position, ResourceType resourceType)

@@ -10,27 +10,31 @@
 #include <item/craftercomponent.h>
 #include <item/inventorycomponent.h>
 #include <math/vector.h>
+#include <movement/pathcomponent.h>
 #include <movement/positioncomponent.h>
+#include <ui/uicomponent.h>
 #include <SFML/Window.hpp>
 #include <utils.h>
 #include <assert.h>
 
 ironBEGIN_NAMESPACE
 
-IRON_SYSTEM_IMPLEMENT_1(InputSystem, InputSystemTuple, InputComponent);
+IRON_SYSTEM_IMPLEMENT_2(InputSystem, InputSystemTuple, InputComponent, UIComponent);
 
 void InputSystem::Update(float deltaTime)
 {
 	InputComponent* inputComponent = nullptr;
+	UIComponent* uiComponent = nullptr;
 	for (InputSystemTuple& tuple : m_Tuples)
 	{
 		if (tuple.m_InputComponent != nullptr)
 		{
 			inputComponent = tuple.m_InputComponent;
+			uiComponent = tuple.m_UIComponent;
 		}
 	}
 
-	if (inputComponent == nullptr)
+	if (inputComponent == nullptr || uiComponent == nullptr)
 	{
 		return;
 	}
@@ -38,13 +42,25 @@ void InputSystem::Update(float deltaTime)
 	Entity* currentClickedEntity = inputComponent->GetClickedEntity();
 	if (currentClickedEntity != nullptr)
 	{
-		if (InventoryComponent* inventoryComponent = currentClickedEntity->GetComponent<InventoryComponent>())
+		HandleCurrentClickedEntity(inputComponent, uiComponent, currentClickedEntity);
+	}
+
+	FindClickedEntity(inputComponent, uiComponent);
+
+	HandleKeyPresses(inputComponent);
+}
+
+void InputSystem::HandleCurrentClickedEntity(const InputComponent* inputComponent, const UIComponent* uiComponent, Entity* clickedEntity) const
+{
+	if (uiComponent->GetUIState() == UIState::Inventory)
+	{
+		if (InventoryComponent* inventoryComponent = clickedEntity->GetComponent<InventoryComponent>())
 		{
 			if (inventoryComponent->GetIsDirtyForUI())
 			{
 				inventoryComponent->SetIsDirtyForUI(false);
 
-				CrafterComponent* crafterComponent = currentClickedEntity->GetComponent<CrafterComponent>();
+				CrafterComponent* crafterComponent = clickedEntity->GetComponent<CrafterComponent>();
 
 				World* world = inventoryComponent->GetOwner()->GetWorld();
 				RemoveUI(world);
@@ -52,7 +68,10 @@ void InputSystem::Update(float deltaTime)
 			}
 		}
 	}
+}
 
+void InputSystem::FindClickedEntity(InputComponent* inputComponent, UIComponent* uiComponent) const
+{
 	const bool isLeftMouseButtonPressed = sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
 	const bool wasLeftMouseButtonPressed = inputComponent->GetIsLeftMouseButtonPressed();
 
@@ -68,33 +87,76 @@ void InputSystem::Update(float deltaTime)
 			Utils::GetEntitiesAtPosition(inputComponent->GetOwner()->GetWorld(), position, Vector2f::Zero, clickedEntities);
 			if (clickedEntities.empty())
 			{
-				Vector2f gridPosition(floor(position.GetX()), floor(position.GetY()));
-				World* world = inputComponent->GetOwner()->GetWorld();
-				Entity* entity = world->CreateEntity();
-				EntityBuilder::BuildFromResource(entity, gridPosition, ResourceType::IronOre);
+				const UIState uiState = uiComponent->GetUIState();
+				if (uiState == UIState::None || uiState == UIState::Action)
+				{
+					Vector2f gridPosition(floor(position.GetX()), floor(position.GetY()));
+					World* world = inputComponent->GetOwner()->GetWorld();
+					Entity* entity = world->CreateEntity();
+					EntityBuilder::BuildFromResource(entity, gridPosition, ResourceType::IronOre);
+
+					RemoveUI(inputComponent->GetOwner()->GetWorld());
+					inputComponent->SetClickedEntity(nullptr);
+					uiComponent->SetUIState(UIState::None);
+				}
 			}
 			else
 			{
+				bool isButtonClicked = false;
 				for (Entity* clickedEntity : clickedEntities)
 				{
 					if (UIButtonComponent* uiButtonComponent = clickedEntity->GetComponent<UIButtonComponent>())
 					{
-						if (uiButtonComponent->GetButtonType() == ButtonType::X)
+						switch (uiButtonComponent->GetButtonType())
+						{
+						case ButtonType::X:
 						{
 							RemoveUI(clickedEntity->GetWorld());
+							uiComponent->SetUIState(UIState::None);
+
 							inputComponent->SetClickedEntity(nullptr);
 						}
-					}
-					else if (currentClickedEntity == nullptr)
-					{
-						if (const InventoryComponent* inventoryComponent = clickedEntity->GetComponent<InventoryComponent>())
+						break;
+						case ButtonType::Inventory:
 						{
-							const CrafterComponent* crafterComponent = clickedEntity->GetComponent<CrafterComponent>();
+							if (Entity* currentClickedEntity = inputComponent->GetClickedEntity())
+							{
+								RemoveUI(clickedEntity->GetWorld());
+								uiComponent->SetUIState(UIState::Inventory);
 
-							AddEntityUI(clickedEntity->GetWorld(), inputComponent, inventoryComponent, crafterComponent);
+								InventoryComponent* inventoryComponent = currentClickedEntity->GetComponent<InventoryComponent>();
+								const CrafterComponent* crafterComponent = currentClickedEntity->GetComponent<CrafterComponent>();
+								AddEntityUI(currentClickedEntity->GetWorld(), inputComponent, inventoryComponent, crafterComponent);
 
-							currentClickedEntity = clickedEntity;
-							inputComponent->SetClickedEntity(clickedEntity);
+								inventoryComponent->SetIsDirtyForUI(false);
+							}
+						}
+						break;
+						}
+
+						isButtonClicked = true;
+					}
+				}
+
+				if (!isButtonClicked)
+				{
+					for (Entity* clickedEntity : clickedEntities)
+					{
+						const UIState uiState = uiComponent->GetUIState();
+						if ((inputComponent->GetClickedEntity() == nullptr && uiState == UIState::None) || uiState == UIState::Action)
+						{
+							if (clickedEntity->GetComponent<InventoryComponent>() != nullptr ||
+								clickedEntity->GetComponent<PathComponent>() != nullptr)
+							{
+								if (uiState != UIState::None)
+								{
+									RemoveUI(clickedEntity->GetWorld());
+								}
+
+								inputComponent->SetClickedEntity(clickedEntity);
+								AddActionUI(clickedEntity);
+								uiComponent->SetUIState(UIState::Action);
+							}
 						}
 					}
 				}
@@ -104,7 +166,10 @@ void InputSystem::Update(float deltaTime)
 
 	inputComponent->SetWasLeftMouseButtonPressed(wasLeftMouseButtonPressed);
 	inputComponent->SetIsLeftMouseButtonPressed(isLeftMouseButtonPressed);
+}
 
+void InputSystem::HandleKeyPresses(InputComponent* inputComponent) const
+{
 	const bool isSPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S);
 	const bool isLPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L);
 	const bool isCPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::C);
@@ -127,6 +192,59 @@ void InputSystem::Update(float deltaTime)
 	inputComponent->SetIsSPressed(isSPressed);
 	inputComponent->SetIsLPressed(isLPressed);
 	inputComponent->SetIsCPressed(isCPressed);
+}
+
+void InputSystem::AddActionUI(Entity* clickedEntity) const
+{
+	assert(clickedEntity != nullptr);
+	int sizeX = 0;
+
+	const bool hasInventory = clickedEntity->GetComponent<InventoryComponent>();
+	const bool hasPath = clickedEntity->GetComponent<PathComponent>();
+
+	if (hasInventory)
+	{
+		sizeX++;
+	}
+	if (hasPath)
+	{
+		sizeX++;
+	}
+
+	assert(sizeX != 0);
+
+	World* world = clickedEntity->GetWorld();
+	const PositionComponent* positionComponent = clickedEntity->GetPositionComponent();
+	const float topLeftX = std::max(positionComponent->GetPosition().GetX() - (sizeX - 1) / 2.f, 0.f);
+	const float topLeftY = std::max(positionComponent->GetPosition().GetY() - 1.5f, 0.f);
+	constexpr float sizeY = 1.f;
+
+	AddUISpriteEntity(world, topLeftX, topLeftY - 1.f, 24, 8, (float)sizeX, 1.f, 1); // border top
+	AddUISpriteEntity(world, topLeftX, topLeftY + sizeY + 1.f, 24, 8, (float)sizeX, -1.f, 0); // border bottom
+
+	AddUISpriteEntity(world, topLeftX - 1.f, topLeftY, 24, 7, 1.f, (float)sizeY, 0); // border left
+	AddUISpriteEntity(world, topLeftX + sizeX + 1.f, topLeftY, 24, 7, -1.f, (float)sizeY, 0); // border right
+
+	AddUISpriteEntity(world, topLeftX - 1.f, topLeftY - 1.f, 24, 6, 1.f, 1.f, 2); // border top left
+	AddUISpriteEntity(world, topLeftX - 1.f, topLeftY + sizeY + 1.f, 24, 6, 1.f, -1.f, 0); // border top right
+	AddUISpriteEntity(world, topLeftX + sizeX + 1.f, topLeftY + sizeY + 1.f, 24, 6, -1.f, -1.f, 0); // border bottom right
+	AddUISpriteEntity(world, topLeftX + sizeX + 1.f, topLeftY - 1.f, 24, 6, -1.f, 1.f, 2); // border bottom left
+
+	AddUISpriteEntity(world, topLeftX + (sizeX - 1) / 2.f, topLeftY + 1.f, 24, 14, 1.f, 1.f, 3); // arrow
+
+	AddUISpriteEntity(world, topLeftX, topLeftY, 24, 13, (float)sizeX, 1.f, 0); // background
+
+	int current = 0;
+
+	if (hasInventory)
+	{
+		AddUIButtonEntity(world, topLeftX + (current++), topLeftY, ButtonType::Inventory);
+	}
+
+	if (hasPath)
+	{
+		AddUIButtonEntity(world, topLeftX + (current++), topLeftY, ButtonType::Move);
+	}
 }
 
 void InputSystem::GetUITopLeft(const InputComponent* inputComponent, int sizeX, int sizeY, float& topLeftX, float& topLeftY) const
@@ -261,9 +379,30 @@ void InputSystem::AddUITextEntity(World* world, float x, float y, const std::str
 
 void InputSystem::AddUIButtonEntity(World* world, float x, float y, ButtonType buttonType) const
 {
+	int spriteSheetX = 0;
+	int spriteSheetY = 0;
+
+	switch (buttonType)
+	{
+	case ButtonType::X:
+		spriteSheetX = 24;
+		spriteSheetY = 12;
+		break;
+	case ButtonType::Inventory:
+		spriteSheetX = 21;
+		spriteSheetY = 5;
+		break;
+	case ButtonType::Move:
+		spriteSheetX = 10;
+		spriteSheetY = 28;
+		break;
+	default:
+		assert(false);
+	}
+
 	Entity* entity = world->CreateEntity();
 	entity->AddComponent(new PositionComponent(Vector2f(x, y)));
-	entity->AddComponent(new UISpriteComponent(24, 12, 1.f, 1.f, 5));
+	entity->AddComponent(new UISpriteComponent(spriteSheetX, spriteSheetY, 1.f, 1.f, 5));
 	entity->AddComponent(new UIButtonComponent(buttonType));
 }
 
