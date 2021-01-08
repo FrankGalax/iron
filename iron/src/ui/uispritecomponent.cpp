@@ -11,6 +11,7 @@ void UISpriteComponent::ToJSON(JSON* json)
     j["spriteSheetY"] = m_SpriteSheetY;
     j["scaleX"] = m_ScaleX;
     j["scaleY"] = m_ScaleY;
+    j["rotation"] = m_Rotation;
     j["priority"] = m_Priority;
 }
 
@@ -21,6 +22,7 @@ void UISpriteComponent::FromJSON(JSON* json)
     m_SpriteSheetY = j["spriteSheetY"];
     m_ScaleX = j["scaleX"];
     m_ScaleY = j["scaleY"];
+    m_Rotation = j["rotation"];
     m_Priority = j["priority"];
 }
 

@@ -35,7 +35,7 @@ namespace IronParser
             }
 
             StringBuilder builder = new StringBuilder();
-            builder.Append("#include<data/componentbuilder.h>\n\n")
+            builder.Append("#include <data/componentbuilder.h>\n\n")
                 .Append("#include <iron.h>\n")
                 .Append("#include <ecs/entity.h>\n");
 

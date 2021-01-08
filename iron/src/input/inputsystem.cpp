@@ -11,6 +11,7 @@
 #include <item/inventorycomponent.h>
 #include <math/vector.h>
 #include <movement/pathcomponent.h>
+#include <movement/pathtargetcomponent.h>
 #include <movement/positioncomponent.h>
 #include <ui/uicomponent.h>
 #include <SFML/Window.hpp>
@@ -132,6 +133,17 @@ void InputSystem::FindClickedEntity(InputComponent* inputComponent, UIComponent*
 							}
 						}
 						break;
+						case ButtonType::Move:
+						{
+							if (Entity* currentClickedEntity = inputComponent->GetClickedEntity())
+							{
+								RemoveUI(clickedEntity->GetWorld());
+								uiComponent->SetUIState(UIState::Move);
+
+								AddSelectionUI(currentClickedEntity);
+							}
+						}
+						break;
 						}
 
 						isButtonClicked = true;
@@ -156,6 +168,25 @@ void InputSystem::FindClickedEntity(InputComponent* inputComponent, UIComponent*
 								inputComponent->SetClickedEntity(clickedEntity);
 								AddActionUI(clickedEntity);
 								uiComponent->SetUIState(UIState::Action);
+							}
+						}
+						else if (uiState == UIState::Move)
+						{
+							if (clickedEntity->GetComponent<PathTargetComponent>() != nullptr)
+							{
+								if (Entity* currentClickedEntity = inputComponent->GetClickedEntity())
+								{
+									PathComponent* pathComponent = currentClickedEntity->GetComponent<PathComponent>();
+									assert(pathComponent != nullptr);
+
+									pathComponent->SetTarget(clickedEntity->GetPositionComponent()->GetPosition());
+									pathComponent->SetPathPending(true);
+
+									RemoveUI(clickedEntity->GetWorld());
+									uiComponent->SetUIState(UIState::None);
+									inputComponent->SetClickedEntity(nullptr);
+									break;
+								}
 							}
 						}
 					}
@@ -219,20 +250,20 @@ void InputSystem::AddActionUI(Entity* clickedEntity) const
 	const float topLeftY = std::max(positionComponent->GetPosition().GetY() - 1.5f, 0.f);
 	constexpr float sizeY = 1.f;
 
-	AddUISpriteEntity(world, topLeftX, topLeftY - 1.f, 24, 8, (float)sizeX, 1.f, 1); // border top
-	AddUISpriteEntity(world, topLeftX, topLeftY + sizeY + 1.f, 24, 8, (float)sizeX, -1.f, 0); // border bottom
+	AddUISpriteEntity(world, topLeftX, topLeftY - 1.f, 24, 8, (float)sizeX, 1.f, 0.f, 1); // border top
+	AddUISpriteEntity(world, topLeftX, topLeftY + sizeY + 1.f, 24, 8, (float)sizeX, -1.f, 0.f, 0); // border bottom
 
-	AddUISpriteEntity(world, topLeftX - 1.f, topLeftY, 24, 7, 1.f, (float)sizeY, 0); // border left
-	AddUISpriteEntity(world, topLeftX + sizeX + 1.f, topLeftY, 24, 7, -1.f, (float)sizeY, 0); // border right
+	AddUISpriteEntity(world, topLeftX - 1.f, topLeftY, 24, 7, 1.f, (float)sizeY, 0.f, 0); // border left
+	AddUISpriteEntity(world, topLeftX + sizeX + 1.f, topLeftY, 24, 7, -1.f, (float)sizeY, 0.f, 0); // border right
 
-	AddUISpriteEntity(world, topLeftX - 1.f, topLeftY - 1.f, 24, 6, 1.f, 1.f, 2); // border top left
-	AddUISpriteEntity(world, topLeftX - 1.f, topLeftY + sizeY + 1.f, 24, 6, 1.f, -1.f, 0); // border top right
-	AddUISpriteEntity(world, topLeftX + sizeX + 1.f, topLeftY + sizeY + 1.f, 24, 6, -1.f, -1.f, 0); // border bottom right
-	AddUISpriteEntity(world, topLeftX + sizeX + 1.f, topLeftY - 1.f, 24, 6, -1.f, 1.f, 2); // border bottom left
+	AddUISpriteEntity(world, topLeftX - 1.f, topLeftY - 1.f, 24, 6, 1.f, 1.f, 0.f, 2); // border top left
+	AddUISpriteEntity(world, topLeftX - 1.f, topLeftY + sizeY + 1.f, 24, 6, 1.f, -1.f, 0.f, 0); // border top right
+	AddUISpriteEntity(world, topLeftX + sizeX + 1.f, topLeftY + sizeY + 1.f, 24, 6, -1.f, -1.f, 0.f, 0); // border bottom right
+	AddUISpriteEntity(world, topLeftX + sizeX + 1.f, topLeftY - 1.f, 24, 6, -1.f, 1.f, 0.f, 2); // border bottom left
 
-	AddUISpriteEntity(world, topLeftX + (sizeX - 1) / 2.f, topLeftY + 1.f, 24, 14, 1.f, 1.f, 3); // arrow
+	AddUISpriteEntity(world, topLeftX + (sizeX - 1) / 2.f, topLeftY + 1.f, 24, 14, 1.f, 1.f, 0.f, 3); // arrow
 
-	AddUISpriteEntity(world, topLeftX, topLeftY, 24, 13, (float)sizeX, 1.f, 0); // background
+	AddUISpriteEntity(world, topLeftX, topLeftY, 24, 13, (float)sizeX, 1.f, 0.f, 0); // background
 
 	int current = 0;
 
@@ -277,23 +308,23 @@ void InputSystem::AddEntityUI(World* world, const InputComponent* inputComponent
 
 void InputSystem::AddTitleUI(World* world, const Entity* entity, float topLeftX, float topLeftY, int sizeX, int sizeY) const
 {
-	AddUISpriteEntity(world, topLeftX, topLeftY, 24, 10, 1.f, 1.f, 1); // title top left
-	AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY, 24, 10, -1, 1.f, 1); // title top right
+	AddUISpriteEntity(world, topLeftX, topLeftY, 24, 10, 1.f, 1.f, 0.f, 1); // title top left
+	AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY, 24, 10, -1, 1.f, 0.f, 1); // title top right
 
-	AddUISpriteEntity(world, topLeftX + 1.f, topLeftY, 24, 11, (float)sizeX, 1.f, 0); // title top
-	AddUISpriteEntity(world, topLeftX + 1.f, topLeftY, 24, 8, (float)sizeX, 1.f, 1); // border top
-	AddUISpriteEntity(world, topLeftX + 1.f, topLeftY + sizeY + 2.f, 24, 8, (float)sizeX, -1.f, 0); // border bottom
+	AddUISpriteEntity(world, topLeftX + 1.f, topLeftY, 24, 11, (float)sizeX, 1.f, 0.f, 0); // title top
+	AddUISpriteEntity(world, topLeftX + 1.f, topLeftY, 24, 8, (float)sizeX, 1.f, 0.f, 1); // border top
+	AddUISpriteEntity(world, topLeftX + 1.f, topLeftY + sizeY + 2.f, 24, 8, (float)sizeX, -1.f, 0.f, 0); // border bottom
 
 	AddUITextEntity(world, topLeftX + 1.f, topLeftY + 0.1f, entity->GetName(), sf::Color::Black, 20);
 	AddUIButtonEntity(world, topLeftX + sizeX, topLeftY, ButtonType::X);
 
-	AddUISpriteEntity(world, topLeftX, topLeftY + 1.f, 24, 7, 1.f, (float)sizeY, 0); // border left
-	AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY + 1.f, 24, 7, -1.f, (float)sizeY, 0); // border right
+	AddUISpriteEntity(world, topLeftX, topLeftY + 1.f, 24, 7, 1.f, (float)sizeY, 0.f, 0); // border left
+	AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY + 1.f, 24, 7, -1.f, (float)sizeY, 0.f, 0); // border right
 
-	AddUISpriteEntity(world, topLeftX, topLeftY, 24, 6, 1.f, 1.f, 2); // border top left
-	AddUISpriteEntity(world, topLeftX, topLeftY + sizeY + 2.f, 24, 6, 1.f, -1.f, 0); // border top right
-	AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY + sizeY + 2.f, 24, 6, -1.f, -1.f, 0); // border bottom right
-	AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY, 24, 6, -1.f, 1.f, 2); // border bottom left
+	AddUISpriteEntity(world, topLeftX, topLeftY, 24, 6, 1.f, 1.f, 0.f, 2); // border top left
+	AddUISpriteEntity(world, topLeftX, topLeftY + sizeY + 2.f, 24, 6, 1.f, -1.f, 0.f, 0); // border top right
+	AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY + sizeY + 2.f, 24, 6, -1.f, -1.f, 0.f, 0); // border bottom right
+	AddUISpriteEntity(world, topLeftX + sizeX + 2.f, topLeftY, 24, 6, -1.f, 1.f, 0.f, 2); // border bottom left
 }
 
 void InputSystem::AddCrafterUI(World* world, const CrafterComponent* crafterComponent, float topLeftX, float topLeftY, int sizeX, int sizeY) const
@@ -301,9 +332,9 @@ void InputSystem::AddCrafterUI(World* world, const CrafterComponent* crafterComp
 	const float midSizeX = (sizeX - 1) / 2.f;
 	const float midSizeY = (sizeY - 1) / 2.f;
 
-	AddUISpriteEntity(world, topLeftX, topLeftY, 24, 13, (float)sizeX, (float)sizeY, 0);
-	AddUISpriteEntity(world, topLeftX + midSizeX - 1.f, topLeftY + midSizeY, 24, 9, 1.f, 1.f, 1);
-	AddUISpriteEntity(world, topLeftX + midSizeX + 1.f, topLeftY + midSizeY, 24, 9, 1.f, 1.f, 1);
+	AddUISpriteEntity(world, topLeftX, topLeftY, 24, 13, (float)sizeX, (float)sizeY, 0.f, 0);
+	AddUISpriteEntity(world, topLeftX + midSizeX - 1.f, topLeftY + midSizeY, 24, 9, 1.f, 1.f, 0.f, 1);
+	AddUISpriteEntity(world, topLeftX + midSizeX + 1.f, topLeftY + midSizeY, 24, 9, 1.f, 1.f, 0.f, 1);
 
 	if (const Recipe* recipe = crafterComponent->GetActiveRecipe())
 	{
@@ -318,7 +349,7 @@ void InputSystem::AddInventoryUI(World* world, const InventoryComponent* invento
 	{
 		for (int j = 0; j < sizeY; ++j)
 		{
-			AddUISpriteEntity(world, topLeftX + i, topLeftY + j, 24, 9, 1.f, 1.f, 0);
+			AddUISpriteEntity(world, topLeftX + i, topLeftY + j, 24, 9, 1.f, 1.f, 0.f, 0);
 		}
 	}
 
@@ -329,6 +360,22 @@ void InputSystem::AddInventoryUI(World* world, const InventoryComponent* invento
 		const int column = i % sizeX;
 		AddUIInventoryEntity(world, topLeftX + column, topLeftY + row, items[i]);
 	}
+}
+
+void InputSystem::AddSelectionUI(Entity* clickedEntity) const
+{
+	World* world = clickedEntity->GetWorld();
+	const Vector2f& position = clickedEntity->GetPositionComponent()->GetPosition();
+
+	AddUISpriteEntity(world, position.GetX() - 1.f, position.GetY() - 1.f, 24, 15, 1.f, 1.f, 0.f, 1);
+	AddUISpriteEntity(world, position.GetX() - 1.f, position.GetY() + 1.f, 24, 15, 1.f, 1.f, 270.f, 1);
+	AddUISpriteEntity(world, position.GetX() + 1.f, position.GetY() + 1.f, 24, 15, 1.f, 1.f, 180.f, 1);
+	AddUISpriteEntity(world, position.GetX() + 1.f, position.GetY() - 1.f, 24, 15, 1.f, 1.f, 90.f, 1);
+
+	AddUISpriteEntity(world, position.GetX() - 1.f, position.GetY(), 24, 16, 1.f, 1.f, 0.f, 1);
+	AddUISpriteEntity(world, position.GetX(), position.GetY() + 1.f, 24, 16, 1.f, 1.f, 270.f, 1);
+	AddUISpriteEntity(world, position.GetX() + 1.f, position.GetY(), 24, 16, 1.f, 1.f, 180.f, 1);
+	AddUISpriteEntity(world, position.GetX(), position.GetY() - 1.f, 24, 16, 1.f, 1.f, 90.f, 1);
 }
 
 void InputSystem::RemoveUI(World* world) const
@@ -343,11 +390,11 @@ void InputSystem::RemoveUI(World* world) const
 	}
 }
 
-void InputSystem::AddUISpriteEntity(World* world, float x, float y, int spriteSheetX, int spriteSheetY, float scaleX, float scaleY, int priority) const
+void InputSystem::AddUISpriteEntity(World* world, float x, float y, int spriteSheetX, int spriteSheetY, float scaleX, float scaleY, float rotation, int priority) const
 {
 	Entity* entity = world->CreateEntity();
 	entity->AddComponent(new PositionComponent(Vector2f(x, y)));
-	entity->AddComponent(new UISpriteComponent(spriteSheetX, spriteSheetY, scaleX, scaleY, priority));
+	entity->AddComponent(new UISpriteComponent(spriteSheetX, spriteSheetY, scaleX, scaleY, rotation, priority));
 }
 
 void InputSystem::AddUIInventoryEntity(World* world, float x, float y, const InventoryItem& item) const
@@ -402,7 +449,7 @@ void InputSystem::AddUIButtonEntity(World* world, float x, float y, ButtonType b
 
 	Entity* entity = world->CreateEntity();
 	entity->AddComponent(new PositionComponent(Vector2f(x, y)));
-	entity->AddComponent(new UISpriteComponent(spriteSheetX, spriteSheetY, 1.f, 1.f, 5));
+	entity->AddComponent(new UISpriteComponent(spriteSheetX, spriteSheetY, 1.f, 1.f, 0.f, 5));
 	entity->AddComponent(new UIButtonComponent(buttonType));
 }
 

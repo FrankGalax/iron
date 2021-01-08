@@ -7,5 +7,7 @@ class UISpriteComponent : Component
     [ReadOnly]
     float ScaleY = 1.f;
     [ReadOnly]
+    float Rotation;
+    [ReadOnly]
     int Priority;
 }

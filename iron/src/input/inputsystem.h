@@ -29,8 +29,9 @@ private:
 	void AddTitleUI(World* world, const Entity* entity, float topLeftX, float topLeftY, int sizeX, int sizeY) const;
 	void AddCrafterUI(World* world, const CrafterComponent* crafterComponent, float topLeftX, float topLeftY, int sizeX, int sizeY) const;
 	void AddInventoryUI(World* world, const InventoryComponent* inventoryComponent, float topLeftX, float topLeftY, int sizeX, int sizeY) const;
+	void AddSelectionUI(Entity* clickedEntity) const;
 	void RemoveUI(World* world) const;
-	void AddUISpriteEntity(World* world, float x, float y, int spriteSheetX, int spriteSheetY, float scaleX, float scaleY, int priority) const;
+	void AddUISpriteEntity(World* world, float x, float y, int spriteSheetX, int spriteSheetY, float scaleX, float scaleY, float rotation, int priority) const;
 	void AddUIInventoryEntity(World* world, float x, float y, const InventoryItem& item) const;
 	void AddUITextEntity(World* world, float x, float y, const std::string& string, const sf::Color& color, int size) const;
 	void AddUIButtonEntity(World* world, float x, float y, ButtonType buttonType) const;

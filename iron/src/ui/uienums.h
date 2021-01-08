@@ -16,7 +16,8 @@ enum class UIState
 {
 	None,
 	Action,
-	Inventory
+	Inventory,
+	Move
 };
 
 ironEND_NAMESPACE

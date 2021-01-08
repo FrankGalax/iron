@@ -12,12 +12,14 @@ void PathComponent::ToJSON(JSON* json)
     targetJ["x"] = m_Target.GetX();
     targetJ["y"] = m_Target.GetY();
     j["target"] = targetJ;
+    j["pathPending"] = m_PathPending;
 }
 
 void PathComponent::FromJSON(JSON* json)
 {
     nlohmann::json& j = json->GetJ();
     m_Target = Vector2f(j["target"]["x"], j["target"]["y"]);
+    m_PathPending = j["pathPending"];
 }
 
 void PathComponent::FromJSONResolve(JSON* json)

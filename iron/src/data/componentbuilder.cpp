@@ -1,4 +1,4 @@
-#include<data/componentbuilder.h>
+#include <data/componentbuilder.h>
 
 #include <iron.h>
 #include <ecs/entity.h>

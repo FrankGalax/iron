@@ -16,8 +16,8 @@ class UISpriteComponent : public Component
 {
 public:
     UISpriteComponent() {}
-    UISpriteComponent(int spriteSheetX, int spriteSheetY, int priority) : m_SpriteSheetX(spriteSheetX), m_SpriteSheetY(spriteSheetY), m_ScaleX(1.0f), m_ScaleY(1.0f), m_Priority(priority) {}
-    UISpriteComponent(int spriteSheetX, int spriteSheetY, float scaleX, float scaleY, int priority) : m_SpriteSheetX(spriteSheetX), m_SpriteSheetY(spriteSheetY), m_ScaleX(scaleX), m_ScaleY(scaleY), m_Priority(priority) {}
+    UISpriteComponent(int spriteSheetX, int spriteSheetY, float rotation, int priority) : m_SpriteSheetX(spriteSheetX), m_SpriteSheetY(spriteSheetY), m_ScaleX(1.0f), m_ScaleY(1.0f), m_Rotation(rotation), m_Priority(priority) {}
+    UISpriteComponent(int spriteSheetX, int spriteSheetY, float scaleX, float scaleY, float rotation, int priority) : m_SpriteSheetX(spriteSheetX), m_SpriteSheetY(spriteSheetY), m_ScaleX(scaleX), m_ScaleY(scaleY), m_Rotation(rotation), m_Priority(priority) {}
 
     int GetSpriteSheetX() const { return m_SpriteSheetX; }
     void SetSpriteSheetX(int spriteSheetX) { m_SpriteSheetX = spriteSheetX; }
@@ -25,6 +25,7 @@ public:
     void SetSpriteSheetY(int spriteSheetY) { m_SpriteSheetY = spriteSheetY; }
     float GetScaleX() const { return m_ScaleX; }
     float GetScaleY() const { return m_ScaleY; }
+    float GetRotation() const { return m_Rotation; }
     int GetPriority() const { return m_Priority; }
 
     virtual void ToJSON(JSON* j) override;
@@ -36,6 +37,7 @@ private:
     int m_SpriteSheetY = 0;
     float m_ScaleX = 1.0f;
     float m_ScaleY = 1.0f;
+    float m_Rotation = 0.f;
     int m_Priority = 0;
 
 #pragma region usercodeclass
